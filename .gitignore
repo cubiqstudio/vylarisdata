@@ -1,0 +1,6 @@
+.env.local
+.env
+dist/
+dist.zip
+node_modules/
+.wrangler/
