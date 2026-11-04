@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272 168" width="272" height="168">
+<defs><linearGradient id="vg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="142" y2="168"><stop offset="0" stop-color="#4da6ff"/><stop offset="1" stop-color="#2f7bff"/></linearGradient></defs>
+<polygon fill="url(#vg)" points="0.0,0.0 40.0,0.0 142.0,168.0 103.5,168.0"/>
+<path fill="#ffffff" fill-rule="evenodd" d="M152.0,0.0 L236.0,0.0 L272.0,60.0 L264.0,108.0 L224.0,168.0 L161.0,168.0 L119.7,100.0 L136.0,100.0 Z M180.9,32.0 L217.9,32.0 L238.5,66.4 L233.6,96.0 L206.9,136.0 L164.2,136.0 Z"/>
+</svg>

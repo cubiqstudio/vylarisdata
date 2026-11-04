@@ -17,7 +17,7 @@ impressum.html      Impressum
 datenschutz.html    Datenschutz
 assets/css          Design-Tokens (Hell/Dunkel) und Komponenten
 assets/js           Theme-Umschalter, Menü
-assets/img          Logo
+assets/img          Logo (VD-Zeichen, Gesamtlogo, Favicon, OG-Bild – jeweils hell/dunkel)
 assets/fonts        Poppins (OFL)
 ```
 
