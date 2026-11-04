@@ -1,5 +1,6 @@
 # Zugangsdaten – niemals committen
 .env.local
+.env.tunnel
 .env
 .env.*.local
 
@@ -7,8 +8,5 @@
 node_modules/
 .next/
 out/
-dist/
-dist.zip
-.wrangler/
 *.tsbuildinfo
 next-env.d.ts

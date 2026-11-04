@@ -1,0 +1,48 @@
+# VylarisData: nginx (statische Seite) + Cloudflare Tunnel.
+# KEINE Ports werden auf dem Host veröffentlicht – der Tunnel baut nur ausgehende
+# Verbindungen zu Cloudflare auf. Eingehend muss nichts erreichbar sein.
+name: vylarisdata
+
+services:
+  web:
+    build: .
+    image: vylarisdata-web:latest
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+    networks:
+      - internal          # kein Internetzugang (internal: true)
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    env_file:
+      - .env.tunnel       # enthält nur TUNNEL_TOKEN (nicht den API-Token)
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      web:
+        condition: service_healthy
+    networks:
+      - internal          # erreicht die Seite
+      - egress            # ausgehende Verbindung zu Cloudflare
+
+networks:
+  internal:
+    internal: true
+  egress: {}

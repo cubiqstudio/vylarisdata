@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 /**
  * Statischer Export: `next build` erzeugt den Ordner `out/`,
- * der 1:1 auf Cloudflare Pages ausgeliefert wird.
+ * der im Docker-Image von nginx ausgeliefert wird (siehe Dockerfile und compose.yaml).
  */
 const config: NextConfig = {
   output: "export",

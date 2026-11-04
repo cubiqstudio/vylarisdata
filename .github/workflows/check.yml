@@ -1,0 +1,27 @@
+name: Prüfen
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Abhängigkeiten installieren
+        run: npm ci --no-audit --no-fund
+      - name: Typen prüfen
+        run: npm run typecheck
+      - name: Seite bauen
+        run: npm run build
+      - name: Container-Image bauen
+        run: docker build -t vylarisdata-web:ci .

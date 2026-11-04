@@ -1,55 +1,53 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  VylarisData – Installer & Deployment für Cloudflare Pages
+#  VylarisData – Installer: Website über einen Cloudflare Tunnel, ohne offene Ports
 # =============================================================================
-#  Führt dich Schritt für Schritt durch die Einrichtung:
-#    1. Voraussetzungen prüfen und fehlende selbst installieren (Node.js, npm, curl)
+#  Die Seite läuft in Docker (nginx, ohne veröffentlichte Ports). Ein Cloudflare
+#  Tunnel (cloudflared) baut nur AUSGEHENDE Verbindungen zu Cloudflare auf –
+#  eingehend muss auf dem Server nichts erreichbar sein.
+#
+#  Der Installer führt dich Schritt für Schritt durch die Einrichtung:
+#    1. Voraussetzungen prüfen und fehlende selbst installieren (Docker, curl)
 #    2. Cloudflare-API-Token anlegen – das Skript erklärt dir genau, wie
 #    3. Token + Account-ID eingeben (Eingabe bleibt unsichtbar) und prüfen
 #    4. Zugangsdaten sicher lokal speichern (.env.local, nur für dich lesbar)
-#    5. Abhängigkeiten installieren, Seite bauen (Next.js -> Ordner out/)
-#    6. Pages-Projekt anlegen und veröffentlichen
-#    7. Domain verbinden, optional GitHub-Secrets für automatische Veröffentlichung
+#    5. Tunnel anlegen und konfigurieren (Domain -> nginx im Container)
+#    6. DNS-Eintrag setzen (CNAME auf den Tunnel)
+#    7. Container bauen und starten, Erreichbarkeit prüfen
 #
 #  Aufruf:
 #    ./install.sh              geführte Einrichtung (empfohlen)
-#    ./install.sh deploy       neu bauen und veröffentlichen
+#    ./install.sh deploy       Seite neu bauen und neu starten
+#    ./install.sh status       Tunnel, Container und Erreichbarkeit anzeigen
+#    ./install.sh logs         Logs ansehen (Strg+C beendet)
+#    ./install.sh stop         Container stoppen
 #    ./install.sh verify       gespeicherten Token prüfen
-#    ./install.sh build        nur bauen (Ordner out/)
-#    ./install.sh status       Projekt, Domain, letzte Veröffentlichung
-#    ./install.sh forget       gespeicherte Zugangsdaten (.env.local) löschen
+#    ./install.sh domain       DNS-Eintrag und Tunnel-Route (neu) setzen
+#    ./install.sh forget       gespeicherte Zugangsdaten löschen
 #    ./install.sh help         diese Hilfe
 #
 #  Optionen:
-#    --yes            keine Rückfragen (Werte aus Umgebung bzw. .env.local)
-#    --dry-run        nichts verändern, nur anzeigen
-#    --project NAME   Pages-Projekt (Standard: vylarisdata)
-#    --domain DOMAIN  Domain (Standard: vylarisdata.com)
+#    --yes             keine Rückfragen (Werte aus Umgebung bzw. .env.local)
+#    --dry-run         nichts verändern, nur anzeigen
+#    --domain DOMAIN   Domain der Seite (Standard: vylarisdata.com)
+#    --tunnel NAME     Name des Tunnels (Standard: vylarisdata)
 #
-#  Umgebungsvariablen (statt Eingabe, z. B. für CI):
-#    CLOUDFLARE_API_TOKEN  CLOUDFLARE_ACCOUNT_ID  CF_PAGES_PROJECT  SITE_DOMAIN
+#  Umgebungsvariablen (statt Eingabe, z. B. für Automatisierung):
+#    CLOUDFLARE_API_TOKEN  CLOUDFLARE_ACCOUNT_ID  SITE_DOMAIN  TUNNEL_NAME
 # =============================================================================
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ENV_FILE="$ROOT/.env.local"
-OUT_DIR="$ROOT/out"
+ENV_FILE="$ROOT/.env.local"          # API-Token & Einstellungen (nur für dieses Skript)
+TUNNEL_ENV="$ROOT/.env.tunnel"       # nur der Tunnel-Token (wird vom cloudflared-Container gelesen)
 API="${CF_API_BASE:-https://api.cloudflare.com/client/v4}"
 API="${API%/}"
-WRANGLER="wrangler@4"
-DEFAULT_PROJECT="vylarisdata"
 DEFAULT_DOMAIN="vylarisdata.com"
-NODE_MAJOR=22                                   # zu installierende Node.js-Version (LTS)
-TOOLS_HOME="${VD_TOOLS_HOME:-$HOME/.vylarisdata}"
-NODE_HOME="$TOOLS_HOME/node"
-# Bereits früher vom Installer angelegtes Node.js sofort verfügbar machen
-[ -x "$NODE_HOME/bin/node" ] && export PATH="$NODE_HOME/bin:$PATH"
+DEFAULT_TUNNEL="vylarisdata"
+ORIGIN="http://web:8080"             # Ziel im Container-Netz (siehe compose.yaml)
 
-YES=0
-DRY=0
-CMD="setup"
-OPT_PROJECT=""
-OPT_DOMAIN=""
+YES=0; DRY=0; CMD="setup"; OPT_DOMAIN=""; OPT_TUNNEL=""
+DOCKER=(docker)
 
 # ---------------------------------------------------------------- Ausgabe ----
 if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
@@ -63,37 +61,28 @@ warn() { printf '  %s!%s %s\n' "$Y" "$Z" "$*"; }
 bad()  { printf '  %s✘%s %s\n' "$R" "$Z" "$*"; }
 die()  { printf '\n'; bad "$*"; exit 1; }
 step() { printf '\n%s[%s/%s] %s%s\n%s\n' "$B$C" "$1" "$2" "$3" "$Z" "$D────────────────────────────────────────────────────────────────$Z"; }
-
 trap 'printf "\nAbgebrochen.\n"; exit 130' INT
 
 # ----------------------------------------------------------------- Eingabe ----
-# ask VAR "Frage" [Standard]
-ask() {
+ask() {   # ask VAR "Frage" [Standard]
   local __var="$1" __q="$2" __def="${3:-}" __val=""
   if [ "$YES" = 1 ]; then printf -v "$__var" '%s' "$__def"; return; fi
   if [ -n "$__def" ]; then read -r -p "  $__q [$__def]: " __val || die "Keine Eingabe möglich (stdin geschlossen). Nutze --yes mit Umgebungsvariablen."
   else read -r -p "  $__q: " __val || die "Keine Eingabe möglich (stdin geschlossen)."; fi
   printf -v "$__var" '%s' "${__val:-$__def}"
 }
-# ask_secret VAR "Frage"  – Eingabe bleibt unsichtbar
-ask_secret() {
+ask_secret() {   # Eingabe bleibt unsichtbar
   local __var="$1" __q="$2" __val=""
-  if [ -t 0 ]; then
-    read -r -s -p "  $__q: " __val || die "Keine Eingabe möglich."
-    printf '\n'
-  else
-    read -r __val || die "Keine Eingabe möglich (stdin geschlossen)."
-  fi
+  if [ -t 0 ]; then read -r -s -p "  $__q: " __val || die "Keine Eingabe möglich."; printf '\n'
+  else read -r __val || die "Keine Eingabe möglich (stdin geschlossen)."; fi
   printf -v "$__var" '%s' "$__val"
 }
-# confirm "Frage" [j|n]  – Rückgabe 0 = Ja
-confirm() {
+confirm() {   # confirm "Frage" [j|n]  – Rückgabe 0 = Ja
   local q="$1" def="${2:-j}" hint="J/n" val=""
   [ "$def" = n ] && hint="j/N"
   if [ "$YES" = 1 ]; then [ "$def" = j ]; return; fi
   read -r -p "  $q [$hint]: " val || die "Keine Eingabe möglich (stdin geschlossen)."
-  val="$(printf '%s' "$val" | tr '[:upper:]' '[:lower:]')"
-  [ -z "$val" ] && val="$def"
+  val="$(printf '%s' "$val" | tr '[:upper:]' '[:lower:]')"; [ -z "$val" ] && val="$def"
   case "$val" in j|ja|y|yes) return 0 ;; *) return 1 ;; esac
 }
 mask() { local t="$1"; if [ "${#t}" -gt 8 ]; then printf '••••••••%s' "${t: -4}"; else printf '••••'; fi; }
@@ -101,94 +90,113 @@ mask() { local t="$1"; if [ "${#t}" -gt 8 ]; then printf '•••••••�
 # --------------------------------------------------------------- Konfiguration
 CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_TOKEN:-}"
 CLOUDFLARE_ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:-}"
-CF_PAGES_PROJECT="${CF_PAGES_PROJECT:-}"
 SITE_DOMAIN="${SITE_DOMAIN:-}"
+TUNNEL_NAME="${TUNNEL_NAME:-}"
+TUNNEL_ID="${TUNNEL_ID:-}"
+TUNNEL_TOKEN=""
 
-# Liest .env.local ohne es auszuführen; Umgebungsvariablen haben Vorrang.
-load_env() {
+load_env() {   # liest .env.local ohne es auszuführen; Umgebungsvariablen haben Vorrang
   [ -f "$ENV_FILE" ] || return 0
   local line k v
   while IFS= read -r line || [ -n "$line" ]; do
     case "$line" in ''|'#'*) continue ;; esac
-    k="${line%%=*}"; v="${line#*=}"
-    v="${v%\"}"; v="${v#\"}"; v="${v%\'}"; v="${v#\'}"
+    k="${line%%=*}"; v="${line#*=}"; v="${v%\"}"; v="${v#\"}"; v="${v%\'}"; v="${v#\'}"
     case "$k" in
       CLOUDFLARE_API_TOKEN)  [ -z "$CLOUDFLARE_API_TOKEN" ]  && CLOUDFLARE_API_TOKEN="$v" ;;
       CLOUDFLARE_ACCOUNT_ID) [ -z "$CLOUDFLARE_ACCOUNT_ID" ] && CLOUDFLARE_ACCOUNT_ID="$v" ;;
-      CF_PAGES_PROJECT)      [ -z "$CF_PAGES_PROJECT" ]      && CF_PAGES_PROJECT="$v" ;;
       SITE_DOMAIN)           [ -z "$SITE_DOMAIN" ]           && SITE_DOMAIN="$v" ;;
+      TUNNEL_NAME)           [ -z "$TUNNEL_NAME" ]           && TUNNEL_NAME="$v" ;;
+      TUNNEL_ID)             [ -z "$TUNNEL_ID" ]             && TUNNEL_ID="$v" ;;
     esac
   done < "$ENV_FILE"
 }
-
 apply_defaults() {
-  [ -n "$OPT_PROJECT" ] && CF_PAGES_PROJECT="$OPT_PROJECT"
-  [ -n "$OPT_DOMAIN" ]  && SITE_DOMAIN="$OPT_DOMAIN"
-  [ -z "$CF_PAGES_PROJECT" ] && CF_PAGES_PROJECT="$DEFAULT_PROJECT"
+  [ -n "$OPT_DOMAIN" ] && SITE_DOMAIN="$OPT_DOMAIN"
+  [ -n "$OPT_TUNNEL" ] && TUNNEL_NAME="$OPT_TUNNEL"
   [ -z "$SITE_DOMAIN" ] && SITE_DOMAIN="$DEFAULT_DOMAIN"
+  [ -z "$TUNNEL_NAME" ] && TUNNEL_NAME="$DEFAULT_TUNNEL"
   return 0
 }
-
 save_env() {
   ( umask 077
-    {
-      echo "# VylarisData – lokale Zugangsdaten. NICHT ins Repository committen, NICHT weitergeben."
+    { echo "# VylarisData – lokale Zugangsdaten. NICHT ins Repository committen, NICHT weitergeben."
       echo "# Erzeugt von install.sh. Löschen mit: ./install.sh forget"
       echo "CLOUDFLARE_API_TOKEN=\"$CLOUDFLARE_API_TOKEN\""
       echo "CLOUDFLARE_ACCOUNT_ID=\"$CLOUDFLARE_ACCOUNT_ID\""
-      echo "CF_PAGES_PROJECT=\"$CF_PAGES_PROJECT\""
       echo "SITE_DOMAIN=\"$SITE_DOMAIN\""
+      echo "TUNNEL_NAME=\"$TUNNEL_NAME\""
+      [ -n "$TUNNEL_ID" ] && echo "TUNNEL_ID=\"$TUNNEL_ID\""
     } > "$ENV_FILE" )
   chmod 600 "$ENV_FILE" 2>/dev/null || true
 }
-
+save_tunnel_env() {   # nur der Tunnel-Token – der cloudflared-Container bekommt NICHT den API-Token
+  ( umask 077; printf 'TUNNEL_TOKEN=%s\n' "$TUNNEL_TOKEN" > "$TUNNEL_ENV" )
+  chmod 600 "$TUNNEL_ENV" 2>/dev/null || true
+}
 ensure_gitignore() {
   local gi="$ROOT/.gitignore" added="" w
   touch "$gi"
-  for w in ".env.local" ".env" "out/" ".next/" "node_modules/" ".wrangler/" "dist.zip"; do
-    if ! grep -qxF "$w" "$gi"; then printf '%s\n' "$w" >> "$gi"; added="$added $w"; fi
+  for w in ".env.local" ".env.tunnel" ".env" "out/" ".next/" "node_modules/"; do
+    grep -qxF "$w" "$gi" || { printf '%s\n' "$w" >> "$gi"; added="$added $w"; }
   done
   [ -n "$added" ] && ok ".gitignore ergänzt:$added"
   return 0
 }
 
 # ------------------------------------------------------------ Cloudflare-API ---
-# Token wird NIE als Argument übergeben (sonst in der Prozessliste sichtbar),
+# Der Token wird NIE als Argument übergeben (sonst in der Prozessliste sichtbar),
 # sondern als curl-Konfiguration über stdin.
-# cf METHOD PFAD [JSON]  ->  setzt CF_BODY und CF_CODE
 CF_BODY=""; CF_CODE=""
-cf() {
+cf() {   # cf METHOD PFAD [JSON]  ->  CF_BODY, CF_CODE
   local method="$1" path="$2" data="${3:-}" resp
-  local -a args=(-sS --max-time 30 -X "$method" -H "Content-Type: application/json" -H "User-Agent: vylarisdata-installer/2.0")
+  local -a args=(-sS --max-time 30 -X "$method" -H "Content-Type: application/json" -H "User-Agent: vylarisdata-installer/3.0")
   [ -n "$data" ] && args+=(--data "$data")
   resp="$(printf 'header = "Authorization: Bearer %s"\n' "$CLOUDFLARE_API_TOKEN" \
           | curl -K - "${args[@]}" -w $'\n%{http_code}' "$API$path" 2>&1)" || {
-    CF_BODY="$resp"; CF_CODE="000"
     die "Keine Verbindung zu Cloudflare. Internetverbindung prüfen. ($(printf '%s' "$resp" | head -n1))"
   }
-  CF_CODE="${resp##*$'\n'}"
-  CF_BODY="${resp%$'\n'*}"
+  CF_CODE="${resp##*$'\n'}"; CF_BODY="${resp%$'\n'*}"
 }
+cf_ok() { { [ "$CF_CODE" = 200 ] || [ "$CF_CODE" = 201 ]; } && [ "$(printf '%s' "$CF_BODY" | jget success)" = true ]; }
+cf_denied() { [ "$CF_CODE" = 401 ] || [ "$CF_CODE" = 403 ]; }
 
-# jget AUSDRUCK  – liest JSON von stdin und gibt einen Wert aus (z. B. "result.status")
-jget() {
-  node -e '
-    let s = ""; process.stdin.on("data", d => s += d).on("end", () => {
-      try {
-        let v = JSON.parse(s);
-        for (const k of process.argv[1].split(".")) { if (v == null) break; v = v[k]; }
-        if (v === undefined || v === null) process.stdout.write("");
-        else process.stdout.write(typeof v === "object" ? JSON.stringify(v) : String(v));
-      } catch { process.stdout.write(""); }
-    });' "$1"
+JSON_TOOL=""
+jget() {   # liest JSON von stdin, gibt einen Wert aus (z. B. "result.0.id"); leer, wenn nicht vorhanden
+  if [ "$JSON_TOOL" = python3 ]; then
+    python3 -c '
+import sys, json
+try:
+    v = json.load(sys.stdin)
+    for k in sys.argv[1].split("."):
+        if v is None: break
+        v = v[int(k)] if isinstance(v, list) else v.get(k)
+    if v is None: out = ""
+    elif isinstance(v, bool): out = "true" if v else "false"
+    elif isinstance(v, (dict, list)): out = json.dumps(v)
+    else: out = str(v)
+    sys.stdout.write(out)
+except Exception:
+    pass' "$1"
+  else
+    node -e '
+      let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{let v=JSON.parse(s);
+        for(const k of process.argv[1].split(".")){ if(v==null)break; v=v[k]; }
+        process.stdout.write(v==null?"":(typeof v==="object"?JSON.stringify(v):String(v)));}catch{}})' "$1"
+  fi
 }
-# cf_errors  – lesbare Fehlermeldung aus CF_BODY
-cf_errors() {
-  printf '%s' "$CF_BODY" | node -e '
-    let s = ""; process.stdin.on("data", d => s += d).on("end", () => {
-      try { const e = (JSON.parse(s).errors || []).map(x => `${x.message} (Code ${x.code})`).join("; ");
-            process.stdout.write(e || "unbekannter Fehler"); } catch { process.stdout.write("unbekannter Fehler"); }
-    });'
+cf_errors() {   # lesbare Fehlermeldung aus CF_BODY
+  if [ "$JSON_TOOL" = python3 ]; then
+    printf '%s' "$CF_BODY" | python3 -c '
+import sys, json
+try:
+    e = json.load(sys.stdin).get("errors") or []
+    sys.stdout.write("; ".join("%s (Code %s)" % (x.get("message","?"), x.get("code","?")) for x in e) or "unbekannter Fehler")
+except Exception:
+    sys.stdout.write("unbekannter Fehler")'
+  else
+    printf '%s' "$CF_BODY" | node -e '
+      let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const e=(JSON.parse(s).errors||[]).map(x=>`${x.message} (Code ${x.code})`).join("; ");process.stdout.write(e||"unbekannter Fehler")}catch{process.stdout.write("unbekannter Fehler")}})'
+  fi
 }
 
 # ------------------------------------------------------------------ Texte -----
@@ -200,39 +208,39 @@ token_help() {
    1. Öffne ${C}https://dash.cloudflare.com/profile/api-tokens${Z}
       und melde dich bei Cloudflare an.
    2. Klicke auf ${B}„Create Token“${Z} und bei „Create Custom Token“ auf ${B}„Get started“${Z}.
-   3. Token-Name: ${B}VylarisData Deploy${Z}
-   4. Berechtigungen (Permissions) – so einstellen:
-        ${B}Account${Z}  ·  ${B}Cloudflare Pages${Z}  ·  ${B}Edit${Z}          ${D}← zwingend nötig${Z}
-      Nur wenn die DNS-Einträge automatisch gesetzt werden sollen (optional):
-        ${B}Zone${Z}     ·  ${B}DNS${Z}               ·  ${B}Edit${Z}
-        ${B}Zone${Z}     ·  ${B}Zone${Z}              ·  ${B}Read${Z}
+   3. Token-Name: ${B}VylarisData Tunnel${Z}
+   4. Berechtigungen (Permissions) – drei Zeilen hinzufügen:
+        ${B}Account${Z}  ·  ${B}Cloudflare Tunnel${Z}  ·  ${B}Edit${Z}     ${D}← Tunnel anlegen und konfigurieren${Z}
+        ${B}Zone${Z}     ·  ${B}DNS${Z}               ·  ${B}Edit${Z}     ${D}← CNAME-Eintrag für die Domain${Z}
+        ${B}Zone${Z}     ·  ${B}Zone${Z}              ·  ${B}Read${Z}     ${D}← Domain im Konto finden${Z}
    5. Account Resources:  Include → ${B}dein Account${Z}
-      Zone Resources (nur bei DNS-Rechten):  Include → Specific zone → ${B}vylarisdata.com${Z}
+      Zone Resources:     Include → Specific zone → ${B}vylarisdata.com${Z}
    6. Optional, aber empfohlen: bei „TTL“ ein Ablaufdatum setzen.
    7. ${B}„Continue to summary“${Z} → ${B}„Create Token“${Z}.
    8. Kopiere den Token sofort – Cloudflare zeigt ihn ${B}nur ein einziges Mal${Z} an.
 
   ${B}Wo finde ich die Account-ID?${Z}
-   Cloudflare-Dashboard → ${B}Workers & Pages${Z} → rechte Seitenleiste „Account ID“
+   Cloudflare-Dashboard → Startseite deines Kontos → rechte Seitenleiste „Account ID“
    (oder in der Adresszeile: dash.cloudflare.com/${B}<ACCOUNT-ID>${Z}/…).
 
+  ${B}Voraussetzung:${Z} Die Domain ${B}vylarisdata.com${Z} muss in diesem Cloudflare-Konto liegen
+  (Nameserver von Cloudflare) – sonst kann der DNS-Eintrag nicht gesetzt werden.
+
   ${Y}Sicherheit:${Z} Gib den Token niemals in Chats, Tickets oder Commits weiter.
-  Das Skript speichert ihn nur lokal in ${B}.env.local${Z} (nur für dich lesbar).
+  Das Skript speichert ihn nur lokal in ${B}.env.local${Z} (nur für dich lesbar). Der Tunnel läuft
+  mit einem eigenen, getrennten Token (${B}.env.tunnel${Z}) – der API-Token gelangt nie in einen Container.
 
 EOF
 }
 
-# --------------------------------------------------------------- Schritte -----
-# ---------------------------------------------------- Selbstinstallation ----
+# ------------------------------------------------- Selbstinstallation ---------
 SUDO=""
 detect_sudo() {
   [ "$(id -u)" = 0 ] && return 0
   command -v sudo >/dev/null 2>&1 && SUDO="sudo"
   return 0
 }
-
-# Installiert Systempakete mit dem passenden Paketmanager (z. B. curl). Rückgabe 0 = Erfolg
-pkg_install() {
+pkg_install() {   # Systempakete per Paketmanager installieren; Rückgabe 0 = Erfolg
   detect_sudo
   local pkgs="$*" pm=""
   for pm in apt-get dnf yum pacman zypper apk brew; do command -v "$pm" >/dev/null 2>&1 && break || pm=""; done
@@ -250,104 +258,90 @@ pkg_install() {
   esac
 }
 
-sha256_of() {
-  if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | cut -d' ' -f1
-  elif command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | cut -d' ' -f1
-  else openssl dgst -sha256 "$1" 2>/dev/null | sed 's/^.*= //'; fi
+# Findet einen nutzbaren Docker-Zugang: direkt oder über sudo. Rückgabe 0 = Docker + Compose bereit
+docker_ready() {
+  command -v docker >/dev/null 2>&1 || return 1
+  if docker info >/dev/null 2>&1; then DOCKER=(docker)
+  elif command -v sudo >/dev/null 2>&1 && sudo docker info >/dev/null 2>&1; then DOCKER=(sudo docker)
+  else return 2; fi
+  "${DOCKER[@]}" compose version >/dev/null 2>&1 || return 3
+  return 0
 }
+dc() { "${DOCKER[@]}" compose "$@"; }
 
-# Lädt die offizielle Node.js-Version von nodejs.org, prüft die SHA-256-Summe und
-# entpackt sie nach ~/.vylarisdata/node – ohne Root-Rechte, ohne Paketmanager.
-install_node() {
-  local os arch plat base sums line file sum tmp
+install_docker() {
   case "$(uname -s)" in
-    Linux)  os=linux ;;
-    Darwin) os=darwin ;;
-    *) bad "Dieses Betriebssystem wird vom Installer nicht unterstützt (Windows: bitte WSL nutzen, siehe README)."; return 1 ;;
+    Linux) ;;
+    Darwin) bad "Bitte Docker Desktop installieren und starten: https://www.docker.com/products/docker-desktop/ – danach ./install.sh erneut ausführen."; return 1 ;;
+    *) bad "Dieses Betriebssystem wird nicht unterstützt (Windows: bitte WSL mit Ubuntu verwenden)."; return 1 ;;
   esac
-  case "$(uname -m)" in
-    x86_64|amd64) arch=x64 ;;
-    aarch64|arm64) arch=arm64 ;;
-    armv7l) arch=armv7l ;;
-    *) bad "Unbekannte Prozessor-Architektur: $(uname -m)"; return 1 ;;
-  esac
-  plat="$os-$arch"
-  # Alpine/musl: offizielle Builds laufen dort nicht – Paketmanager nutzen
-  if [ -f /etc/alpine-release ]; then
-    pkg_install nodejs npm && return 0
-    bad "Node.js konnte unter Alpine nicht installiert werden (apk add nodejs npm als root ausführen)."; return 1
-  fi
-  command -v tar >/dev/null 2>&1 || pkg_install tar >/dev/null 2>&1 || { bad "tar fehlt und konnte nicht installiert werden."; return 1; }
-  base="https://nodejs.org/dist/latest-v${NODE_MAJOR}.x"
-  info "  Suche aktuelle Node.js-$NODE_MAJOR-Version für $plat …"
-  sums="$(curl -fsSL --max-time 30 "$base/SHASUMS256.txt")" || { bad "nodejs.org nicht erreichbar. Internetverbindung prüfen."; return 1; }
-  line="$(printf '%s\n' "$sums" | grep -E " node-v[0-9.]+-$plat\.tar\.gz\$" | head -n1)"
-  [ -n "$line" ] || { bad "Keine passende Node.js-Datei für $plat gefunden."; return 1; }
-  sum="${line%% *}"; file="${line##* }"
-  tmp="$(mktemp -d)" || return 1
-  info "  Lade $file herunter …"
-  curl -fSL --progress-bar --max-time 600 -o "$tmp/$file" "$base/$file" || { rm -rf "$tmp"; bad "Download fehlgeschlagen."; return 1; }
-  if [ "$(sha256_of "$tmp/$file")" != "$sum" ]; then
-    rm -rf "$tmp"; bad "Prüfsumme stimmt nicht – Download wird verworfen (Sicherheitsvorkehrung)."; return 1
-  fi
-  ok "Prüfsumme (SHA-256) stimmt"
-  rm -rf "$NODE_HOME" && mkdir -p "$NODE_HOME" || { rm -rf "$tmp"; return 1; }
-  tar -xzf "$tmp/$file" -C "$NODE_HOME" --strip-components=1 || { rm -rf "$tmp"; bad "Entpacken fehlgeschlagen."; return 1; }
+  detect_sudo
+  if [ "$(id -u)" != 0 ] && [ -z "$SUDO" ]; then bad "Für die Docker-Installation werden Administrator-Rechte benötigt (sudo fehlt)."; return 1; fi
+  local tmp; tmp="$(mktemp -d)" || return 1
+  info "  Lade das offizielle Docker-Installationsskript (get.docker.com) …"
+  curl -fsSL --max-time 60 https://get.docker.com -o "$tmp/get-docker.sh" || { rm -rf "$tmp"; bad "get.docker.com nicht erreichbar."; return 1; }
+  $SUDO sh "$tmp/get-docker.sh" || { rm -rf "$tmp"; bad "Docker-Installation fehlgeschlagen."; return 1; }
   rm -rf "$tmp"
-  export PATH="$NODE_HOME/bin:$PATH"
-  ok "Node.js $(node -v) installiert nach ${NODE_HOME/#$HOME/~}"
+  command -v systemctl >/dev/null 2>&1 && $SUDO systemctl enable --now docker >/dev/null 2>&1
+  [ -n "$SUDO" ] && $SUDO usermod -aG docker "${USER:-$(id -un)}" >/dev/null 2>&1 || true
+  ok "Docker installiert"
 }
 
-# Optional: PATH dauerhaft eintragen, damit npm/node auch außerhalb des Installers funktionieren
-persist_path() {
-  case "$PATH" in *"$NODE_HOME/bin"*) ;; *) return 0 ;; esac
-  [ -x "$NODE_HOME/bin/node" ] || return 0
-  local rc line="export PATH=\"$NODE_HOME/bin:\$PATH\"  # VylarisData"
-  case "${SHELL:-}" in */zsh) rc="$HOME/.zshrc" ;; */bash) rc="$HOME/.bashrc" ;; *) rc="$HOME/.profile" ;; esac
-  grep -qF "# VylarisData" "$rc" 2>/dev/null && return 0
-  if confirm "Node.js dauerhaft in den PATH eintragen (${rc/#$HOME/~}), damit „npm run dev“ & Co. überall funktionieren?" j; then
-    printf '\n%s\n' "$line" >> "$rc" && ok "PATH-Eintrag in ${rc/#$HOME/~} ergänzt (gilt ab dem nächsten Terminfenster)"
-  fi
-}
-
-node_ok() {
-  command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1 || return 1
-  local v; v="$(node -v 2>/dev/null | sed 's/^v//')"; [ "${v%%.*}" -ge 20 ] 2>/dev/null
-}
-
-# Stellt sicher, dass curl und Node.js (>= 20) vorhanden sind – und installiert sie bei Bedarf selbst.
 ensure_tools() {
   case "$(uname -s)" in MINGW*|MSYS*|CYGWIN*)
     die "Unter Windows bitte WSL verwenden (PowerShell: wsl --install, danach in Ubuntu ./install.sh ausführen)." ;;
   esac
+  # curl
   if command -v curl >/dev/null 2>&1; then ok "curl"
   else
     warn "curl fehlt."
     if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde curl per Paketmanager installieren."
     elif confirm "curl jetzt installieren?" j && pkg_install curl && command -v curl >/dev/null 2>&1; then ok "curl installiert"
-    else die "curl konnte nicht installiert werden. Bitte von Hand installieren (z. B. sudo apt install curl) und erneut starten."; fi
+    else die "curl konnte nicht installiert werden. Bitte von Hand installieren (z. B. sudo apt install curl)."; fi
   fi
-  if node_ok; then ok "Node.js $(node -v) · npm $(npm -v)"
+  # JSON-Werkzeug (python3 oder node)
+  if command -v python3 >/dev/null 2>&1; then JSON_TOOL=python3; ok "python3 (zum Lesen der API-Antworten)"
+  elif command -v node >/dev/null 2>&1; then JSON_TOOL=node; ok "node (zum Lesen der API-Antworten)"
   else
-    if command -v node >/dev/null 2>&1; then warn "Node.js $(node -v) ist zu alt – benötigt wird Version 20 oder neuer."
-    else warn "Node.js ist nicht installiert."; fi
-    if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde Node.js $NODE_MAJOR von nodejs.org nach ${NODE_HOME/#$HOME/~} installieren."
-    else
-      info "  Der Installer lädt Node.js $NODE_MAJOR (LTS) von nodejs.org, prüft die Prüfsumme und legt es in ${NODE_HOME/#$HOME/~} ab."
-      info "  Dafür sind keine Administrator-Rechte nötig; bestehende Installationen bleiben unberührt."
-      confirm "Node.js jetzt installieren?" j || die "Ohne Node.js kann die Seite nicht gebaut werden. Abgebrochen."
-      install_node || die "Node.js konnte nicht installiert werden. Bitte von Hand installieren: https://nodejs.org"
-      node_ok || die "Node.js ist installiert, aber nicht nutzbar. Bitte ein neues Terminal öffnen und erneut starten."
-      persist_path
-    fi
+    warn "Weder python3 noch node gefunden (wird zum Lesen der API-Antworten gebraucht)."
+    if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde python3 installieren."; JSON_TOOL=python3
+    elif confirm "python3 jetzt installieren?" j && pkg_install python3 && command -v python3 >/dev/null 2>&1; then JSON_TOOL=python3; ok "python3 installiert"
+    else die "python3 konnte nicht installiert werden. Bitte von Hand installieren."; fi
   fi
+  # Docker + Compose
+  local rc=0
+  if [ "$DRY" = 1 ]; then
+    if command -v docker >/dev/null 2>&1; then ok "Docker gefunden"; else warn "Trockenlauf: Docker fehlt – würde über get.docker.com installiert."; fi
+    return 0
+  fi
+  docker_ready || rc=$?
+  case "$rc" in
+    0) ok "Docker $("${DOCKER[@]}" version --format '{{.Server.Version}}' 2>/dev/null) · Compose $("${DOCKER[@]}" compose version --short 2>/dev/null)" ;;
+    2) warn "Docker ist installiert, der Dienst läuft aber nicht (oder dir fehlt die Berechtigung)."
+       detect_sudo
+       if command -v systemctl >/dev/null 2>&1 && confirm "Docker-Dienst jetzt starten?" j; then $SUDO systemctl enable --now docker >/dev/null 2>&1; sleep 3; fi
+       docker_ready || die "Docker ist nicht nutzbar. Prüfen mit:  docker info   (Dienst starten: sudo systemctl start docker)"
+       ok "Docker bereit" ;;
+    3) warn "Docker Compose (Plugin) fehlt."
+       confirm "Docker Compose jetzt installieren?" j && pkg_install docker-compose-plugin
+       docker_ready || die "Docker Compose fehlt. Installation: https://docs.docker.com/compose/install/linux/"
+       ok "Docker Compose bereit" ;;
+    *) warn "Docker ist nicht installiert."
+       info "  Der Installer richtet Docker über das offizielle Skript von get.docker.com ein (Administrator-Rechte nötig)."
+       confirm "Docker jetzt installieren?" j || die "Ohne Docker kann die Seite nicht betrieben werden. Abgebrochen."
+       install_docker || die "Docker konnte nicht installiert werden: https://docs.docker.com/engine/install/"
+       docker_ready || die "Docker ist installiert, aber noch nicht nutzbar. Bitte ab- und wieder anmelden (Gruppe „docker“) und erneut starten."
+       ok "Docker $("${DOCKER[@]}" version --format '{{.Server.Version}}' 2>/dev/null) bereit" ;;
+  esac
 }
 
 need_tools() {
   ensure_tools
-  [ -f "$ROOT/package.json" ] && ok "package.json vorhanden" || die "package.json fehlt – bitte im Projektordner ausführen."
+  if [ -f "$ROOT/compose.yaml" ] && [ -f "$ROOT/Dockerfile" ]; then ok "compose.yaml und Dockerfile vorhanden"
+  else die "compose.yaml/Dockerfile fehlen – bitte im Projektordner ausführen."; fi
 }
 
+# ------------------------------------------------------------- Schritte -------
 collect_credentials() {
   local tries
   if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
@@ -357,32 +351,36 @@ collect_credentials() {
   if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
     for tries in 1 2 3; do
       ask_secret CLOUDFLARE_API_TOKEN "API-Token einfügen (Eingabe bleibt unsichtbar)"
-      if [ "${#CLOUDFLARE_API_TOKEN}" -ge 20 ] && [[ "$CLOUDFLARE_API_TOKEN" != *" "* ]]; then
-        ok "Token übernommen ($(mask "$CLOUDFLARE_API_TOKEN"))"; break
-      fi
-      bad "Das sieht nicht wie ein Token aus (zu kurz oder Leerzeichen). Bitte erneut einfügen."
-      CLOUDFLARE_API_TOKEN=""
+      if [ "${#CLOUDFLARE_API_TOKEN}" -ge 20 ] && [[ "$CLOUDFLARE_API_TOKEN" != *" "* ]]; then ok "Token übernommen ($(mask "$CLOUDFLARE_API_TOKEN"))"; break; fi
+      bad "Das sieht nicht wie ein Token aus (zu kurz oder Leerzeichen). Bitte erneut einfügen."; CLOUDFLARE_API_TOKEN=""
       [ "$tries" = 3 ] && die "Kein gültiger Token eingegeben."
     done
-  else
-    ok "Token gefunden ($(mask "$CLOUDFLARE_API_TOKEN"))"
-  fi
+  else ok "Token gefunden ($(mask "$CLOUDFLARE_API_TOKEN"))"; fi
   if [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
     for tries in 1 2 3; do
       ask CLOUDFLARE_ACCOUNT_ID "Account-ID (32 Zeichen, siehe Hinweis oben)"
       CLOUDFLARE_ACCOUNT_ID="$(printf '%s' "$CLOUDFLARE_ACCOUNT_ID" | tr '[:upper:]' '[:lower:]' | tr -d '[:space:]')"
       if [[ "$CLOUDFLARE_ACCOUNT_ID" =~ ^[0-9a-f]{32}$ ]]; then ok "Account-ID übernommen"; break; fi
-      bad "Die Account-ID besteht aus genau 32 Hex-Zeichen (0-9, a-f)."
-      CLOUDFLARE_ACCOUNT_ID=""
+      bad "Die Account-ID besteht aus genau 32 Hex-Zeichen (0-9, a-f)."; CLOUDFLARE_ACCOUNT_ID=""
       [ "$tries" = 3 ] && die "Keine gültige Account-ID eingegeben."
     done
-  else
-    ok "Account-ID gefunden (${CLOUDFLARE_ACCOUNT_ID:0:6}…)"
-  fi
+  else ok "Account-ID gefunden (${CLOUDFLARE_ACCOUNT_ID:0:6}…)"; fi
 }
 
-# Rückgabe 0 = Token gültig und Pages-Rechte vorhanden
-check_token() {
+ZONE_ID=""
+find_zone() {   # sucht die Cloudflare-Zone zu SITE_DOMAIN (auch für Subdomains). Rückgabe: 0 gefunden, 2 keine Rechte, 3 nicht im Konto
+  local zone="$SITE_DOMAIN"; ZONE_ID=""
+  while [[ "$zone" == *.* ]]; do
+    cf GET "/zones?name=$zone"
+    cf_denied && return 2
+    ZONE_ID="$(printf '%s' "$CF_BODY" | jget result.0.id)"
+    [ -n "$ZONE_ID" ] && return 0
+    zone="${zone#*.}"
+  done
+  return 3
+}
+
+check_token() {   # Rückgabe 0 = Token gültig, Tunnel-Rechte vorhanden
   if [ "$DRY" = 1 ]; then warn "Trockenlauf: Token wird nicht gegen Cloudflare geprüft."; return 0; fi
   local status expires
   cf GET "/user/tokens/verify"
@@ -402,119 +400,136 @@ EOF
   fi
   status="$(printf '%s' "$CF_BODY" | jget result.status)"; expires="$(printf '%s' "$CF_BODY" | jget result.expires_on)"
   ok "Token ist gültig (Status: ${status:-active})${expires:+, läuft ab: $expires}"
-  cf GET "/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects"
-  case "$CF_CODE" in
-    200) ok "Berechtigung „Cloudflare Pages“ vorhanden"; return 0 ;;
-    401|403)
-      bad "Der Token darf keine Pages-Projekte lesen/ändern."
-      cat <<EOF
+  cf GET "/accounts/$CLOUDFLARE_ACCOUNT_ID/cfd_tunnel?is_deleted=false&per_page=1"
+  if [ "$CF_CODE" = 200 ]; then ok "Berechtigung „Cloudflare Tunnel“ vorhanden"
+  elif cf_denied; then
+    bad "Der Token darf keine Tunnel verwalten."
+    printf '\n  Behebung: Token in Cloudflare öffnen → Berechtigungen bearbeiten und hinzufügen:\n      %sAccount · Cloudflare Tunnel · Edit%s\n  und prüfen, dass unter „Account Resources“ dein Account ausgewählt ist.\n' "$B" "$Z"
+    return 1
+  else bad "Unerwartete Antwort von Cloudflare (HTTP $CF_CODE): $(cf_errors)"; return 1; fi
+  find_zone; case $? in
+    0) ok "Domain $SITE_DOMAIN liegt in deinem Cloudflare-Konto" ;;
+    2) warn "Der Token darf keine Zonen/DNS-Einträge lesen (fehlt: „Zone · Zone · Read“, „Zone · DNS · Edit“) – den DNS-Eintrag musst du später von Hand setzen." ;;
+    *) warn "Die Domain $SITE_DOMAIN liegt nicht in diesem Cloudflare-Konto – den DNS-Eintrag musst du später von Hand setzen." ;;
+  esac
+  return 0
+}
 
-  Behebung: Token in Cloudflare öffnen → Berechtigungen bearbeiten und hinzufügen:
-      ${B}Account · Cloudflare Pages · Edit${Z}
-  und prüfen, dass unter „Account Resources“ dein Account ausgewählt ist.
-  Ist die Account-ID korrekt? Aktuell: ${CLOUDFLARE_ACCOUNT_ID:0:6}…
+# Tunnel anlegen oder wiederverwenden, Route (Domain -> nginx) setzen, Tunnel-Token speichern
+ensure_tunnel() {
+  if [ "$DRY" = 1 ]; then
+    warn "Trockenlauf: würde Tunnel „$TUNNEL_NAME“ anlegen, die Route $SITE_DOMAIN → $ORIGIN setzen und .env.tunnel schreiben."
+    TUNNEL_ID="00000000-0000-0000-0000-000000000000"; return 0
+  fi
+  cf GET "/accounts/$CLOUDFLARE_ACCOUNT_ID/cfd_tunnel?name=$TUNNEL_NAME&is_deleted=false"
+  TUNNEL_ID="$(printf '%s' "$CF_BODY" | jget result.0.id)"
+  if [ -n "$TUNNEL_ID" ]; then
+    ok "Tunnel „$TUNNEL_NAME“ existiert bereits (${TUNNEL_ID:0:8}…)"
+    cf GET "/accounts/$CLOUDFLARE_ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/token"
+    TUNNEL_TOKEN="$(printf '%s' "$CF_BODY" | jget result)"
+  else
+    cf POST "/accounts/$CLOUDFLARE_ACCOUNT_ID/cfd_tunnel" "{\"name\":\"$TUNNEL_NAME\",\"config_src\":\"cloudflare\"}"
+    cf_ok || { bad "Tunnel konnte nicht angelegt werden: $(cf_errors)"; return 1; }
+    TUNNEL_ID="$(printf '%s' "$CF_BODY" | jget result.id)"
+    TUNNEL_TOKEN="$(printf '%s' "$CF_BODY" | jget result.token)"
+    [ -n "$TUNNEL_ID" ] && ok "Tunnel „$TUNNEL_NAME“ angelegt (${TUNNEL_ID:0:8}…)"
+  fi
+  if [ -z "$TUNNEL_ID" ] || [ -z "$TUNNEL_TOKEN" ]; then bad "Tunnel-ID oder Tunnel-Token fehlen in der Antwort von Cloudflare."; return 1; fi
+  cf PUT "/accounts/$CLOUDFLARE_ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/configurations" \
+     "{\"config\":{\"ingress\":[{\"hostname\":\"$SITE_DOMAIN\",\"service\":\"$ORIGIN\"},{\"service\":\"http_status:404\"}]}}"
+  cf_ok || { bad "Tunnel-Route konnte nicht gesetzt werden: $(cf_errors)"; return 1; }
+  ok "Route gesetzt: $SITE_DOMAIN → nginx im Container (kein Port auf dem Server offen)"
+  save_tunnel_env && ok "Tunnel-Token gespeichert in .env.tunnel (Rechte 600)"
+}
+
+# CNAME  <domain> -> <tunnel-id>.cfargotunnel.com  (proxied). Rückgabe: 0 ok, 2 keine Rechte, 3 Zone fehlt, 4 Fehler
+ensure_dns() {
+  local host="$SITE_DOMAIN" target="$TUNNEL_ID.cfargotunnel.com" rid rtype rcontent rc
+  if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde CNAME $host → $target anlegen."; return 0; fi
+  find_zone; rc=$?; [ "$rc" = 0 ] || return "$rc"
+  cf GET "/zones/$ZONE_ID/dns_records?name=$host"
+  cf_denied && return 2
+  rid="$(printf '%s' "$CF_BODY" | jget result.0.id)"; rtype="$(printf '%s' "$CF_BODY" | jget result.0.type)"; rcontent="$(printf '%s' "$CF_BODY" | jget result.0.content)"
+  local body="{\"type\":\"CNAME\",\"name\":\"$host\",\"content\":\"$target\",\"proxied\":true,\"ttl\":1}"
+  if [ -n "$rid" ]; then
+    if [ "$rtype" = CNAME ] && [ "$rcontent" = "$target" ]; then ok "DNS-Eintrag für $host zeigt bereits auf den Tunnel"; return 0; fi
+    warn "Für $host gibt es schon einen Eintrag ($rtype → ${rcontent:-?})."
+    confirm "Diesen Eintrag durch CNAME → $target ersetzen?" j || { warn "Eintrag bleibt unverändert – die Seite ist so nicht über den Tunnel erreichbar."; return 4; }
+    cf PUT "/zones/$ZONE_ID/dns_records/$rid" "$body"
+  else
+    cf POST "/zones/$ZONE_ID/dns_records" "$body"
+  fi
+  if cf_ok; then ok "DNS-Eintrag gesetzt: CNAME $host → $target (über Cloudflare, HTTPS inklusive)"; return 0; fi
+  cf_denied && return 2
+  bad "DNS-Eintrag konnte nicht gesetzt werden: $(cf_errors)"; return 4
+}
+
+dns_manual_help() {
+  cat <<EOF
+
+  ${B}DNS-Eintrag von Hand anlegen${Z} – ohne ihn bleibt $SITE_DOMAIN unerreichbar („ERR_NAME_NOT_RESOLVED“):
+     Cloudflare-Dashboard → ${B}$SITE_DOMAIN${Z} → DNS → Records → „Add record“:
+       Typ ${B}CNAME${Z} · Name ${B}@${Z} · Ziel ${B}${TUNNEL_ID:-<TUNNEL-ID>}.cfargotunnel.com${Z} · Proxy-Status ${B}Proxied (orange Wolke)${Z}
+     (Alternativ im Zero-Trust-Dashboard: Networks → Tunnels → $TUNNEL_NAME → Public Hostname.)
 EOF
-      return 1 ;;
-    *) bad "Unerwartete Antwort von Cloudflare (HTTP $CF_CODE): $(cf_errors)"; return 1 ;;
+}
+dns_result() {   # wertet den Rückgabecode von ensure_dns aus
+  case "$1" in
+    0) ;;
+    2) warn "Der Token darf keine DNS-Einträge anlegen (fehlt: „Zone · DNS · Edit“ und „Zone · Zone · Read“)."; dns_manual_help ;;
+    3) warn "Die Domain $SITE_DOMAIN liegt nicht in diesem Cloudflare-Konto."; dns_manual_help ;;
+    *) dns_manual_help ;;
   esac
 }
 
-ensure_project() {
-  local name="$CF_PAGES_PROJECT"
-  if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde Projekt „$name“ prüfen/anlegen."; return 0; fi
-  cf GET "/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$name"
-  if [ "$CF_CODE" = 200 ]; then ok "Pages-Projekt „$name“ existiert bereits"; return 0; fi
-  if [ "$CF_CODE" = 404 ] || printf '%s' "$CF_BODY" | grep -q '8000007'; then
-    cf POST "/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects" "{\"name\":\"$name\",\"production_branch\":\"main\"}"
-    if { [ "$CF_CODE" = 200 ] || [ "$CF_CODE" = 201 ]; } && [ "$(printf '%s' "$CF_BODY" | jget success)" = true ]; then
-      ok "Pages-Projekt „$name“ angelegt"; return 0
-    fi
-    bad "Projekt konnte nicht angelegt werden: $(cf_errors)"; return 1
-  fi
-  bad "Projekt konnte nicht geprüft werden (HTTP $CF_CODE): $(cf_errors)"; return 1
-}
+tunnel_status() { cf GET "/accounts/$CLOUDFLARE_ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID"; printf '%s' "$CF_BODY" | jget result.status; }
 
-do_build() {
-  info "  Seite wird gebaut (Next.js, TypeScript) …"
-  if [ "$DRY" = 1 ]; then warn "Trockenlauf: npm ci && npm run build wird nicht ausgeführt."; return 0; fi
-  cd "$ROOT" || return 1
-  if [ -f package-lock.json ]; then npm ci --no-audit --no-fund || return 1
-  else npm install --no-audit --no-fund || return 1; fi
-  npm run build || return 1
-  [ -f "$OUT_DIR/index.html" ] || { bad "Der Build hat keinen Ordner out/ erzeugt."; return 1; }
-  ok "Auslieferbarer Ordner erstellt: out/"
-}
-
-make_zip() {
-  command -v zip >/dev/null 2>&1 || return 1
-  ( cd "$OUT_DIR" && rm -f "$ROOT/dist.zip" && zip -qr "$ROOT/dist.zip" . ) && printf '%s' "$ROOT/dist.zip"
-}
-
-do_deploy() {
-  local name="$CF_PAGES_PROJECT"
-  if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde out/ per $WRANGLER nach „$name“ hochladen."; return 0; fi
-  info "  Veröffentliche auf Cloudflare Pages (beim ersten Mal lädt npx wrangler herunter) …"
-  if CLOUDFLARE_API_TOKEN="$CLOUDFLARE_API_TOKEN" CLOUDFLARE_ACCOUNT_ID="$CLOUDFLARE_ACCOUNT_ID" WRANGLER_SEND_METRICS=false \
-       npx --yes "$WRANGLER" pages deploy "$OUT_DIR" --project-name "$name" --branch main --commit-dirty=true; then
-    ok "Veröffentlicht: https://$name.pages.dev"
-    return 0
-  fi
-  bad "Das Hochladen ist fehlgeschlagen. Meldung oben lesen; häufige Ursache: fehlende Berechtigung „Cloudflare Pages · Edit“."
-  local z; z="$(make_zip)" && info "  Alternative: ${B}$z${Z} im Dashboard hochladen (Workers & Pages → $name → Create deployment)."
+wait_for_tunnel() {
+  local i st=""
+  info "  Warte, bis der Tunnel mit Cloudflare verbunden ist (bis zu 90 s) …"
+  for i in $(seq 1 18); do
+    st="$(tunnel_status)"
+    if [ "$st" = healthy ]; then ok "Tunnel ist verbunden (Status: healthy)"; return 0; fi
+    sleep 5
+  done
+  warn "Tunnel meldet noch „${st:-unbekannt}“. Logs ansehen:  ./install.sh logs"
   return 1
 }
 
-connect_domain() {
-  local domain="$SITE_DOMAIN" name="$CF_PAGES_PROJECT"
-  if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde Domain $domain mit „$name“ verbinden."; return 0; fi
-  cf GET "/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$name/domains"
-  if [ "$CF_CODE" = 200 ] && printf '%s' "$CF_BODY" | grep -q "\"$domain\""; then
-    ok "Domain $domain ist bereits verbunden"
-  else
-    cf POST "/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$name/domains" "{\"name\":\"$domain\"}"
-    if { [ "$CF_CODE" = 200 ] || [ "$CF_CODE" = 201 ]; } && [ "$(printf '%s' "$CF_BODY" | jget success)" = true ]; then
-      ok "Domain $domain zum Projekt hinzugefügt"
-    else
-      bad "Domain konnte nicht hinzugefügt werden: $(cf_errors)"; return 1
-    fi
-  fi
-  cat <<EOF
-
-  ${B}DNS prüfen${Z} – damit $domain wirklich auf die Seite zeigt:
-   • Liegt die Domain bei Cloudflare (Nameserver von Cloudflare), legt Cloudflare den
-     CNAME-Eintrag in der Regel selbst an. Falls nicht: Dashboard → $domain → DNS →
-     Eintrag hinzufügen:  Typ ${B}CNAME${Z} · Name ${B}@${Z} · Ziel ${B}$name.pages.dev${Z} · Proxy ${B}an${Z}
-   • Liegt die Domain bei einem anderen Anbieter, dort einen CNAME auf ${B}$name.pages.dev${Z}
-     setzen (für die Hauptdomain ggf. „CNAME flattening“/ALIAS) oder die Nameserver zu Cloudflare umziehen.
-   • Das HTTPS-Zertifikat stellt Cloudflare automatisch aus – das kann einige Minuten dauern.
-EOF
+check_live() {   # prüft https://<domain>/ – DNS kann einige Minuten brauchen
+  local i code=""
+  info "  Prüfe https://$SITE_DOMAIN/ …"
+  for i in 1 2 3 4 5 6; do
+    code="$(curl -s -o /dev/null -m 15 -w '%{http_code}' "https://$SITE_DOMAIN/" 2>/dev/null || true)"
+    if [ "$code" = 200 ]; then ok "https://$SITE_DOMAIN/ antwortet mit HTTP 200"; return 0; fi
+    [ "$i" -lt 6 ] && sleep 8
+  done
+  warn "https://$SITE_DOMAIN/ ist noch nicht erreichbar (zuletzt: ${code:-keine Antwort}). DNS braucht manchmal einige Minuten – später:  ./install.sh status"
+  return 1
 }
 
-offer_github() {
-  if ! command -v gh >/dev/null 2>&1; then
-    cat <<EOF
+start_stack() {
+  if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde 'docker compose up -d --build' ausführen."; return 0; fi
+  [ -f "$TUNNEL_ENV" ] || die ".env.tunnel fehlt – bitte zuerst ./install.sh ausführen."
+  info "  Baue die Seite und starte die Container (beim ersten Mal dauert das 1–3 Minuten) …"
+  ( cd "$ROOT" && dc up -d --build ) || { bad "Start fehlgeschlagen. Meldung oben lesen."; return 1; }
+  ok "Container laufen (web = nginx ohne Port nach außen, tunnel = cloudflared)"
+}
 
-  ${B}Automatisch bei jedem Push veröffentlichen (optional):${Z}
-   GitHub → Repository → Settings → Secrets and variables → Actions → „New repository secret“:
-     ${B}CLOUDFLARE_API_TOKEN${Z}   = dein Token
-     ${B}CLOUDFLARE_ACCOUNT_ID${Z}  = deine Account-ID
-   Der Workflow .github/workflows/deploy.yml veröffentlicht dann bei jedem Push auf main.
+firewall_note() {
+  cat <<EOF
+
+  ${B}Keine offenen Ports nötig:${Z} Der Server muss nur AUSGEHEND zu Cloudflare verbinden (Port 7844, TCP/UDP)
+  und für Updates Docker-Hub/Paketquellen erreichen. Du kannst die Firewall für eingehenden Verkehr
+  komplett sperren – ausgenommen den Zugang, den du selbst zur Verwaltung brauchst (z. B. SSH nur aus dem eigenen Netz/VPN).
+  Beispiel (Ubuntu):  ${D}sudo ufw default deny incoming && sudo ufw allow from <dein-netz> to any port 22 && sudo ufw enable${Z}
 EOF
-    return 0
-  fi
-  if ! gh auth status >/dev/null 2>&1; then
-    warn "GitHub-CLI ist nicht angemeldet (gh auth login) – Secrets bitte manuell setzen (siehe README)."; return 0
-  fi
-  confirm "GitHub-Secrets für automatische Veröffentlichung jetzt setzen?" n || return 0
-  # Werte laufen über stdin, nie als Argument (sonst in der Prozessliste sichtbar)
-  if printf '%s' "$CLOUDFLARE_API_TOKEN"  | (cd "$ROOT" && gh secret set CLOUDFLARE_API_TOKEN  >/dev/null 2>&1); then ok "Secret CLOUDFLARE_API_TOKEN gesetzt";  else bad "Secret CLOUDFLARE_API_TOKEN konnte nicht gesetzt werden";  fi
-  if printf '%s' "$CLOUDFLARE_ACCOUNT_ID" | (cd "$ROOT" && gh secret set CLOUDFLARE_ACCOUNT_ID >/dev/null 2>&1); then ok "Secret CLOUDFLARE_ACCOUNT_ID gesetzt"; else bad "Secret CLOUDFLARE_ACCOUNT_ID konnte nicht gesetzt werden"; fi
 }
 
 # ---------------------------------------------------------------- Befehle -----
 cmd_setup() {
-  local total=7 deployed=0 attempt
-  printf '\n%sVylarisData – Installer%s\n%sCloudflare Pages · Token · Veröffentlichung%s\n' "$B" "$Z" "$D" "$Z"
+  local total=7 attempt rc
+  printf '\n%sVylarisData – Installer%s\n%sCloudflare Tunnel · keine offenen Ports%s\n' "$B" "$Z" "$D" "$Z"
   [ "$DRY" = 1 ] && warn "TROCKENLAUF – es wird nichts verändert."
   load_env; apply_defaults
 
@@ -524,9 +539,10 @@ cmd_setup() {
   step 2 $total "Cloudflare-Zugang"
   collect_credentials
   if [ "$YES" != 1 ]; then
-    ask CF_PAGES_PROJECT "Name des Pages-Projekts" "$CF_PAGES_PROJECT"
-    ask SITE_DOMAIN "Domain der Seite (leer lassen = keine verbinden)" "$SITE_DOMAIN"
+    ask SITE_DOMAIN "Domain der Seite" "$SITE_DOMAIN"
+    ask TUNNEL_NAME "Name des Tunnels" "$TUNNEL_NAME"
   fi
+  [ -n "$SITE_DOMAIN" ] || die "Keine Domain angegeben."
 
   step 3 $total "Token prüfen"
   for attempt in 1 2; do
@@ -537,104 +553,97 @@ cmd_setup() {
   done
 
   step 4 $total "Sicher speichern"
-  if [ "$DRY" = 1 ]; then
-    warn "Trockenlauf: .env.local wird nicht geschrieben."
+  if [ "$DRY" = 1 ]; then warn "Trockenlauf: .env.local wird nicht geschrieben."
   else
-    if [ -f "$ENV_FILE" ] && [ "$YES" != 1 ] && ! confirm ".env.local existiert bereits – überschreiben?" j; then
-      warn "Vorhandene .env.local bleibt unverändert."
-    else
-      save_env; ok "Gespeichert in .env.local (Dateirechte 600 – nur du kannst sie lesen)"
-    fi
+    if [ -f "$ENV_FILE" ] && [ "$YES" != 1 ] && ! confirm ".env.local existiert bereits – überschreiben?" j; then warn "Vorhandene .env.local bleibt unverändert."
+    else save_env; ok "Gespeichert in .env.local (Dateirechte 600 – nur du kannst sie lesen)"; fi
     ensure_gitignore
   fi
 
-  step 5 $total "Seite bauen"
-  do_build || die "Der Build ist fehlgeschlagen. Meldung oben lesen."
+  step 5 $total "Tunnel einrichten"
+  ensure_tunnel || die "Tunnel-Einrichtung fehlgeschlagen."
+  [ "$DRY" = 1 ] || save_env
 
-  step 6 $total "Projekt anlegen und veröffentlichen"
-  ensure_project || die "Projekt-Einrichtung fehlgeschlagen."
-  do_deploy && deployed=1
+  step 6 $total "DNS-Eintrag"
+  ensure_dns; rc=$?; dns_result "$rc"
 
-  step 7 $total "Domain und automatische Veröffentlichung"
-  if [ -n "$SITE_DOMAIN" ] && confirm "Domain $SITE_DOMAIN jetzt mit dem Projekt verbinden?" j; then connect_domain; fi
-  [ "$DRY" = 1 ] || offer_github
+  step 7 $total "Starten und prüfen"
+  start_stack || exit 1
+  if [ "$DRY" != 1 ]; then wait_for_tunnel || true; check_live || true; firewall_note; fi
 
   cat <<EOF
 
 ${B}${G}Fertig.${Z}
 
+  Adresse:  ${B}https://$SITE_DOMAIN/${Z}
   Nächste Schritte:
-   • Seite aktualisieren:   ${B}./install.sh deploy${Z}
-   • Token prüfen:          ${B}./install.sh verify${Z}
-   • Zugangsdaten löschen:  ${B}./install.sh forget${Z}
-   • Vorschau:              https://$CF_PAGES_PROJECT.pages.dev$([ "$deployed" = 1 ] || printf '  (nach dem Hochladen)')
+   • Seite aktualisieren (nach Änderungen):  ${B}./install.sh deploy${Z}
+   • Status anzeigen:                        ${B}./install.sh status${Z}
+   • Logs ansehen:                           ${B}./install.sh logs${Z}
+   • Stoppen:                                ${B}./install.sh stop${Z}
 EOF
 }
 
 need_config() {
   load_env; apply_defaults
   ensure_tools
-  { [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; } \
-    || die "Noch keine Zugangsdaten gespeichert. Bitte zuerst ausführen:  ./install.sh"
+  if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+    die "Noch keine Zugangsdaten gespeichert. Bitte zuerst ausführen:  ./install.sh"
+  fi
 }
 
 cmd_verify() { need_config; printf '\n%sToken prüfen%s\n' "$B" "$Z"; check_token || die "Token ungültig oder unzureichende Rechte."; }
-cmd_build()  { printf '\n%sSeite bauen%s\n' "$B" "$Z"; ensure_tools; do_build || die "Build fehlgeschlagen."; }
-cmd_deploy() {
-  need_config; printf '\n%sVeröffentlichen%s\n' "$B" "$Z"
+cmd_deploy() { load_env; apply_defaults; printf '\n%sSeite neu bauen und starten%s\n' "$B" "$Z"; ensure_tools; start_stack || exit 1; }
+cmd_stop()   { load_env; ensure_tools; printf '\n%sStoppen%s\n' "$B" "$Z"; ( cd "$ROOT" && dc down ) && ok "Container gestoppt (Tunnel getrennt, Seite offline)"; }
+cmd_logs()   { load_env; ensure_tools; ( cd "$ROOT" && dc logs --tail=100 -f ); }
+cmd_domain() {
+  local rc
+  need_config; printf '\n%sDomain und Tunnel-Route%s\n' "$B" "$Z"
   check_token || die "Token ungültig oder unzureichende Rechte."
-  ensure_project || die "Projekt nicht verfügbar."
-  do_build || die "Build fehlgeschlagen."
-  do_deploy || exit 1
+  ensure_tunnel || die "Tunnel-Einrichtung fehlgeschlagen."
+  save_env
+  ensure_dns; rc=$?; dns_result "$rc"
+  if [ "$DRY" != 1 ]; then ( cd "$ROOT" && dc up -d ) >/dev/null 2>&1 || true; fi
 }
 cmd_status() {
   need_config; printf '\n%sStatus%s\n' "$B" "$Z"
-  cf GET "/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$CF_PAGES_PROJECT"
-  [ "$CF_CODE" = 200 ] || die "Projekt „$CF_PAGES_PROJECT“ nicht abrufbar: $(cf_errors)"
-  local sub dep stage
-  sub="$(printf '%s' "$CF_BODY" | jget result.subdomain)"
-  ok "Projekt:  $CF_PAGES_PROJECT  →  https://${sub:-$CF_PAGES_PROJECT.pages.dev}"
-  dep="$(printf '%s' "$CF_BODY" | jget result.latest_deployment.created_on)"
-  stage="$(printf '%s' "$CF_BODY" | jget result.latest_deployment.latest_stage.status)"
-  if [ -n "$dep" ]; then ok "Letzte Veröffentlichung: $dep (${stage:-?})"; else warn "Noch keine Veröffentlichung vorhanden."; fi
-  cf GET "/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$CF_PAGES_PROJECT/domains"
-  if [ "$CF_CODE" = 200 ]; then
-    printf '%s' "$CF_BODY" | node -e '
-      let s=""; process.stdin.on("data",d=>s+=d).on("end",()=>{try{for(const d of (JSON.parse(s).result||[])) console.log(`${d.name}\t${d.status||"?"}`)}catch{}})' \
-      | while IFS=$'\t' read -r dn ds; do ok "Domain:   $dn  ($ds)"; done
-  fi
+  [ -n "$TUNNEL_ID" ] || die "Noch kein Tunnel eingerichtet. Bitte zuerst ausführen:  ./install.sh"
+  local st; st="$(tunnel_status)"
+  case "$st" in
+    healthy) ok "Tunnel „$TUNNEL_NAME“: healthy (verbunden)" ;;
+    "")      bad "Tunnel nicht abrufbar: $(cf_errors)" ;;
+    *)       warn "Tunnel „$TUNNEL_NAME“: $st" ;;
+  esac
+  ( cd "$ROOT" && dc ps --format 'table {{.Service}}\t{{.State}}\t{{.Status}}' 2>/dev/null ) | sed 's/^/    /'
+  check_live || true
 }
 cmd_forget() {
   printf '\n%sZugangsdaten löschen%s\n' "$B" "$Z"
-  if [ -f "$ENV_FILE" ]; then
-    if confirm ".env.local wirklich löschen?" n; then
-      rm -f "$ENV_FILE"; ok ".env.local gelöscht"
-      warn "Den Token in Cloudflare selbst widerrufen: dash.cloudflare.com/profile/api-tokens → Token → „Roll“/„Delete“."
+  if [ -f "$ENV_FILE" ] || [ -f "$TUNNEL_ENV" ]; then
+    if confirm ".env.local und .env.tunnel wirklich löschen?" n; then
+      rm -f "$ENV_FILE" "$TUNNEL_ENV"; ok "Zugangsdaten gelöscht"
+      warn "Den API-Token in Cloudflare selbst widerrufen: dash.cloudflare.com/profile/api-tokens → Token → „Roll“/„Delete“."
+      warn "Ohne .env.tunnel kann der Tunnel-Container nicht mehr starten. Den Tunnel selbst löschst du im Zero-Trust-Dashboard (Networks → Tunnels)."
     fi
-  else info "  Keine .env.local vorhanden."; fi
+  else info "  Keine Zugangsdaten vorhanden."; fi
 }
 usage() { awk 'NR==1{next} /^# =+$/{n++; next} n==2{sub(/^# ?/,""); print} n>=3{exit}' "${BASH_SOURCE[0]}"; }
 
 # ---------------------------------------------------------------- Start -------
 while [ $# -gt 0 ]; do
   case "$1" in
-    setup|deploy|verify|build|status|forget) CMD="$1" ;;
+    setup|deploy|verify|status|logs|stop|domain|forget) CMD="$1" ;;
     help|-h|--help) CMD="help" ;;
     --yes|-y) YES=1 ;;
     --dry-run) DRY=1 ;;
-    --project) shift; OPT_PROJECT="${1:-}" ;;
-    --domain)  shift; OPT_DOMAIN="${1:-}" ;;
+    --domain) shift; OPT_DOMAIN="${1:-}" ;;
+    --tunnel) shift; OPT_TUNNEL="${1:-}" ;;
     *) die "Unbekannte Option: $1  (Hilfe: ./install.sh help)" ;;
   esac
   shift
 done
 
 case "$CMD" in
-  setup)  cmd_setup ;;
-  deploy) cmd_deploy ;;
-  verify) cmd_verify ;;
-  build)  cmd_build ;;
-  status) cmd_status ;;
-  forget) cmd_forget ;;
-  help)   usage ;;
+  setup) cmd_setup ;; deploy) cmd_deploy ;; verify) cmd_verify ;; status) cmd_status ;;
+  logs) cmd_logs ;; stop) cmd_stop ;; domain) cmd_domain ;; forget) cmd_forget ;; help) usage ;;
 esac
