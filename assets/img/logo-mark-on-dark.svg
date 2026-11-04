@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 364 168" width="364" height="168">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 168" width="300" height="168">
 <defs><linearGradient id="vg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="142" y2="168"><stop offset="0" stop-color="#4da6ff"/><stop offset="1" stop-color="#2f7bff"/></linearGradient></defs>
-<path fill="url(#vg)" d="M0,0 L40,0 L142,168 L103.5,168 Z"/>
-<path fill="#ffffff" fill-rule="evenodd" d="M263.0,0.0 L347.0,0.0 L364.3,44.0 L307.2,138.0 L259.0,168.0 L161.0,168.0 Z M288.4,24.0 L322.5,24.0 L334.2,53.9 L289.2,128.1 L263.6,144.0 L215.6,144.0 Z"/>
+<path fill="url(#vg)" d="M0.0,0.0 L40.0,0.0 L142.0,168.0 L103.5,168.0 Z"/>
+<path fill="#ffffff" d="M194.0,0.0 L263.6,0.0 L300.0,60.0 L300.0,118.0 L269.6,168.0 L161.0,168.0 L138.0,130.0 L166.2,80.5 L149.2,80.5 L165.0,52.0 L220.0,52.0 L164.4,144.0 L256.1,144.0 L276.0,111.3 L276.0,66.7 L254.9,32.0 L175.4,32.0 Z"/>
 </svg>
