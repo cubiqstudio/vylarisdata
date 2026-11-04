@@ -2,31 +2,59 @@
 
 Website von **VylarisData** – *Powering the Vylaris Ecosystem. Technology. Infrastructure. Innovation.*
 
-- Zugehörigkeit: VylarisGroup
-- Geschäftsbereich: Software Development & Technology
-- Marke von: CircleUpWilms
-- Domain: vylarisdata.com
+- Zugehörigkeit: VylarisGroup · Geschäftsbereich: Software Development & Technology
+- Marke von: CircleUpWilms · Domain: vylarisdata.com
 
-Statische Website ohne Datenbank, ohne Tracking, ohne Cookies und ohne Drittanbieter-Ressourcen
-(die Schrift Poppins ist lokal eingebunden).
+Gebaut mit **Next.js** (App Router, statischer Export), **React** und **TypeScript** (strict).
+Kein Tracking, keine Cookies, keine Drittanbieter-Ressourcen (die Schrift Poppins ist lokal eingebunden).
+
+## Entwickeln
+
+Voraussetzung: Node.js 20 oder neuer.
+
+```bash
+npm install
+npm run dev          # Entwicklungsserver auf http://localhost:3000
+npm run typecheck    # TypeScript-Prüfung
+npm run build        # statischer Export nach out/
+npm run preview      # fertigen Export lokal ansehen (http://localhost:4173)
+```
+
+## Aufbau
+
+```
+app/                  Seiten (Next.js App Router): page.tsx je Route, layout.tsx, sitemap.ts, robots.ts
+components/ui/        typisierte Bausteine: PageHero, Section, Split, Tile, Faq, Timeline, Stack, Cta …
+components/layout/    Header, Footer, Navigation, Theme-Umschalter (Client-Komponenten nur dort, wo nötig)
+components/sections/  seitenspezifische Bausteine
+components/graphics/  Grafiken (Netzwerk-Motiv)
+content/              typisierte Inhalte und Stammdaten (content/site.ts)
+lib/metadata.ts       einheitliche Meta-Daten je Seite
+public/               Schriften, Logo, Favicon, _headers (Sicherheits-Header für Cloudflare)
+install.sh            Installer und Deployment (Cloudflare Pages)
+```
+
+Eine neue Seite: Ordner unter `app/<name>/` mit `page.tsx` anlegen, Bausteine aus `@/components/ui`
+verwenden, Meta-Daten mit `pageMetadata(...)` setzen und die Seite in `content/site.ts` (`nav`) eintragen.
 
 ## Installation und Veröffentlichung (Cloudflare Pages)
 
-Der Installer führt dich durch die komplette Einrichtung und fragt dabei nach deinem
+Der Installer führt durch die komplette Einrichtung und fragt dabei nach deinem
 **Cloudflare-API-Token**:
 
 ```bash
-python3 install.py          # oder: ./install.sh
+./install.sh
 ```
 
 Er macht der Reihe nach:
 
-1. erklärt, wie du den API-Token in Cloudflare anlegst und wo du die Account-ID findest,
-2. fragt Token (unsichtbare Eingabe) und Account-ID ab und prüft beides bei Cloudflare,
-3. speichert die Zugangsdaten lokal in `.env.local` (Rechte 600, steht in `.gitignore`),
-4. legt das Pages-Projekt an, baut die Seite und veröffentlicht sie,
-5. verbindet deine Domain und erklärt die nötigen DNS-Einträge,
-6. kann auf Wunsch die GitHub-Secrets für automatisches Veröffentlichen setzen.
+1. prüft Voraussetzungen (Node.js ≥ 20, npm, curl),
+2. erklärt, wie du den API-Token in Cloudflare anlegst und wo du die Account-ID findest,
+3. fragt Token (unsichtbare Eingabe) und Account-ID ab und prüft beides bei Cloudflare,
+4. speichert die Zugangsdaten lokal in `.env.local` (Rechte 600, steht in `.gitignore`),
+5. installiert die Abhängigkeiten und baut die Seite (`out/`),
+6. legt das Pages-Projekt an und veröffentlicht,
+7. verbindet die Domain, erklärt die DNS-Einträge und kann auf Wunsch GitHub-Secrets setzen.
 
 ### Den Token in Cloudflare anlegen
 
@@ -41,50 +69,29 @@ Er macht der Reihe nach:
 ### Weitere Befehle
 
 ```bash
-python3 install.py deploy     # neu bauen und veröffentlichen
-python3 install.py verify     # gespeicherten Token prüfen
-python3 install.py status     # Projekt, Domain, letzte Veröffentlichung
-python3 install.py build      # nur bauen (Ordner dist/)
-python3 install.py forget     # .env.local löschen
-python3 install.py --dry-run  # nur anzeigen, nichts verändern
+./install.sh deploy     # neu bauen und veröffentlichen
+./install.sh verify     # gespeicherten Token prüfen
+./install.sh status     # Projekt, Domain, letzte Veröffentlichung
+./install.sh build      # nur bauen
+./install.sh forget     # .env.local löschen
+./install.sh --dry-run  # nur anzeigen, nichts verändern
+./install.sh help
 ```
 
 Für CI oder ohne Rückfragen: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`,
-`CF_PAGES_PROJECT`, `SITE_DOMAIN` als Umgebungsvariablen setzen und `python3 install.py --yes` ausführen.
-
-Zum Hochladen wird Node.js (`npx wrangler`) verwendet. Ohne Node.js erzeugt der Installer
-`dist.zip`, die du im Cloudflare-Dashboard hochladen kannst.
+`CF_PAGES_PROJECT`, `SITE_DOMAIN` als Umgebungsvariablen setzen und `./install.sh --yes` ausführen.
 
 ### Automatisch bei jedem Push veröffentlichen
 
-Der Workflow `.github/workflows/deploy.yml` baut und veröffentlicht bei jedem Push auf `main`.
-Dafür im GitHub-Repository unter *Settings → Secrets and variables → Actions* anlegen:
-`CLOUDFLARE_API_TOKEN` und `CLOUDFLARE_ACCOUNT_ID` (der Installer kann das über die GitHub-CLI
-`gh` für dich erledigen). Fehlen die Secrets, wird die Veröffentlichung übersprungen.
+Der Workflow `.github/workflows/deploy.yml` prüft Typen, baut die Seite und veröffentlicht bei jedem
+Push auf `main`. Für Pull Requests läuft nur Typprüfung und Build. Dafür im GitHub-Repository unter
+*Settings → Secrets and variables → Actions* anlegen: `CLOUDFLARE_API_TOKEN` und
+`CLOUDFLARE_ACCOUNT_ID` (der Installer kann das über die GitHub-CLI `gh` für dich erledigen).
+Fehlen die Secrets, wird nur geprüft und gebaut.
 
 ### Sicherheit
 
 - Der Token wird nie ausgegeben, nie als Kommandozeilenargument übergeben und nie committet.
-- `.env.local`, `dist/` und `dist.zip` stehen in `.gitignore`.
+- `.env.local`, `out/`, `.next/` und `node_modules/` stehen in `.gitignore`.
 - Token mit Ablaufdatum und nur den nötigen Rechten anlegen; bei Verdacht in Cloudflare widerrufen.
-- `_headers` setzt strenge Sicherheits-Header (CSP, HSTS, nosniff, kein Framing).
-
-## Aufbau des Projekts
-
-```
-src/pages/*.html    Inhalte der Seiten (Quelle)
-tools/build.py      Seiten-Generator (Kopf, Navigation, Footer, Sitemap, Header-Datei)
-install.py          Installer und Deployment
-assets/css          Design-Tokens (Hell/Dunkel) und Komponenten
-assets/js           Theme-Umschalter, Menü
-assets/img          Logo, Favicon, Vorschaubild
-assets/fonts        Poppins (OFL)
-*.html              erzeugte Seiten (nicht von Hand bearbeiten)
-```
-
-Seiten ändern: Datei in `src/pages/` bearbeiten, dann
-
-```bash
-python3 tools/build.py        # erzeugt die *.html im Projektordner
-python3 -m http.server 8000   # lokale Vorschau
-```
+- `public/_headers` setzt Sicherheits-Header (CSP, HSTS, nosniff, kein Framing).
