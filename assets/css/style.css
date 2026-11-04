@@ -181,7 +181,7 @@ section{scroll-margin-top:5rem}
 @media(min-width:640px){.hero-art{margin-top:4rem}}
 .net{position:relative;margin:0 auto;aspect-ratio:500/262;width:100%;max-width:36rem;user-select:none}
 .net svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.net img{position:absolute;left:50%;top:57.25%;width:27%;height:auto;transform:translate(-50%,-50%);filter:drop-shadow(0 4px 12px #1e73be4d)}
+.net img{position:absolute;left:50%;top:57.25%;width:34%;height:auto;transform:translate(-50%,-50%);filter:drop-shadow(0 4px 12px #1e73be4d)}
 .net .glow{fill:url(#vd-glow)}
 .net .link{stroke:var(--brand);stroke-opacity:.28;stroke-width:1.5}
 .net .ring{fill:none;stroke:var(--brand);stroke-width:1.5}
