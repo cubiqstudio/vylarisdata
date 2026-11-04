@@ -10,7 +10,7 @@ Kein Tracking, keine Cookies, keine Drittanbieter-Ressourcen (die Schrift Poppin
 
 ## Entwickeln
 
-Voraussetzung: Node.js 20 oder neuer.
+Voraussetzung: Node.js 20 oder neuer (der Installer `./install.sh` richtet es bei Bedarf selbst ein).
 
 ```bash
 npm install
@@ -48,7 +48,7 @@ Der Installer führt durch die komplette Einrichtung und fragt dabei nach deinem
 
 Er macht der Reihe nach:
 
-1. prüft Voraussetzungen (Node.js ≥ 20, npm, curl),
+1. prüft die Voraussetzungen und **installiert fehlende selbst**: Node.js 22 (offizieller Download von nodejs.org mit SHA-256-Prüfung, nach `~/.vylarisdata/node`, ohne Administrator-Rechte) und bei Bedarf curl über den Paketmanager,
 2. erklärt, wie du den API-Token in Cloudflare anlegst und wo du die Account-ID findest,
 3. fragt Token (unsichtbare Eingabe) und Account-ID ab und prüft beides bei Cloudflare,
 4. speichert die Zugangsdaten lokal in `.env.local` (Rechte 600, steht in `.gitignore`),
@@ -65,6 +65,8 @@ Er macht der Reihe nach:
 3. Account Resources: dein Account · (bei DNS-Rechten) Zone Resources: `vylarisdata.com`
 4. Token kopieren – er wird nur einmal angezeigt.
 5. Die **Account-ID** steht im Dashboard unter *Workers & Pages* in der rechten Seitenleiste.
+
+Unter Windows den Installer in WSL (Ubuntu) ausführen: `wsl --install`, danach dort `./install.sh`.
 
 ### Weitere Befehle
 

@@ -3,7 +3,7 @@
 #  VylarisData – Installer & Deployment für Cloudflare Pages
 # =============================================================================
 #  Führt dich Schritt für Schritt durch die Einrichtung:
-#    1. Voraussetzungen prüfen (Node.js, npm, curl)
+#    1. Voraussetzungen prüfen und fehlende selbst installieren (Node.js, npm, curl)
 #    2. Cloudflare-API-Token anlegen – das Skript erklärt dir genau, wie
 #    3. Token + Account-ID eingeben (Eingabe bleibt unsichtbar) und prüfen
 #    4. Zugangsdaten sicher lokal speichern (.env.local, nur für dich lesbar)
@@ -39,6 +39,11 @@ API="${API%/}"
 WRANGLER="wrangler@4"
 DEFAULT_PROJECT="vylarisdata"
 DEFAULT_DOMAIN="vylarisdata.com"
+NODE_MAJOR=22                                   # zu installierende Node.js-Version (LTS)
+TOOLS_HOME="${VD_TOOLS_HOME:-$HOME/.vylarisdata}"
+NODE_HOME="$TOOLS_HOME/node"
+# Bereits früher vom Installer angelegtes Node.js sofort verfügbar machen
+[ -x "$NODE_HOME/bin/node" ] && export PATH="$NODE_HOME/bin:$PATH"
 
 YES=0
 DRY=0
@@ -218,18 +223,129 @@ EOF
 }
 
 # --------------------------------------------------------------- Schritte -----
-need_tools() {
-  local missing=0
-  command -v curl >/dev/null 2>&1 && ok "curl" || { bad "curl fehlt (macOS/Linux: Paketmanager, z. B. apt install curl)"; missing=1; }
-  if command -v node >/dev/null 2>&1; then
-    local v major; v="$(node -v | sed 's/^v//')"; major="${v%%.*}"
-    if [ "${major:-0}" -ge 20 ]; then ok "Node.js $v"; else bad "Node.js $v ist zu alt – benötigt wird Version 20 oder neuer (https://nodejs.org)"; missing=1; fi
-  else
-    bad "Node.js fehlt – bitte Version 20 oder neuer installieren: https://nodejs.org (oder: nvm install 20)"; missing=1
+# ---------------------------------------------------- Selbstinstallation ----
+SUDO=""
+detect_sudo() {
+  [ "$(id -u)" = 0 ] && return 0
+  command -v sudo >/dev/null 2>&1 && SUDO="sudo"
+  return 0
+}
+
+# Installiert Systempakete mit dem passenden Paketmanager (z. B. curl). Rückgabe 0 = Erfolg
+pkg_install() {
+  detect_sudo
+  local pkgs="$*" pm=""
+  for pm in apt-get dnf yum pacman zypper apk brew; do command -v "$pm" >/dev/null 2>&1 && break || pm=""; done
+  [ -n "$pm" ] || return 1
+  if [ "$pm" != brew ] && [ "$(id -u)" != 0 ] && [ -z "$SUDO" ]; then return 1; fi
+  info "  Installiere $pkgs mit $pm …"
+  case "$pm" in
+    apt-get) $SUDO apt-get update -qq && $SUDO apt-get install -y -qq $pkgs ;;
+    dnf)     $SUDO dnf install -y -q $pkgs ;;
+    yum)     $SUDO yum install -y -q $pkgs ;;
+    pacman)  $SUDO pacman -S --noconfirm --needed $pkgs ;;
+    zypper)  $SUDO zypper --non-interactive install $pkgs ;;
+    apk)     $SUDO apk add --no-progress $pkgs ;;
+    brew)    brew install $pkgs ;;
+  esac
+}
+
+sha256_of() {
+  if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | cut -d' ' -f1
+  elif command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | cut -d' ' -f1
+  else openssl dgst -sha256 "$1" 2>/dev/null | sed 's/^.*= //'; fi
+}
+
+# Lädt die offizielle Node.js-Version von nodejs.org, prüft die SHA-256-Summe und
+# entpackt sie nach ~/.vylarisdata/node – ohne Root-Rechte, ohne Paketmanager.
+install_node() {
+  local os arch plat base sums line file sum tmp
+  case "$(uname -s)" in
+    Linux)  os=linux ;;
+    Darwin) os=darwin ;;
+    *) bad "Dieses Betriebssystem wird vom Installer nicht unterstützt (Windows: bitte WSL nutzen, siehe README)."; return 1 ;;
+  esac
+  case "$(uname -m)" in
+    x86_64|amd64) arch=x64 ;;
+    aarch64|arm64) arch=arm64 ;;
+    armv7l) arch=armv7l ;;
+    *) bad "Unbekannte Prozessor-Architektur: $(uname -m)"; return 1 ;;
+  esac
+  plat="$os-$arch"
+  # Alpine/musl: offizielle Builds laufen dort nicht – Paketmanager nutzen
+  if [ -f /etc/alpine-release ]; then
+    pkg_install nodejs npm && return 0
+    bad "Node.js konnte unter Alpine nicht installiert werden (apk add nodejs npm als root ausführen)."; return 1
   fi
-  command -v npm >/dev/null 2>&1 && ok "npm $(npm -v)" || { bad "npm fehlt (kommt mit Node.js)"; missing=1; }
-  [ -f "$ROOT/package.json" ] && ok "package.json vorhanden" || { bad "package.json fehlt – bitte im Projektordner ausführen."; missing=1; }
-  [ "$missing" = 0 ] || die "Bitte die fehlenden Voraussetzungen installieren und das Skript erneut starten."
+  command -v tar >/dev/null 2>&1 || pkg_install tar >/dev/null 2>&1 || { bad "tar fehlt und konnte nicht installiert werden."; return 1; }
+  base="https://nodejs.org/dist/latest-v${NODE_MAJOR}.x"
+  info "  Suche aktuelle Node.js-$NODE_MAJOR-Version für $plat …"
+  sums="$(curl -fsSL --max-time 30 "$base/SHASUMS256.txt")" || { bad "nodejs.org nicht erreichbar. Internetverbindung prüfen."; return 1; }
+  line="$(printf '%s\n' "$sums" | grep -E " node-v[0-9.]+-$plat\.tar\.gz\$" | head -n1)"
+  [ -n "$line" ] || { bad "Keine passende Node.js-Datei für $plat gefunden."; return 1; }
+  sum="${line%% *}"; file="${line##* }"
+  tmp="$(mktemp -d)" || return 1
+  info "  Lade $file herunter …"
+  curl -fSL --progress-bar --max-time 600 -o "$tmp/$file" "$base/$file" || { rm -rf "$tmp"; bad "Download fehlgeschlagen."; return 1; }
+  if [ "$(sha256_of "$tmp/$file")" != "$sum" ]; then
+    rm -rf "$tmp"; bad "Prüfsumme stimmt nicht – Download wird verworfen (Sicherheitsvorkehrung)."; return 1
+  fi
+  ok "Prüfsumme (SHA-256) stimmt"
+  rm -rf "$NODE_HOME" && mkdir -p "$NODE_HOME" || { rm -rf "$tmp"; return 1; }
+  tar -xzf "$tmp/$file" -C "$NODE_HOME" --strip-components=1 || { rm -rf "$tmp"; bad "Entpacken fehlgeschlagen."; return 1; }
+  rm -rf "$tmp"
+  export PATH="$NODE_HOME/bin:$PATH"
+  ok "Node.js $(node -v) installiert nach ${NODE_HOME/#$HOME/~}"
+}
+
+# Optional: PATH dauerhaft eintragen, damit npm/node auch außerhalb des Installers funktionieren
+persist_path() {
+  case "$PATH" in *"$NODE_HOME/bin"*) ;; *) return 0 ;; esac
+  [ -x "$NODE_HOME/bin/node" ] || return 0
+  local rc line="export PATH=\"$NODE_HOME/bin:\$PATH\"  # VylarisData"
+  case "${SHELL:-}" in */zsh) rc="$HOME/.zshrc" ;; */bash) rc="$HOME/.bashrc" ;; *) rc="$HOME/.profile" ;; esac
+  grep -qF "# VylarisData" "$rc" 2>/dev/null && return 0
+  if confirm "Node.js dauerhaft in den PATH eintragen (${rc/#$HOME/~}), damit „npm run dev“ & Co. überall funktionieren?" j; then
+    printf '\n%s\n' "$line" >> "$rc" && ok "PATH-Eintrag in ${rc/#$HOME/~} ergänzt (gilt ab dem nächsten Terminfenster)"
+  fi
+}
+
+node_ok() {
+  command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1 || return 1
+  local v; v="$(node -v 2>/dev/null | sed 's/^v//')"; [ "${v%%.*}" -ge 20 ] 2>/dev/null
+}
+
+# Stellt sicher, dass curl und Node.js (>= 20) vorhanden sind – und installiert sie bei Bedarf selbst.
+ensure_tools() {
+  case "$(uname -s)" in MINGW*|MSYS*|CYGWIN*)
+    die "Unter Windows bitte WSL verwenden (PowerShell: wsl --install, danach in Ubuntu ./install.sh ausführen)." ;;
+  esac
+  if command -v curl >/dev/null 2>&1; then ok "curl"
+  else
+    warn "curl fehlt."
+    if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde curl per Paketmanager installieren."
+    elif confirm "curl jetzt installieren?" j && pkg_install curl && command -v curl >/dev/null 2>&1; then ok "curl installiert"
+    else die "curl konnte nicht installiert werden. Bitte von Hand installieren (z. B. sudo apt install curl) und erneut starten."; fi
+  fi
+  if node_ok; then ok "Node.js $(node -v) · npm $(npm -v)"
+  else
+    if command -v node >/dev/null 2>&1; then warn "Node.js $(node -v) ist zu alt – benötigt wird Version 20 oder neuer."
+    else warn "Node.js ist nicht installiert."; fi
+    if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde Node.js $NODE_MAJOR von nodejs.org nach ${NODE_HOME/#$HOME/~} installieren."
+    else
+      info "  Der Installer lädt Node.js $NODE_MAJOR (LTS) von nodejs.org, prüft die Prüfsumme und legt es in ${NODE_HOME/#$HOME/~} ab."
+      info "  Dafür sind keine Administrator-Rechte nötig; bestehende Installationen bleiben unberührt."
+      confirm "Node.js jetzt installieren?" j || die "Ohne Node.js kann die Seite nicht gebaut werden. Abgebrochen."
+      install_node || die "Node.js konnte nicht installiert werden. Bitte von Hand installieren: https://nodejs.org"
+      node_ok || die "Node.js ist installiert, aber nicht nutzbar. Bitte ein neues Terminal öffnen und erneut starten."
+      persist_path
+    fi
+  fi
+}
+
+need_tools() {
+  ensure_tools
+  [ -f "$ROOT/package.json" ] && ok "package.json vorhanden" || die "package.json fehlt – bitte im Projektordner ausführen."
 }
 
 collect_credentials() {
@@ -457,14 +573,13 @@ EOF
 
 need_config() {
   load_env; apply_defaults
-  command -v curl >/dev/null 2>&1 || die "curl fehlt."
-  command -v node >/dev/null 2>&1 || die "Node.js fehlt (https://nodejs.org)."
+  ensure_tools
   { [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; } \
     || die "Noch keine Zugangsdaten gespeichert. Bitte zuerst ausführen:  ./install.sh"
 }
 
 cmd_verify() { need_config; printf '\n%sToken prüfen%s\n' "$B" "$Z"; check_token || die "Token ungültig oder unzureichende Rechte."; }
-cmd_build()  { printf '\n%sSeite bauen%s\n' "$B" "$Z"; command -v node >/dev/null 2>&1 || die "Node.js fehlt."; do_build || die "Build fehlgeschlagen."; }
+cmd_build()  { printf '\n%sSeite bauen%s\n' "$B" "$Z"; ensure_tools; do_build || die "Build fehlgeschlagen."; }
 cmd_deploy() {
   need_config; printf '\n%sVeröffentlichen%s\n' "$B" "$Z"
   check_token || die "Token ungültig oder unzureichende Rechte."
