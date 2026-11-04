@@ -462,3 +462,157 @@ a.tile:hover{transform:translateY(-2px)}
 @media(min-width:1024px) and (max-width:1180px){.nav a{padding:.5rem .55rem;font-size:12.5px}}
 .nav a[aria-current=page]{color:var(--heading)}
 .status.info{background:var(--brand-soft);color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand-ring)}
+
+
+/* =====================================================================
+   Globale Feinabstimmung (Kontrast, Layout)
+   ===================================================================== */
+:root{--brand-text:#1a64a8}
+:root[data-theme=dark]{--brand-text:#5aa9e6;--muted:#8b93a1;--band:#151a23}
+.eyebrow,.tile .more,.step::before,.chip.blue,.status.info,.btn-ghost{color:var(--brand-text)}
+.layer .lname .icon{flex-shrink:0}
+.cards>li{display:flex}
+.cards>li>*{width:100%}
+.page-hero .deco{opacity:.1}
+@media(max-width:639px){.page-hero .deco{opacity:.05}}
+.footer .cols{grid-template-columns:1fr}
+@media(min-width:640px){.footer .cols{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.footer .cols{grid-template-columns:1.6fr 1fr 1fr 1fr}}
+@media(max-width:639px){.spec th,.spec td{display:block;width:100%}.spec th{border-bottom:0;padding-bottom:.25rem}}
+
+/* ---- Seitenspezifisch (aus den Seitenquellen übernommen) ---- */
+
+/* index */
+/* Seitenspezifische Feinabstimmung der Startseite (Kontrast, Rhythmus, Layout) */
+.home-page{--brand-text:#1a64a8;--card-soft:linear-gradient(150deg,#ffffff,#f1f4fa)}
+:root[data-theme=dark] .home-page{--brand-text:var(--brand);--muted:#8b93a1;--card-soft:linear-gradient(150deg,#1c222d,#151a23)}
+.home-page .eyebrow,.home-page .chip.blue,.home-page .status.info{color:var(--brand-text)}
+.home-page .center .eyebrow{margin-bottom:.75rem}
+.home-page .section-lg{padding:4.5rem 0}
+@media(min-width:640px){.home-page .section-lg{padding:6.5rem 0}}
+.home-page #kontakt{padding-top:0}
+
+/* Hero: Netzwerkgrafik bekommt Luft nach unten, Beschriftung bleibt auf dem Handy lesbar */
+.home-page .hero-art{padding-bottom:3.5rem}
+@media(min-width:640px){.home-page .hero-art{padding-bottom:5.5rem}}
+@media(max-width:639px){.home-page .net text{font-size:15px}}
+
+/* Listen als Kartenraster */
+.home-page .cards>li,.home-page .grid>li{display:flex}
+.home-page .cards>li>*,.home-page .grid>li>*{width:100%}
+.home-page ol.steps{padding:0;list-style:none}
+
+/* Eckdaten mit Icons */
+.home-page .fact>.icon{display:inline-flex;margin:0 0 1rem;font-size:inherit}
+.home-page .fact span:not(.icon){line-height:1.55}
+
+/* Markenkarten */
+.home-page .brandcard>p:not(.sub){margin-bottom:1.5rem}
+.home-page .brandcard .btn{margin-top:auto}
+
+/* Schichten: sichtbares Zielbild-Label */
+.home-page .stack-label{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem}
+.home-page .stack-label .status{font-size:.75rem}
+
+/* Roadmap: verbundene Schritte */
+@media(min-width:768px){
+  .home-page .step:not(:last-child)::after{content:"";position:absolute;top:2.1rem;right:-1.25rem;width:1.25rem;height:2px;background:linear-gradient(90deg,var(--brand),var(--brand-2));opacity:.5}
+}
+
+/* Technologie-Box */
+.home-page .chips-cap{margin-top:1.25rem;font-size:.8rem;font-weight:600;color:var(--muted)}
+.home-page .chips-cap+.chips{margin-top:.5rem}
+
+/* FAQ zentriert */
+.home-page .faq{margin:3rem auto 0}
+
+/* Abschluss-CTA größer */
+.home-page .cta{padding:4rem 1.5rem}
+@media(min-width:640px){.home-page .cta{padding:5.5rem 2rem}.home-page .cta h2{font-size:2.5rem}}
+.home-page .cta .btns{margin-top:2.5rem}
+
+/* technologie */
+/* Seitenspezifische Feinabstimmung (Kontrast, Rhythmus, Layout) */
+.tech-page{--brand-text:#1a64a8;--link:#1558a0;--card-soft:linear-gradient(150deg,#eaf2fb,#dbe7f5)}
+:root[data-theme=dark] .tech-page{--brand-text:var(--brand);--muted:#8b93a1;--band:#151a23;--card-soft:linear-gradient(150deg,#1c222d,#151a23)}
+.tech-page .eyebrow,.tech-page .chip.blue,.tech-page .status.info{color:var(--brand-text)}
+.tech-page .section-lg{padding:4rem 0}
+@media(min-width:640px){.tech-page .section-lg{padding:5.5rem 0}}
+.tech-page .page-hero .deco{opacity:.12}
+@media(max-width:639px){.tech-page .page-hero .deco{opacity:.06}}
+.tech-page ol.steps{padding:0;list-style:none}
+.tech-page .visual .table-wrap{margin-top:0}
+.tech-page .sec-head{max-width:52rem}
+.tech-page .sec-head .lead{margin-top:1rem}
+
+/* Verbundener Ablauf oberhalb der Schritte */
+.tech-page .flow{display:flex;flex-wrap:wrap;gap:.6rem .35rem;align-items:center;margin-top:2.5rem;padding:0;list-style:none}
+.tech-page .flow li{display:inline-flex;align-items:center;gap:.35rem}
+.tech-page .flow li+li::before{content:"";width:1.4rem;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--brand),var(--brand-2));opacity:.5}
+.tech-page .flow span{display:inline-flex;align-items:center;border-radius:9999px;padding:.4rem .95rem;font-size:.85rem;font-weight:600;color:var(--heading);background:var(--surface);box-shadow:inset 0 0 0 1px var(--border)}
+.tech-page .flow li:last-child span{background:var(--brand-soft);color:var(--brand-text);box-shadow:inset 0 0 0 1px var(--brand-ring)}
+.tech-page .flow+.steps{margin-top:1.75rem}
+
+/* Zeitleiste als Kartenreihe */
+@media(min-width:960px){
+  .tech-page .timeline{grid-template-columns:repeat(3,1fr);padding-left:0;gap:1.25rem}
+  .tech-page .timeline::before,.tech-page .tl-item::before{display:none}
+  .tech-page .tl-item{padding:1.75rem}
+}
+
+/* Markenkarten */
+.tech-page .brandcard>p:not(.sub){margin-bottom:1.5rem}
+.tech-page .brandcard .btn{margin-top:auto}
+
+/* FAQ mit Seitenspalte */
+.tech-page .faq-layout{display:grid;gap:2rem}
+.tech-page .faq-layout .faq{margin-top:0;max-width:none}
+.tech-page .faq-side .lead{margin-top:1rem}
+.tech-page .faq-side .more{display:inline-flex;margin-top:1.5rem}
+@media(min-width:1024px){
+  .tech-page .faq-layout{grid-template-columns:.8fr 1.4fr;gap:4rem;align-items:start}
+  .tech-page .faq-side{position:sticky;top:6rem}
+}
+
+/* ueber-uns */
+/* Seitenspezifische Ergänzungen für "Über uns" (Abstände, Layout, Kontraste) */
+main .split>*{min-width:0}
+main .cards>li{display:flex}
+main .cards>li>*{width:100%}
+.uu-head{max-width:44rem}
+.uu-status{margin-top:1.5rem}
+.page-hero .deco{right:1rem;width:28rem;max-width:44%}
+.uu-claim{font-size:clamp(1.55rem,5.4vw,2rem);line-height:1.2;margin-top:.25rem}
+.uu-claim .text-gradient{display:inline-block;max-width:100%}
+.uu-top{align-items:start}
+.uu-visual{padding:1.25rem}
+.uu-visual .stack{margin-top:.25rem}
+.uu-facts{margin-top:0;grid-template-columns:1fr;grid-auto-rows:1fr}
+.uu-facts .fact{display:flex;flex-direction:column;justify-content:center}
+.uu-link-ext{display:inline-block;width:.85em;height:.85em;margin-left:.3rem;vertical-align:-.1em}
+.panel dd a,.faq a.link{text-decoration:underline;text-underline-offset:.2em}
+.brandcard .btn.uu-more{margin-top:auto}
+.brandcard>p:nth-last-of-type(1):not(.sub){margin-bottom:1.25rem}
+.uu-narrow .layer{grid-template-columns:1fr;gap:.5rem}
+#cta{padding-bottom:0}
+#cta .btns .btn{width:100%;white-space:normal;text-align:center;height:auto;min-height:3rem;padding-top:.6rem;padding-bottom:.6rem}
+@media(min-width:480px){.uu-facts{grid-template-columns:1fr 1fr}}
+@media(min-width:640px){
+  .uu-visual{padding:2rem}
+  #cta .btns .btn{width:auto}
+}
+@media(min-width:1024px){
+  .uu-narrow{grid-template-columns:.8fr 1.2fr;gap:4rem}
+  .uu-narrow .copy{position:sticky;top:7rem}
+  .uu-wichtig{align-items:stretch}
+  .uu-wichtig .uu-visual{display:flex;flex-direction:column;justify-content:center}
+}
+.uu-narrow .timeline,.uu-narrow .faq{margin-top:0;max-width:none}
+.uu-narrow .timeline{list-style:none}
+/* Kontrast hell: etwas dunkleres Markenblau für kleine Texte, ruhigere Karten */
+:root:not([data-theme=dark]) main{--card-soft:linear-gradient(150deg,#f3f6fb,#e6ecf6);--link:#1560a8}
+:root:not([data-theme=dark]) main .eyebrow,
+:root:not([data-theme=dark]) main .chip.blue,
+:root:not([data-theme=dark]) main .status.info{color:#17609f}
+/* Kontrast dunkel: hellerer Hinweis-Text */
+:root[data-theme=dark] main{--muted:#9ea0aa}

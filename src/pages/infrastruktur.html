@@ -1,15 +1,15 @@
 <!--
 title: Infrastruktur
-description: Architektur und Grundsätze der künftigen Hosting-Infrastruktur der VylarisGroup: eigene Hardware in Europa, DSGVO by design, kein Tracking. Aktuell im Aufbau.
+description: Architektur und Grundsätze der geplanten Hosting-Infrastruktur der VylarisGroup: eigene Hardware in Europa, DSGVO by design, kein Tracking. Im Aufbau.
 nav: infrastruktur
 -->
 
 <section class="page-hero" id="top">
   <div class="wrap">
     <div class="crumbs"><a href="index.html">Start</a><span aria-hidden="true">/</span><span>Infrastruktur</span></div>
-    <p class="eyebrow">Infrastruktur</p>
-    <h1>Die technische Basis des Vylaris-Ökosystems.</h1>
-    <p class="lead">VylarisData wird das Hosting der VylarisGroup übernehmen. Auf dieser Seite zeigen wir, wie wir die Infrastruktur dafür aufbauen: Architektur, Grundsätze und die einzelnen Schichten, vom Standort bis zum laufenden Dienst.</p>
+    <p class="eyebrow">Hosting-Infrastruktur im Aufbau</p>
+    <h1>Die technische Basis des Ökosystems der VylarisGroup.</h1>
+    <p class="lead">VylarisData wird künftig das Hosting der VylarisGroup übernehmen. Auf dieser Seite zeigen wir, wie wir die Infrastruktur dafür aufbauen: Architektur, Grundsätze und die einzelnen Schichten, vom Standort bis zum laufenden Dienst.</p>
     <div class="hero-cta">
       <a class="btn btn-primary btn-lg" href="#architektur">Architektur ansehen{{arrow}}</a>
       <a class="btn btn-secondary btn-lg" href="#ausbaustufen">Ausbaustufen</a>
@@ -24,68 +24,70 @@ nav: infrastruktur
       <span class="icon">{{icon:info}}</span>
       <div>
         <p><strong id="stand-h">Die Infrastruktur ist im Aufbau.</strong></p>
-        <p style="margin-top:.4rem">Diese Seite beschreibt Architektur und Grundsätze, nach denen wir bauen. Sie ist keine Leistungsbeschreibung eines laufenden Angebots. Konkrete Spezifikationen veröffentlichen wir, sobald die Systeme produktiv sind. Bis dahin steht alles, was hier als Zielbild oder geplant beschrieben ist, genau so: als Ziel.</p>
+        <p>Diese Seite beschreibt Architektur und Grundsätze, nach denen wir bauen, und keine Leistungen eines laufenden Angebots. Konkrete Spezifikationen möchten wir veröffentlichen, sobald die Systeme produktiv sind. Bis dahin ist alles, was hier als Zielbild oder geplant beschrieben ist, ein Ziel und keine Zusage.</p>
       </div>
     </div>
     <ul class="facts" aria-label="Gesicherte Eckdaten">
-      <li class="fact"><b>Europa</b><span>Standortrahmen: VylarisGroupEurope betreibt ihre Dienste auf eigener Infrastruktur in Europa.</span></li>
-      <li class="fact"><b>CircleUpWilms</b><span>VylarisData ist eine Marke von CircleUpWilms.</span></li>
-      <li class="fact"><b>Keine Tracker</b><span>Keine Cookies, kein Tracking. Schriften und Skripte kommen von derselben Domain.</span></li>
-      <li class="fact"><b>VylarisGroup</b><span>Geschäftsbereich Software Development &amp; Technology.</span></li>
+      <li class="fact"><b>CircleUpWilms</b><span>VylarisData ist eine Marke von CircleUpWilms und der Geschäftsbereich Software Development &amp; Technology der VylarisGroup.</span></li>
+      <li class="fact"><b>Im Aufbau</b><span>VylarisData soll künftig das Hosting der VylarisGroup werden. Ein Angebot für Kundinnen und Kunden gibt es heute noch nicht.</span></li>
+      <li class="fact"><b>Europa</b><span>Die Dienste von VylarisGroupEurope laufen auf eigener Infrastruktur in Europa.</span></li>
+      <li class="fact"><b>Keine Tracker</b><span>Diese Website kommt ohne Cookies und Tracking aus. Mehr dazu unter <a class="link" href="#datenschutz">Datenschutz &amp; Compliance</a>.</span></li>
     </ul>
   </div>
 </section>
 
 <section class="section band" id="architektur" aria-labelledby="architektur-h">
   <div class="wrap">
-    <div style="max-width:44rem">
-      <p class="eyebrow" style="margin-bottom:.75rem">Architektur im Überblick</p>
-      <h2 class="h2" id="architektur-h">Sechs Schichten, zwei davon quer durch alles.</h2>
-      <p class="lead">Wir denken die Infrastruktur von oben nach unten: Was Nutzerinnen und Nutzer sehen, steht auf einer Plattform, die auf einer Rechenschicht läuft, die auf Speicher und Netzwerk aufsetzt. Alles steht am Ende auf Hardware an einem Standort in Europa.</p>
+    <div class="max-3xl">
+      <p class="eyebrow">Architektur im Überblick · Zielbild</p>
+      <h2 class="h2" id="architektur-h">Sechs Schichten und zwei, die quer durch alles laufen.</h2>
+      <p class="lead">Wir denken die Infrastruktur von oben nach unten. Oben stehen die Dienste, die Nutzerinnen und Nutzer sehen. Sie sollen auf einer Plattform und einer Rechenschicht laufen, darunter liegen Speicher und Netzwerk. Das Fundament soll eigene Hardware in Europa bilden.</p>
     </div>
 
-    <div class="stack" style="margin-top:3rem">
-      <div class="layer hi">
-        <div class="lname"><span class="icon">{{icon:box}}</span>Dienste &amp; Anwendungen</div>
-        <p class="ldesc">Zielbild: Websites, Plattformen und Dienste der VylarisGroup laufen als klar getrennte Anwendungen, jede mit eigener Konfiguration und eigenen Ressourcen.</p>
+    <div class="cards">
+      <div class="stack">
+        <div class="layer hi">
+          <div class="lname"><span class="icon">{{icon:box}}</span>Dienste</div>
+          <p class="ldesc">Websites, Plattformen und Dienste der VylarisGroup sollen als klar getrennte Anwendungen laufen, jede mit eigener Konfiguration und eigenen Ressourcen.</p>
+        </div>
+        <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
+        <div class="layer">
+          <div class="lname"><span class="icon">{{icon:git}}</span>Plattform</div>
+          <p class="ldesc">Neue Versionen sollen über einen festen, automatisierten Ablauf in den Betrieb gelangen (Deployment). Jede Änderung soll nachvollziehbar sein.</p>
+        </div>
+        <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
+        <div class="layer">
+          <div class="lname"><span class="icon">{{icon:cpu}}</span>Rechenschicht</div>
+          <p class="ldesc">Virtualisierung und Container sollen Dienste voneinander trennen und Rechenleistung flexibel verteilbar machen.</p>
+        </div>
+        <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
+        <div class="layer">
+          <div class="lname"><span class="icon">{{icon:hdd}}</span>Speicher</div>
+          <p class="ldesc">Speicher &amp; Backup: Daten sollen redundant vorliegen und regelmäßig gesichert werden. Die Wiederherstellung soll geübt und nicht nur angenommen werden.</p>
+        </div>
+        <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
+        <div class="layer">
+          <div class="lname"><span class="icon">{{icon:network}}</span>Netzwerk</div>
+          <p class="ldesc">Netzwerk &amp; Edge: Verkehr soll die Dienste über abgesicherte, getrennte Wege erreichen. Die Edge ist die Schicht am Rand, die eingehenden Verkehr annimmt.</p>
+        </div>
+        <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
+        <div class="layer hi">
+          <div class="lname"><span class="icon">{{icon:server}}</span>Standort</div>
+          <p class="ldesc">Standort &amp; Hardware: Eigene Hardware an Standorten in Europa. Wir wollen jederzeit wissen, wo unsere Systeme stehen und wer Zugriff darauf hat.</p>
+        </div>
       </div>
-      <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
-      <div class="layer">
-        <div class="lname"><span class="icon">{{icon:git}}</span>Plattform &amp; Deployment</div>
-        <p class="ldesc">Zielbild: Neue Versionen gelangen über einen festen, automatisierten Ablauf in den Betrieb. Jede Änderung ist nachvollziehbar und lässt sich zurücknehmen.</p>
-      </div>
-      <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
-      <div class="layer">
-        <div class="lname"><span class="icon">{{icon:cpu}}</span>Rechenschicht</div>
-        <p class="ldesc">Zielbild: Virtualisierung und Container trennen Dienste voneinander und machen Rechenleistung flexibel verteilbar.</p>
-      </div>
-      <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
-      <div class="layer">
-        <div class="lname"><span class="icon">{{icon:hdd}}</span>Speicher &amp; Backup</div>
-        <p class="ldesc">Zielbild: Daten liegen redundant vor und werden regelmäßig gesichert. Wiederherstellung wird geübt, nicht nur angenommen.</p>
-      </div>
-      <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
-      <div class="layer">
-        <div class="lname"><span class="icon">{{icon:network}}</span>Netzwerk &amp; Edge</div>
-        <p class="ldesc">Zielbild: Verkehr erreicht die Dienste über abgesicherte, getrennte Wege. Interner und öffentlicher Verkehr bleiben voneinander getrennt.</p>
-      </div>
-      <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
-      <div class="layer hi">
-        <div class="lname"><span class="icon">{{icon:server}}</span>Standort &amp; Hardware</div>
-        <p class="ldesc">Zielbild: Eigene Hardware an Standorten in Europa. Wir wissen, wo unsere Systeme stehen und wer Zugriff darauf hat.</p>
-      </div>
-    </div>
 
-    <p class="rule">Querschnittsschichten</p>
+      <p class="rule">Querschnittsthemen</p>
 
-    <div class="stack" style="margin-top:1.5rem">
-      <div class="layer">
-        <div class="lname"><span class="icon indigo">{{icon:activity}}</span>Observability</div>
-        <p class="ldesc">Zielbild: Messwerte, Protokolle und Alarme über alle Schichten hinweg. Probleme erkennen wir, bevor sie jemand melden muss.</p>
-      </div>
-      <div class="layer">
-        <div class="lname"><span class="icon indigo">{{icon:shield}}</span>Sicherheit</div>
-        <p class="ldesc">Zielbild: Sicherheit ist keine eigene Etage, sondern gilt in jeder Schicht: Zugriffe, Verschlüsselung, Updates und Härtung.</p>
+      <div class="stack">
+        <div class="layer">
+          <div class="lname"><span class="icon indigo">{{icon:activity}}</span>Monitoring</div>
+          <p class="ldesc">Messwerte, Protokolle und Alarme über alle Schichten hinweg. Wir wollen Probleme erkennen, bevor jemand sie melden muss.</p>
+        </div>
+        <div class="layer">
+          <div class="lname"><span class="icon indigo">{{icon:shield}}</span>Sicherheit</div>
+          <p class="ldesc">Sicherheit soll in jeder Schicht gelten: Zugriffe, Verschlüsselung, Updates und Härtung.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -93,18 +95,18 @@ nav: infrastruktur
 
 <section class="section" id="grundsaetze" aria-labelledby="grundsaetze-h">
   <div class="wrap">
-    <div style="max-width:44rem">
-      <p class="eyebrow" style="margin-bottom:.75rem">Grundsätze</p>
-      <h2 class="h2" id="grundsaetze-h">Sechs Regeln, nach denen wir bauen.</h2>
+    <div class="max-3xl">
+      <p class="eyebrow">Grundsätze</p>
+      <h2 class="h2" id="grundsaetze-h">Sechs Grundsätze, nach denen wir bauen.</h2>
       <p class="lead">Bevor eine einzelne Technik gewählt wird, stehen Grundsätze fest. Sie geben vor, wie wir entscheiden, wenn es mehrere Wege gibt.</p>
     </div>
     <ul class="cards c3">
-      <li style="display:flex"><div class="tile" style="width:100%"><span class="icon">{{icon:server}}</span><h3>Eigene Hardware in Europa</h3><p>Grundsatz: Wir betreiben unsere Systeme selbst und in Europa. So bleibt klar, wo Daten liegen und wer Zugriff hat. Ein Zwischenhändler ohne Einblick gehört nicht in die Kette.</p></div></li>
-      <li style="display:flex"><div class="tile" style="width:100%"><span class="icon">{{icon:shield}}</span><h3>DSGVO by design</h3><p>Grundsatz: Datenschutz ist eine Anforderung an die Architektur, nicht ein Dokument am Ende. Wir erheben nur, was ein Dienst für seine Aufgabe braucht.</p></div></li>
-      <li style="display:flex"><div class="tile" style="width:100%"><span class="icon">{{icon:eye}}</span><h3>Kein Tracking</h3><p>Grundsatz: Keine Tracker, keine Werbenetzwerke, keine Profile. Diese Website lebt das bereits vor und setzt keine Cookies.</p></div></li>
-      <li style="display:flex"><div class="tile" style="width:100%"><span class="icon">{{icon:layers}}</span><h3>Redundanz statt Hoffnung</h3><p>Grundsatz: Kritische Komponenten sind doppelt ausgelegt. Wir planen den Ausfall eines Bauteils ein, statt darauf zu hoffen, dass er nicht eintritt.</p></div></li>
-      <li style="display:flex"><div class="tile" style="width:100%"><span class="icon">{{icon:refresh}}</span><h3>Automatisierung &amp; Reproduzierbarkeit</h3><p>Grundsatz: Was sich beschreiben lässt, beschreiben wir als Code. Eine Umgebung muss sich aus ihrer Beschreibung neu aufbauen lassen, ohne Handarbeit und ohne Erinnerungslücken.</p></div></li>
-      <li style="display:flex"><div class="tile" style="width:100%"><span class="icon">{{icon:activity}}</span><h3>Transparenz &amp; Status</h3><p>Grundsatz: Wer auf unserer Infrastruktur läuft, soll den Zustand einsehen können. Der Systemstatus der VylarisGroup ist dafür der Anlaufpunkt.</p></div></li>
+      <li class="tile"><span class="icon">{{icon:server}}</span><h3>Eigene Hardware in Europa</h3><p>Wir wollen unsere Systeme selbst und in Europa betreiben. So bleibt klar, wo Daten liegen und wer Zugriff hat. Dienstleister, deren Zugriff wir nicht nachvollziehen können, wollen wir nicht einsetzen.</p></li>
+      <li class="tile"><span class="icon">{{icon:shield}}</span><h3>DSGVO by design</h3><p>Datenschutz ist eine Anforderung an die Architektur und kein Dokument, das am Ende entsteht. Wir erheben nur, was ein Dienst für seine Aufgabe braucht.</p></li>
+      <li class="tile"><span class="icon">{{icon:eye}}</span><h3>Kein Tracking</h3><p>Keine Tracker, keine Werbenetzwerke, keine Profile. Diese Website macht es bereits so vor, die Details stehen unter Datenschutz &amp; Compliance.</p></li>
+      <li class="tile"><span class="icon">{{icon:layers}}</span><h3>Redundanz statt Hoffnung</h3><p>Kritische Komponenten sollen doppelt ausgelegt sein. Wir planen den Ausfall eines Bauteils ein, statt zu hoffen, dass er nicht eintritt.</p></li>
+      <li class="tile"><span class="icon">{{icon:refresh}}</span><h3>Automatisierung &amp; Reproduzierbarkeit</h3><p>Was sich beschreiben lässt, beschreiben wir als Code. Eine Umgebung soll sich aus ihrer Beschreibung jederzeit neu aufbauen lassen.</p></li>
+      <li class="tile"><span class="icon">{{icon:activity}}</span><h3>Transparenz &amp; Status</h3><p>Wer Dienste auf unserer Infrastruktur betreibt, soll deren Zustand einsehen können. Dafür wollen wir den Systemstatus der VylarisGroup nutzen, sofern die Gruppe das vorsieht.</p></li>
     </ul>
   </div>
 </section>
@@ -114,13 +116,13 @@ nav: infrastruktur
     <div class="split">
       <div class="copy">
         <p class="eyebrow">Standort &amp; Datensouveränität</p>
-        <h2 class="h2" id="standort-h">Eigene Hardware in Europa.</h2>
+        <h2 class="h2" id="standort-h">Standorte in Europa, Daten unter eigener Kontrolle.</h2>
         <p>Das Fundament jeder Infrastruktur ist der Ort, an dem sie steht. Unser Zielbild: eigene Systeme an Standorten in Europa, betrieben unter europäischem Recht und unter unserer Kontrolle.</p>
-        <p>VylarisGroupEurope bietet ihre Dienste schon heute auf einer eigenen, DSGVO-konformen Infrastruktur in Europa an. VylarisData baut die technische Basis aus, auf der das Hosting der gesamten Gruppe stehen soll. Konkrete Standorte nennen wir erst, wenn sie produktiv sind.</p>
+        <p>VylarisData soll künftig das Hosting der VylarisGroup werden, die Infrastruktur dafür ist im Aufbau. Konkrete Standorte möchten wir erst nennen, wenn sie produktiv sind.</p>
         <ul class="checks">
-          <li><strong>Datensouveränität:</strong> Daten bleiben in Europa und in unserer Hand.</li>
-          <li><strong>Physische Kontrolle:</strong> Wer an die Hardware darf, ist geregelt und protokolliert (Ziel).</li>
-          <li><strong>Keine versteckten Dritten:</strong> Dienste laufen nicht über anonyme Cloud-Ketten.</li>
+          <li><strong>Datensouveränität:</strong> Daten sollen in Europa bleiben und unter unserer Kontrolle stehen.</li>
+          <li><strong>Physische Kontrolle:</strong> Wer an die Hardware darf, soll geregelt und protokolliert sein.</li>
+          <li><strong>Keine unklaren Dritten:</strong> Wir wollen benennen, wer an Betrieb und Datenverarbeitung beteiligt ist.</li>
         </ul>
       </div>
       <div class="visual soft">
@@ -128,7 +130,7 @@ nav: infrastruktur
         <ul class="dots">
           <li>Eigene Server statt gemieteter Plattformdienste</li>
           <li>Standorte ausschließlich in Europa</li>
-          <li>Mehrere Standorte für Ausfallsicherheit (geplant)</li>
+          <li>Mehrere Standorte für Ausfallsicherheit</li>
           <li>Klare Verantwortung für jede Maschine</li>
         </ul>
         <div class="chips">
@@ -148,16 +150,17 @@ nav: infrastruktur
       <div class="copy">
         <p class="eyebrow">Netzwerk &amp; Erreichbarkeit</p>
         <h2 class="h2" id="netzwerk-h">Erreichbar, getrennt, abgesichert.</h2>
-        <p>Ein Dienst ist nur so gut wie der Weg dorthin. Wir planen das Netzwerk so, dass öffentlicher Verkehr, interner Verkehr und Verwaltungszugänge nie auf demselben Weg laufen.</p>
-        <p>Dazu gehört eine Anbindung, die den Ausfall einer einzelnen Strecke verkraftet, und eine Edge-Schicht, die eingehenden Verkehr annimmt, prüft und weiterreicht. Zahlen zu Bandbreite und Anbindung nennen wir erst, wenn sie gemessen und belegbar sind.</p>
+        <p>Wir planen das Netzwerk so, dass öffentlicher Verkehr, interner Verkehr und Verwaltungszugänge nicht auf demselben Weg laufen.</p>
+        <p>Dazu gehört eine Anbindung, die den Ausfall einer einzelnen Strecke verkraften soll, und eine Edge-Schicht, die eingehenden Verkehr annimmt, prüft und weiterreicht. Zahlen zu Bandbreite und Anbindung möchten wir erst nennen, wenn sie gemessen und belegbar sind.</p>
         <ul class="checks">
-          <li><strong>Netzsegmentierung:</strong> Öffentlich, intern und Verwaltung sind getrennte Zonen.</li>
-          <li><strong>Redundante Anbindung:</strong> Mehr als ein Weg ins Netz (Ziel).</li>
-          <li><strong>Verschlüsselt:</strong> Verbindungen zu unseren Diensten laufen per TLS.</li>
+          <li><strong>Netzsegmentierung:</strong> Öffentlich, intern und Verwaltung sollen getrennte Zonen sein.</li>
+          <li><strong>Redundante Anbindung:</strong> Es soll mehr als einen Weg ins Netz geben.</li>
+          <li><strong>Verschlüsselt:</strong> Verbindungen zu unseren Diensten sollen ausschließlich per TLS laufen.</li>
         </ul>
       </div>
       <div class="visual">
         <div class="stack">
+          <p class="h4">Zielbild Weg des Verkehrs</p>
           <div class="layer">
             <div class="lname"><span class="icon">{{icon:globe}}</span>Öffentlich</div>
             <p class="ldesc">Eingehender Verkehr trifft zuerst auf die Edge.</p>
@@ -180,58 +183,47 @@ nav: infrastruktur
 
 <section class="section band" id="rechenschicht" aria-labelledby="rechen-h">
   <div class="wrap">
-    <div class="split">
-      <div class="copy">
-        <p class="eyebrow">Rechenschicht</p>
-        <h2 class="h2" id="rechen-h">Dienste sauber voneinander getrennt.</h2>
-        <p>Auf der Hardware liegt eine Rechenschicht aus Virtualisierung und Containern. Sie sorgt dafür, dass ein Dienst den anderen nicht stören kann und dass Ressourcen dort ankommen, wo sie gebraucht werden.</p>
-        <p>Unser Zielbild: Jeder Dienst bekommt seine eigene, klar begrenzte Umgebung. Fällt ein Rechenknoten aus, übernehmen andere. Wartung an einer Maschine soll nicht bedeuten, dass ein Dienst offline geht.</p>
-        <ul class="checks">
-          <li><strong>Isolation:</strong> Fehler und Lastspitzen bleiben in ihrer Umgebung.</li>
-          <li><strong>Ressourcengrenzen:</strong> Jeder Dienst hat definierte Obergrenzen.</li>
-          <li><strong>Wartbar im Betrieb:</strong> Updates und Austausch von Knoten ohne Stillstand (Ziel).</li>
-        </ul>
-      </div>
-      <div class="visual soft">
-        <p class="h4">Zwei Ebenen der Trennung</p>
-        <ul class="dots">
-          <li><strong class="strong">Virtualisierung</strong> trennt Dienste auf Ebene ganzer Systeme.</li>
-          <li><strong class="strong">Container</strong> trennen einzelne Anwendungen innerhalb eines Systems.</li>
-        </ul>
-        <div class="chips">
-          <span class="chip blue">Isolation</span>
-          <span class="chip">Ressourcengrenzen</span>
-          <span class="chip">Ausfalltoleranz</span>
-        </div>
-      </div>
+    <div class="max-3xl">
+      <p class="eyebrow">Rechenschicht</p>
+      <h2 class="h2" id="rechen-h">Dienste voneinander getrennt.</h2>
+      <p class="lead">Auf der Hardware soll eine Rechenschicht aus Virtualisierung und Containern liegen. Sie soll verhindern, dass ein Dienst andere Dienste stört, und Ressourcen dorthin lenken, wo sie gebraucht werden.</p>
+      <p class="lead">Unser Zielbild: Jeder Dienst bekommt seine eigene, klar begrenzte Umgebung. Fällt ein Rechenknoten aus, sollen andere übernehmen. Wartung an einer Maschine soll nicht bedeuten, dass ein Dienst offline geht.</p>
     </div>
+    <ul class="cards c3">
+      <li class="tile"><span class="icon">{{icon:cpu}}</span><h3>Virtualisierung</h3><p>Trennt Dienste auf Ebene ganzer Systeme.</p></li>
+      <li class="tile"><span class="icon">{{icon:box}}</span><h3>Container</h3><p>Trennen einzelne Anwendungen innerhalb eines Systems.</p></li>
+      <li class="tile"><span class="icon">{{icon:shield}}</span><h3>Isolation</h3><p>Fehler und Lastspitzen sollen in ihrer Umgebung bleiben.</p></li>
+      <li class="tile"><span class="icon">{{icon:zap}}</span><h3>Ressourcengrenzen</h3><p>Jeder Dienst soll definierte Obergrenzen haben.</p></li>
+      <li class="tile"><span class="icon">{{icon:layers}}</span><h3>Ausfalltoleranz</h3><p>Fällt ein Rechenknoten aus, sollen andere seine Aufgaben übernehmen.</p></li>
+      <li class="tile"><span class="icon">{{icon:refresh}}</span><h3>Wartbar im Betrieb</h3><p>Updates und der Austausch von Knoten sollen ohne Stillstand möglich sein.</p></li>
+    </ul>
   </div>
 </section>
 
 <section class="section" id="speicher" aria-labelledby="speicher-h">
   <div class="wrap">
-    <div class="split reverse">
+    <div class="split">
       <div class="copy">
-        <p class="eyebrow">Speicher &amp; Backups</p>
+        <p class="eyebrow">Speicher &amp; Backup</p>
         <h2 class="h2" id="speicher-h">Backups, die wiederherstellbar sind.</h2>
-        <p>Ein Backup zählt erst, wenn sich daraus wiederherstellen lässt. Unser Ziel für die Datensicherung folgt der 3-2-1-Regel: drei Kopien, auf zwei verschiedenen Medien, davon eine an einem anderen Standort.</p>
-        <p>Dazu kommen Redundanz im Speichersystem selbst und regelmäßige Wiederherstellungsproben. Aufbewahrungsfristen und Intervalle legen wir fest und veröffentlichen sie, sobald das Backup-Konzept produktiv ist.</p>
+        <p>Ein Backup zählt erst, wenn sich damit tatsächlich wiederherstellen lässt, was verloren ging. Wir wollen unsere Backups nach der 3-2-1-Regel ausrichten: drei Kopien auf zwei verschiedenen Medien, davon eine an einem anderen Standort.</p>
+        <p>Dazu sollen Redundanz im Speichersystem selbst und regelmäßige Wiederherstellungsproben kommen. Aufbewahrungsfristen und Intervalle möchten wir festlegen und veröffentlichen, sobald das Backup-Konzept produktiv ist.</p>
         <ul class="checks">
           <li><strong>3-2-1 als Ziel:</strong> Drei Kopien, zwei Medien, ein externer Standort.</li>
-          <li><strong>Wiederherstellung üben:</strong> Proben sind fester Teil des Betriebs.</li>
-          <li><strong>Verschlüsselte Sicherungen:</strong> Backups sind nur für Berechtigte lesbar.</li>
+          <li><strong>Wiederherstellung üben:</strong> Proben sollen fester Teil des Betriebs sein.</li>
+          <li><strong>Verschlüsselte Backups:</strong> Backups sollen verschlüsselt und nur für Berechtigte lesbar sein.</li>
         </ul>
       </div>
       <div class="visual">
-        <p class="h4" style="margin-bottom:1rem">Zielbild 3-2-1</p>
         <div class="stack">
+          <p class="h4">Zielbild 3-2-1</p>
           <div class="layer">
             <div class="lname"><span class="icon">{{icon:layers}}</span>3 Kopien</div>
-            <p class="ldesc">Produktivdaten plus zwei Sicherungskopien.</p>
+            <p class="ldesc">Produktivdaten plus zwei Backup-Kopien.</p>
           </div>
           <div class="layer">
             <div class="lname"><span class="icon">{{icon:hdd}}</span>2 Medien</div>
-            <p class="ldesc">Sicherungen auf unterschiedlichen Speicherarten.</p>
+            <p class="ldesc">Backups auf unterschiedlichen Speicherarten.</p>
           </div>
           <div class="layer hi">
             <div class="lname"><span class="icon">{{icon:pin}}</span>1 extern</div>
@@ -245,24 +237,24 @@ nav: infrastruktur
 
 <section class="section band" id="plattform" aria-labelledby="plattform-h">
   <div class="wrap">
-    <div class="split">
+    <div class="split reverse">
       <div class="copy">
         <p class="eyebrow">Plattform &amp; Deployment</p>
         <h2 class="h2" id="plattform-h">Infrastruktur als Code, Releases per Pipeline.</h2>
-        <p>Als Entwicklungsmarke der VylarisGroup behandeln wir Infrastruktur wie Software. Die Beschreibung einer Umgebung liegt als Code in der Versionsverwaltung. Sie wird geprüft, getestet und erst dann angewendet.</p>
-        <p>Unser Ziel ist eine CI/CD-Pipeline, die jede Änderung automatisch baut, prüft und ausrollt. Das macht Änderungen nachvollziehbar, wiederholbar und umkehrbar. Handarbeit auf Produktivsystemen soll die Ausnahme sein.</p>
+        <p>Als Marke im Geschäftsbereich Software Development &amp; Technology der VylarisGroup wollen wir Infrastruktur wie Software behandeln. Die Beschreibung einer Umgebung soll als Code in der Versionsverwaltung liegen und erst nach Prüfung und Test angewendet werden.</p>
+        <p>Unser Ziel ist eine CI/CD-Pipeline, die jede Änderung automatisch baut, prüft und ausrollt. Handarbeit auf Produktivsystemen soll die Ausnahme bleiben.</p>
         <ul class="checks">
-          <li><strong>Infrastructure as Code:</strong> Zustand und Änderungen stehen im Repository.</li>
-          <li><strong>CI/CD als Ziel:</strong> Bauen, Testen und Ausrollen laufen automatisch.</li>
-          <li><strong>Rollback:</strong> Jede Version lässt sich auf den Vorgänger zurücksetzen.</li>
+          <li><strong>Infrastruktur als Code:</strong> Zustand und Änderungen sollen im Repository stehen.</li>
+          <li><strong>CI/CD als Ziel:</strong> Bauen, Testen und Ausrollen sollen automatisch laufen.</li>
+          <li><strong>Rollback:</strong> Jede Version soll sich auf den Vorgänger zurücksetzen lassen.</li>
         </ul>
       </div>
       <div class="visual">
-        <p class="h4" style="margin-bottom:1rem">Weg einer Änderung (Zielbild)</p>
         <div class="stack">
+          <p class="h4">Weg einer Änderung (Zielbild)</p>
           <div class="layer">
             <div class="lname"><span class="icon">{{icon:code}}</span>Code</div>
-            <p class="ldesc">Änderung im Repository, geprüft durch ein zweites Augenpaar.</p>
+            <p class="ldesc">Änderung im Repository, die ein zweites Augenpaar prüfen soll.</p>
           </div>
           <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
           <div class="layer">
@@ -272,7 +264,7 @@ nav: infrastruktur
           <div class="layer-arrow" aria-hidden="true">{{icon:down}}</div>
           <div class="layer hi">
             <div class="lname"><span class="icon">{{icon:rocket}}</span>Ausrollen</div>
-            <p class="ldesc">Kontrollierter Rollout, bei Problemen Rücknahme.</p>
+            <p class="ldesc">Kontrollierter Rollout, bei Problemen mit Rücknahme.</p>
           </div>
         </div>
       </div>
@@ -282,18 +274,17 @@ nav: infrastruktur
 
 <section class="section" id="monitoring" aria-labelledby="monitoring-h">
   <div class="wrap">
-    <div class="split reverse">
+    <div class="split">
       <div class="copy">
         <p class="eyebrow">Monitoring &amp; Systemstatus</p>
         <h2 class="h2" id="monitoring-h">Sichtbar, was gerade läuft.</h2>
-        <p>Betrieb heißt beobachten. Wir wollen Messwerte, Protokolle und Alarme so verknüpfen, dass Auffälligkeiten früh sichtbar werden und klar ist, wer reagiert.</p>
-        <p>Nach außen soll der Zustand der Dienste nachvollziehbar sein. Der Systemstatus der VylarisGroup ist der Ort dafür. Was dort angezeigt wird, entscheidet die Gruppe. Wir bauen auf das Prinzip: lieber eine Störung offen benennen als sie verschweigen.</p>
+        <p>Wir wollen Messwerte, Protokolle und Alarme so verknüpfen, dass Auffälligkeiten früh sichtbar werden und klar ist, wer reagiert.</p>
+        <p>Den Zustand der Dienste wollen wir künftig über den Systemstatus der VylarisGroup (vylaris.eu/status) sichtbar machen, sofern die Gruppe das vorsieht. Was dort angezeigt wird, entscheidet die Gruppe. Wir folgen dem Prinzip, Störungen offen zu benennen, statt sie zu verschweigen.</p>
         <ul class="checks">
-          <li><strong>Metriken und Logs:</strong> Zustand aller Schichten an einer Stelle (Ziel).</li>
-          <li><strong>Alarme mit Zuständigkeit:</strong> Jede Meldung hat eine klare Adresse.</li>
-          <li><strong>Offene Kommunikation:</strong> Störungen werden benannt, nicht versteckt.</li>
+          <li><strong>Metriken und Logs:</strong> Der Zustand aller Schichten soll an einer Stelle sichtbar sein.</li>
+          <li><strong>Alarme mit Zuständigkeit:</strong> Jede Meldung soll eine klare Adresse haben.</li>
         </ul>
-        <p style="margin-top:1.5rem"><a class="btn btn-secondary" href="https://vylaris.eu/status" target="_blank" rel="noopener noreferrer">Systemstatus ansehen{{icon:ext}}<span class="sr-only">(öffnet in neuem Tab)</span></a></p>
+        <p><a class="btn btn-secondary" href="https://vylaris.eu/status" target="_blank" rel="noopener noreferrer">Systemstatus der VylarisGroup{{icon:ext}}<span class="sr-only"> (öffnet in neuem Tab)</span></a></p>
       </div>
       <div class="visual soft">
         <p class="h4">Was wir beobachten wollen</p>
@@ -316,28 +307,17 @@ nav: infrastruktur
 
 <section class="section band" id="sicherheit" aria-labelledby="sicherheit-h">
   <div class="wrap">
-    <div class="split">
-      <div class="copy">
-        <p class="eyebrow">Sicherheit</p>
-        <h2 class="h2" id="sicherheit-h">Mehrere Schichten, kein einzelnes Schloss.</h2>
-        <p>Wir folgen dem Grundsatz Defense in Depth: Fällt eine Schutzmaßnahme aus, fängt die nächste den Fehler auf. Sicherheit gilt deshalb in jeder Schicht, vom Rack bis zur Anwendung.</p>
-        <p>Wer auf Systeme zugreift, braucht dafür einen Grund und die minimal nötigen Rechte. Daten werden bei der Übertragung und, wo sinnvoll, auch im Ruhezustand verschlüsselt. Software wird zeitnah aktualisiert.</p>
-        <ul class="checks">
-          <li><strong>Defense in Depth:</strong> Mehrere unabhängige Schutzebenen.</li>
-          <li><strong>Zugriffe:</strong> Minimale Rechte, starke Authentifizierung, Nachvollziehbarkeit.</li>
-          <li><strong>Verschlüsselung:</strong> Auf dem Transportweg und, wo sinnvoll, im Ruhezustand.</li>
-          <li><strong>Updates:</strong> Sicherheitsupdates haben im Betrieb Vorrang.</li>
-        </ul>
-      </div>
-      <div class="visual">
-        <ul class="cards c2" style="margin-top:0;gap:1rem">
-          <li style="display:flex"><div class="tile soft" style="width:100%;padding:1.25rem"><span class="icon">{{icon:key}}</span><h3 class="h4">Zugriff</h3><p>Minimale Rechte, nachvollziehbare Anmeldungen.</p></div></li>
-          <li style="display:flex"><div class="tile soft" style="width:100%;padding:1.25rem"><span class="icon">{{icon:lock}}</span><h3 class="h4">Verschlüsselung</h3><p>Schutz auf dem Weg und am Speicherort.</p></div></li>
-          <li style="display:flex"><div class="tile soft" style="width:100%;padding:1.25rem"><span class="icon">{{icon:refresh}}</span><h3 class="h4">Updates</h3><p>Zeitnah einspielen, regelmäßig prüfen.</p></div></li>
-          <li style="display:flex"><div class="tile soft" style="width:100%;padding:1.25rem"><span class="icon">{{icon:shield}}</span><h3 class="h4">Härtung</h3><p>Nur das aktivieren, was ein Dienst braucht.</p></div></li>
-        </ul>
-      </div>
+    <div class="max-3xl">
+      <p class="eyebrow">Sicherheit</p>
+      <h2 class="h2" id="sicherheit-h">Mehrere Schichten, kein einzelnes Schloss.</h2>
+      <p class="lead">Wir folgen dem Grundsatz Defense in Depth, also gestaffelter Verteidigung: Fällt eine Schutzmaßnahme aus, soll die nächste den Fehler auffangen. Sicherheit soll deshalb in jeder Schicht gelten, vom Rack bis zur Anwendung.</p>
     </div>
+    <ul class="cards c4">
+      <li class="tile"><span class="icon">{{icon:key}}</span><h3>Zugriff</h3><p>Wer auf Systeme zugreift, soll dafür einen Grund und nur die minimal nötigen Rechte haben, mit starker Authentifizierung und nachvollziehbaren Anmeldungen.</p></li>
+      <li class="tile"><span class="icon">{{icon:lock}}</span><h3>Verschlüsselung</h3><p>Daten sollen bei der Übertragung und, soweit technisch möglich, auch im Ruhezustand verschlüsselt werden.</p></li>
+      <li class="tile"><span class="icon">{{icon:refresh}}</span><h3>Updates</h3><p>Sicherheitsupdates sollen im Betrieb Vorrang haben und zeitnah eingespielt werden.</p></li>
+      <li class="tile"><span class="icon">{{icon:shield}}</span><h3>Härtung</h3><p>Auf Systemen soll nur aktiv sein, was ein Dienst braucht.</p></li>
+    </ul>
   </div>
 </section>
 
@@ -346,15 +326,14 @@ nav: infrastruktur
     <div class="split reverse">
       <div class="copy">
         <p class="eyebrow">Datenschutz &amp; Compliance</p>
-        <h2 class="h2" id="datenschutz-h">Datensparsam, weil es technisch so gebaut ist.</h2>
-        <p>Datenschutz fängt bei der Architektur an. Wo kein Tracking existiert, muss auch nichts nachträglich abgeschaltet werden. Diese Website setzt keine Cookies und lädt Schriften und Skripte von derselben Domain. Für die Infrastruktur gilt derselbe Anspruch.</p>
-        <p>VylarisGroupEurope bietet ihre Dienste ohne Tracking und auf eigener, DSGVO-konformer Infrastruktur in Europa an. VylarisData baut die technische Basis aus, die das künftig für die ganze Gruppe tragen soll. Zertifizierungen führen wir erst auf, wenn sie tatsächlich vorliegen.</p>
+        <h2 class="h2" id="datenschutz-h">Datensparsam durch Architektur.</h2>
+        <p>Datenschutz fängt bei der Architektur an. Wo kein Tracking existiert, muss auch nichts nachträglich abgeschaltet werden. Für die Infrastruktur soll derselbe Anspruch gelten wie für diese Website, die im Kasten daneben beschrieben ist.</p>
+        <p>Zertifizierungen führen wir erst auf, wenn sie tatsächlich vorliegen.</p>
         <ul class="checks">
-          <li><strong>Datensparsamkeit:</strong> Nur erheben, was ein Dienst braucht.</li>
-          <li><strong>Kein Tracking:</strong> Keine Cookies und keine Analyse-Skripte auf dieser Website.</li>
-          <li><strong>Europäischer Rahmen:</strong> Betrieb in Europa, DSGVO als Maßstab.</li>
+          <li><strong>Datensparsamkeit:</strong> Es sollen nur Daten erhoben werden, die ein Dienst braucht.</li>
+          <li><strong>Europäischer Rahmen:</strong> Der geplante Betrieb findet in Europa statt, die DSGVO ist der Maßstab.</li>
         </ul>
-        <p style="margin-top:1.5rem"><a class="btn btn-secondary" href="datenschutz.html">Zur Datenschutzerklärung{{arrow}}</a></p>
+        <p><a class="btn btn-secondary" href="datenschutz.html">Zur Datenschutzerklärung{{arrow}}</a></p>
       </div>
       <div class="visual soft">
         <p class="h4">Auf dieser Website</p>
@@ -362,7 +341,7 @@ nav: infrastruktur
           <li>Keine Cookies</li>
           <li>Kein Tracking</li>
           <li>Schriften und Skripte von derselben Domain</li>
-          <li>Hell-, Dunkel- und Systemdarstellung, lokal im Browser gespeichert</li>
+          <li>Hell-, Dunkel- und Systemdarstellung; deine Auswahl bleibt nur lokal in deinem Browser gespeichert</li>
         </ul>
       </div>
     </div>
@@ -371,56 +350,74 @@ nav: infrastruktur
 
 <section class="section band" id="dienste" aria-labelledby="dienste-h">
   <div class="wrap">
-    <div style="max-width:44rem">
-      <p class="eyebrow" style="margin-bottom:.75rem">Dienste</p>
-      <h2 class="h2" id="dienste-h">Welche Dienste darauf laufen sollen.</h2>
-      <p class="lead">Die Infrastruktur ist kein Selbstzweck. Sie trägt die Dienste der VylarisGroup, allen voran die von VylarisGroupEurope.</p>
+    <div class="max-3xl">
+      <p class="eyebrow">Ökosystem</p>
+      <h2 class="h2" id="dienste-h">Dienste der VylarisGroup.</h2>
+      <p class="lead">Diese Dienste gehören zum Ökosystem, in dem VylarisData künftig das Hosting übernehmen soll. Sie sind hier als Kontext aufgeführt. Eine Zusage, dass sie auf die Infrastruktur von VylarisData wechseln, ist damit nicht verbunden.</p>
     </div>
     <ul class="cards c3">
-      <li style="display:flex"><div class="tile feature soft" style="width:100%">
-        <div class="card-head" style="margin-bottom:1.25rem"><span class="icon" style="margin:0">{{icon:cloud}}</span><span class="status info"><i></i>Coming Soon</span></div>
+      <li class="tile feature soft">
+        <span class="icon">{{icon:cloud}}</span>
         <h3>VylarisSpace</h3>
-        <p>Das Hosting-Panel für Websites, E-Mail und Datenbanken, betrieben auf eigener Hardware in Europa. VylarisSpace ist als Coming Soon angekündigt.</p>
-        <a class="more" href="https://vylaris.eu/services" target="_blank" rel="noopener noreferrer">Zu den Diensten{{icon:ext}}<span class="sr-only">(öffnet in neuem Tab)</span></a>
-      </div></li>
-      <li style="display:flex"><div class="tile feature" style="width:100%">
-        <div class="card-head" style="margin-bottom:1.25rem"><span class="icon" style="margin:0">{{icon:heart}}</span><span class="tag">VylarisGroupEurope</span></div>
-        <h3>Freie SaaS-Dienste</h3>
-        <p>VylarisGroupEurope bietet kostenlose Open-Source-SaaS-Dienste auf eigener, DSGVO-konformer Infrastruktur in Europa an, ohne Tracking und mit der 0-EUR-Paywall-Garantie.</p>
-        <a class="more" href="https://vylaris.eu/services" target="_blank" rel="noopener noreferrer">vylaris.eu/services{{icon:ext}}<span class="sr-only">(öffnet in neuem Tab)</span></a>
-      </div></li>
-      <li style="display:flex"><div class="tile feature" style="width:100%">
-        <div class="card-head" style="margin-bottom:1.25rem"><span class="icon" style="margin:0">{{icon:code}}</span><span class="status warn"><i></i>Zielbild</span></div>
+        <div class="chips"><span class="status info"><i></i>Demnächst</span></div>
+        <p>Das geplante Hosting-Panel für Websites, E-Mail und Datenbanken. Es soll auf eigener Hardware in Europa laufen.</p>
+        <a class="more" href="https://vylaris.eu/services" target="_blank" rel="noopener noreferrer">Zu den Diensten{{icon:ext}}<span class="sr-only"> (öffnet in neuem Tab)</span></a>
+      </li>
+      <li class="tile feature">
+        <span class="icon">{{icon:heart}}</span>
+        <h3>Kostenlose Open-Source-Dienste</h3>
+        <div class="chips"><span class="tag">VylarisGroupEurope</span></div>
+        <p>VylarisGroupEurope bietet kostenlose Open-Source-SaaS-Dienste auf ihrer eigenen, DSGVO-konformen Infrastruktur in Europa an, ohne Tracking und mit der Paywall-Garantie (0 EUR).</p>
+        <a class="more" href="https://vylaris.eu/services" target="_blank" rel="noopener noreferrer">vylaris.eu/services{{icon:ext}}<span class="sr-only"> (öffnet in neuem Tab)</span></a>
+      </li>
+      <li class="tile feature">
+        <span class="icon">{{icon:code}}</span>
         <h3>Eigenentwicklungen</h3>
-        <p>Software und Werkzeuge, die wir als Software Development &amp; Technology der VylarisGroup entwickeln, sollen auf derselben Basis laufen, auf der sie entstehen.</p>
+        <div class="chips"><span class="status warn"><i></i>Zielbild</span></div>
+        <p>Eigene Software und Werkzeuge sollen im Geschäftsbereich Software Development &amp; Technology entstehen und auf derselben Basis laufen.</p>
         <a class="more" href="leistungen.html">Unsere Leistungen{{arrow}}</a>
-      </div></li>
+      </li>
     </ul>
   </div>
 </section>
 
 <section class="section" id="ausbaustufen" aria-labelledby="ausbau-h">
   <div class="wrap">
-    <div style="max-width:44rem">
-      <p class="eyebrow" style="margin-bottom:.75rem">Ausbaustufen</p>
-      <h2 class="h2" id="ausbau-h">In drei Schritten zum Betrieb.</h2>
-      <p class="lead">Wir bauen nicht alles auf einmal. Jede Stufe muss tragen, bevor die nächste beginnt.</p>
-    </div>
-    <div class="timeline max-4xl">
-      <div class="tl-item">
-        <span class="status warn"><i></i>In Arbeit</span>
-        <h3>Fundament</h3>
-        <p>Architektur, Server-Infrastruktur und Betriebsprozesse werden aufgebaut und abgesichert. Hier entscheiden wir Standorte, Netzwerkdesign, Speicherkonzept und die Pipeline, auf der später alles ruht.</p>
+    <div class="split">
+      <div>
+        <p class="eyebrow">Ausbaustufen</p>
+        <h2 class="h2" id="ausbau-h">In drei Stufen zum Betrieb.</h2>
+        <p class="lead">Wir bauen nicht alles auf einmal. Die Stufen zeigen eine mögliche Reihenfolge als Zielbild: Jede Stufe soll tragen, bevor die nächste beginnt.</p>
+        <div class="timeline">
+          <div class="tl-item">
+            <span class="status warn"><i></i>Im Aufbau</span>
+            <h3>Fundament</h3>
+            <p>Wir bauen Architektur, Server und Betriebsprozesse auf und sichern sie ab. In dieser Stufe wollen wir Standorte, Netzwerkdesign und Speicherkonzept festlegen und die Pipeline einrichten, auf der später Dienste laufen sollen.</p>
+          </div>
+          <div class="tl-item">
+            <span class="status info"><i></i>Geplant</span>
+            <h3>Migration</h3>
+            <p>Wenn Dienste der VylarisGroup auf die neue Infrastruktur wechseln, soll das kontrolliert und in kleinen Schritten geschehen.</p>
+          </div>
+          <div class="tl-item">
+            <span class="status info"><i></i>Geplant</span>
+            <h3>Betrieb &amp; Ausbau</h3>
+            <p>Ziel ist, die Plattform zu betreiben, zu überwachen und weiterzuentwickeln. Neue Dienste sollen hinzukommen, bestehende verbessert werden.</p>
+          </div>
+        </div>
       </div>
-      <div class="tl-item">
-        <span class="status info"><i></i>Geplant</span>
-        <h3>Migration</h3>
-        <p>Dienste der VylarisGroup ziehen kontrolliert auf die neue Infrastruktur um, Schritt für Schritt und mit Rückweg. Zuerst das, was sich gut testen lässt, danach die Dienste, an denen mehr hängt.</p>
-      </div>
-      <div class="tl-item">
-        <span class="status info"><i></i>Geplant</span>
-        <h3>Betrieb &amp; Ausbau</h3>
-        <p>Laufender Betrieb, Monitoring und kontinuierliche Weiterentwicklung der Plattform. Neue Dienste kommen hinzu, bestehende werden verbessert, und der Systemstatus zeigt den Zustand offen.</p>
+      <div class="visual soft">
+        <p class="h4">Leitplanken</p>
+        <ul class="dots">
+          <li>Keine festen Termine</li>
+          <li>Reihenfolge und Inhalte sind ein Zielbild und keine Zusage</li>
+          <li>Jede Stufe soll tragen, bevor die nächste beginnt</li>
+          <li>Schritte sollen sich rückgängig machen lassen</li>
+        </ul>
+        <div class="chips">
+          <span class="chip blue">Im Aufbau</span>
+          <span class="chip">Geplant</span>
+        </div>
       </div>
     </div>
   </div>
@@ -428,23 +425,23 @@ nav: infrastruktur
 
 <section class="section band" id="veroeffentlichung" aria-labelledby="veroeff-h">
   <div class="wrap">
-    <div style="max-width:44rem">
-      <p class="eyebrow" style="margin-bottom:.75rem">Transparenz</p>
-      <h2 class="h2" id="veroeff-h">Was wir veröffentlichen, sobald die Systeme produktiv sind.</h2>
-      <p class="lead">Wir nennen keine Zahlen, die wir nicht belegen können. Diese Angaben folgen, sobald sie stimmen und gemessen werden können.</p>
+    <div class="max-3xl">
+      <p class="eyebrow">Angekündigte Angaben</p>
+      <h2 class="h2" id="veroeff-h">Das möchten wir mit dem Start veröffentlichen.</h2>
+      <p class="lead">Wir nennen nur Zahlen, die wir belegen können. Alle Angaben in der Tabelle sind geplant und folgen, sobald die Systeme produktiv sind und gemessen werden.</p>
     </div>
     <div class="table-wrap">
       <table class="spec">
         <thead>
-          <tr><th scope="col">Kategorie</th><th scope="col">Was dort stehen wird</th><th scope="col">Status</th></tr>
+          <tr><th scope="col">Kategorie</th><th scope="col">Was dort stehen soll</th></tr>
         </thead>
         <tbody>
-          <tr><th scope="row">Standorte</th><td>Wo unsere Systeme in Europa stehen und wie die Standorte zusammenspielen.</td><td><span class="status info"><i></i>Folgt</span></td></tr>
-          <tr><th scope="row">Netzwerkanbindung</th><td>Wie die Standorte angebunden sind und wie Verkehr getrennt wird.</td><td><span class="status info"><i></i>Folgt</span></td></tr>
-          <tr><th scope="row">Hardware-Klassen</th><td>Welche Klassen von Servern und Speichersystemen im Einsatz sind.</td><td><span class="status info"><i></i>Folgt</span></td></tr>
-          <tr><th scope="row">Backup-Konzept</th><td>Intervalle, Aufbewahrung, Standorte und Ergebnisse der Wiederherstellungsproben.</td><td><span class="status info"><i></i>Folgt</span></td></tr>
-          <tr><th scope="row">Verfügbarkeitsziele</th><td>Welche Ziele wir uns setzen und wie wir sie messen und offenlegen.</td><td><span class="status info"><i></i>Folgt</span></td></tr>
-          <tr><th scope="row">Sicherheitskonzept</th><td>Zugriffsmodell, Verschlüsselung, Update-Prozess und der Umgang mit Sicherheitsmeldungen.</td><td><span class="status info"><i></i>Folgt</span></td></tr>
+          <tr><th scope="row">Standorte</th><td>Wo unsere Systeme in Europa stehen und wie die Standorte zusammenspielen.</td></tr>
+          <tr><th scope="row">Netzwerk-Anbindung</th><td>Wie die Standorte angebunden sind und wie Verkehr getrennt wird.</td></tr>
+          <tr><th scope="row">Hardware-Klassen</th><td>Welche Klassen von Servern und Speichersystemen im Einsatz sind.</td></tr>
+          <tr><th scope="row">Backup-Konzept</th><td>Intervalle, Aufbewahrung, Standorte und Ergebnisse der Proben zur Wiederherstellung.</td></tr>
+          <tr><th scope="row">Ziele zur Verfügbarkeit</th><td>Welche Ziele wir uns setzen und wie wir sie messen. Die Ziele sind unverbindlich.</td></tr>
+          <tr><th scope="row">Sicherheitskonzept</th><td>Zugriffsmodell, Verschlüsselung, Update-Prozess und der Umgang mit Meldungen zur Sicherheit.</td></tr>
         </tbody>
       </table>
     </div>
@@ -453,57 +450,66 @@ nav: infrastruktur
 
 <section class="section" id="faq" aria-labelledby="faq-h">
   <div class="wrap">
-    <div style="max-width:44rem">
-      <p class="eyebrow" style="margin-bottom:.75rem">Häufige Fragen</p>
-      <h2 class="h2" id="faq-h">Antworten, auch wenn sie „noch nicht“ lauten.</h2>
+    <div class="split">
+      <div>
+        <p class="eyebrow">Häufige Fragen</p>
+        <h2 class="h2" id="faq-h">Antworten, auch wenn sie „noch nicht“ lauten.</h2>
+        <div class="faq">
+          <details>
+            <summary>Wann geht das Hosting live?</summary>
+            <div class="ans"><p>Einen Termin nennen wir bewusst nicht. Die Infrastruktur ist im Aufbau, die Stufen Migration sowie Betrieb und Ausbau sind geplant. Sobald es etwas Belastbares zu sagen gibt, wollen wir es hier nennen.</p></div>
+          </details>
+          <details>
+            <summary>Wo liegen meine Daten?</summary>
+            <div class="ans"><p>Unser Ziel ist Betrieb auf eigener Hardware in Europa. Konkrete Standorte möchten wir erst nennen, wenn sie produktiv sind. VylarisGroupEurope bietet ihre Dienste auf eigener, DSGVO-konformer Infrastruktur in Europa an.</p></div>
+          </details>
+          <details>
+            <summary>Gibt es Tracking?</summary>
+            <div class="ans"><p>Nein. Diese Website setzt keine Cookies und bindet keine Tracker ein. Auch VylarisGroupEurope bietet ihre Dienste ohne Tracking an. Für die Infrastruktur gilt dasselbe als Grundsatz.</p></div>
+          </details>
+          <details>
+            <summary>Wo finde ich den Systemstatus der VylarisGroup?</summary>
+            <div class="ans"><p>Unter <a class="link" href="https://vylaris.eu/status" target="_blank" rel="noopener noreferrer">vylaris.eu/status</a><span class="sr-only"> (öffnet in neuem Tab)</span>. VylarisData ist noch im Aufbau, einen eigenen Status für unsere Infrastruktur gibt es deshalb noch nicht.</p></div>
+          </details>
+          <details>
+            <summary>Kann ich schon bei euch hosten?</summary>
+            <div class="ans"><p>Noch nicht. VylarisData wird künftig das Hosting der VylarisGroup übernehmen. Ein Angebot für Kundinnen und Kunden gibt es heute noch nicht. VylarisSpace, das geplante Hosting-Panel für Websites, E-Mail und Datenbanken, ist angekündigt.</p></div>
+          </details>
+          <details>
+            <summary>Ist alles Open Source?</summary>
+            <div class="ans"><p>Das lässt sich pauschal nicht sagen. VylarisGroupEurope setzt auf Open Source und Eigenentwicklung und bietet kostenlose Open-Source-SaaS-Dienste an. Welche Teile der Infrastruktur offengelegt werden, entscheiden wir, sobald die Systeme produktiv sind.</p></div>
+          </details>
+          <details>
+            <summary>Was kostet das?</summary>
+            <div class="ans"><p>Dazu nennen wir keine Preise. Für die kostenlosen Dienste von VylarisGroupEurope gilt die Paywall-Garantie (0 EUR). Für das künftige Hosting gibt es noch kein Angebot.</p></div>
+          </details>
+          <details>
+            <summary>Wie erreiche ich euch?</summary>
+            <div class="ans"><p>Über die Kontaktseite der VylarisGroup unter <a class="link" href="https://vylaris.eu/contact" target="_blank" rel="noopener noreferrer">vylaris.eu/contact</a><span class="sr-only"> (öffnet in neuem Tab)</span>. Dort laufen Kontakt und Tickets zusammen. Mehr zu unserer Rolle findest du unter <a class="link" href="ueber-uns.html">Über uns</a>.</p></div>
+          </details>
+        </div>
+      </div>
+      <div class="visual">
+        <p class="h4">Direkt zu den Seiten der VylarisGroup</p>
+        <ul class="dots">
+          <li><a class="link" href="https://vylaris.eu/status" target="_blank" rel="noopener noreferrer">Systemstatus der VylarisGroup</a><span class="sr-only"> (öffnet in neuem Tab)</span></li>
+          <li><a class="link" href="https://vylaris.eu/contact" target="_blank" rel="noopener noreferrer">Kontakt &amp; Tickets</a><span class="sr-only"> (öffnet in neuem Tab)</span></li>
+          <li><a class="link" href="https://vylaris.eu/services" target="_blank" rel="noopener noreferrer">Dienste von VylarisGroupEurope</a><span class="sr-only"> (öffnet in neuem Tab)</span></li>
+          <li><a class="link" href="oekosystem.html">Ökosystem der VylarisGroup</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="faq">
-      <details>
-        <summary>Wann geht das Hosting live?</summary>
-        <div class="ans"><p>Einen Termin nennen wir bewusst nicht. Die Infrastruktur ist im Aufbau, die Stufen Migration sowie Betrieb und Ausbau sind geplant. Sobald es etwas Belastbares zu sagen gibt, steht es hier und im Systemstatus der VylarisGroup.</p></div>
-      </details>
-      <details>
-        <summary>Wo liegen meine Daten?</summary>
-        <div class="ans"><p>Unser Ziel ist Betrieb auf eigener Hardware in Europa. Konkrete Standorte nennen wir erst, wenn sie produktiv sind. Die Dienste von VylarisGroupEurope laufen bereits auf eigener, DSGVO-konformer Infrastruktur in Europa.</p></div>
-      </details>
-      <details>
-        <summary>Gibt es Tracking?</summary>
-        <div class="ans"><p>Nein. Diese Website setzt keine Cookies und bindet keine Tracker ein. Auch die Dienste von VylarisGroupEurope arbeiten ohne Tracking. Dasselbe gilt als Grundsatz für die Infrastruktur.</p></div>
-      </details>
-      <details>
-        <summary>Wie erfahre ich den aktuellen Status?</summary>
-        <div class="ans"><p>Über den Systemstatus der VylarisGroup unter <a class="link" href="https://vylaris.eu/status" target="_blank" rel="noopener noreferrer">vylaris.eu/status</a><span class="sr-only">(öffnet in neuem Tab)</span>.</p></div>
-      </details>
-      <details>
-        <summary>Kann ich schon bei euch hosten?</summary>
-        <div class="ans"><p>Noch nicht. VylarisData wird zukünftig das Hosting der VylarisGroup, ein Angebot für Kundinnen und Kunden ist heute nicht live. VylarisSpace, das Hosting-Panel für Websites, E-Mail und Datenbanken, ist als Coming Soon angekündigt.</p></div>
-      </details>
-      <details>
-        <summary>Ist alles Open Source?</summary>
-        <div class="ans"><p>Das lässt sich pauschal nicht sagen. VylarisGroupEurope setzt auf Open Source und Eigenentwicklung und bietet freie Open-Source-SaaS-Dienste an. Welche Teile der Infrastruktur offengelegt werden, entscheiden wir, sobald die Systeme produktiv sind.</p></div>
-      </details>
-      <details>
-        <summary>Was kostet das?</summary>
-        <div class="ans"><p>Dazu nennen wir keine Preise. Für die freien Dienste von VylarisGroupEurope gilt die 0-EUR-Paywall-Garantie. Für das künftige Hosting gibt es noch kein Angebot.</p></div>
-      </details>
-      <details>
-        <summary>Wie erreiche ich euch?</summary>
-        <div class="ans"><p>Über die Kontaktseite der VylarisGroup unter <a class="link" href="https://vylaris.eu/contact" target="_blank" rel="noopener noreferrer">vylaris.eu/contact</a><span class="sr-only">(öffnet in neuem Tab)</span>. Dort laufen Kontakt und Tickets zusammen. Mehr zu unserer Rolle findest du unter <a class="link" href="ueber-uns.html">Über uns</a>.</p></div>
-      </details>
-    </div>
-  </div>
-</section>
 
-<section class="section" id="kontakt" aria-labelledby="cta-h">
-  <div class="wrap">
-    <div class="cta">
-      <div class="glow" aria-hidden="true"></div>
-      <div class="in">
-        <h2 class="h2" id="cta-h">Fragen zur <span class="text-gradient">Infrastruktur</span>?</h2>
-        <p>Du möchtest wissen, wie weit wir sind, oder hast ein Vorhaben, das später auf unserer Infrastruktur laufen könnte? Über die VylarisGroup erreichst du uns direkt.</p>
-        <div class="btns">
-          <a class="btn btn-primary btn-lg" href="https://vylaris.eu/contact" target="_blank" rel="noopener noreferrer">{{icon:mail}}Kontakt aufnehmen<span class="sr-only">(öffnet in neuem Tab)</span></a>
-          <a class="btn btn-secondary btn-lg" href="oekosystem.html">Zum Ökosystem</a>
+    <div class="cards" id="kontakt">
+      <div class="cta">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="in">
+          <h2 class="h2" id="cta-h">Fragen zur <span class="text-gradient">Infrastruktur</span>?</h2>
+          <p>Du möchtest wissen, wie weit wir sind, oder hast ein Vorhaben, das später auf unserer Infrastruktur laufen könnte? Melde dich über die Kontaktseite der VylarisGroup (Kontakt &amp; Tickets).</p>
+          <div class="btns">
+            <a class="btn btn-primary btn-lg" href="https://vylaris.eu/contact" target="_blank" rel="noopener noreferrer">Kontakt aufnehmen{{icon:ext}}<span class="sr-only"> (öffnet in neuem Tab)</span></a>
+            <a class="btn btn-secondary btn-lg" href="oekosystem.html">Zum Ökosystem</a>
+          </div>
         </div>
       </div>
     </div>
