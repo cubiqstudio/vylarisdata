@@ -32,7 +32,6 @@ export const homeMeta = {
 /* Hero */
 
 export const hero: HeroContent = {
-  pill: "Teil der VylarisGroup · Infrastruktur im Betrieb, Speicher im Aufbau",
   title: "VylarisData – eigene Server-Infrastruktur",
   tagline: site.tagline,
   tri: site.tri,

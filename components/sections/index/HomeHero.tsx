@@ -9,7 +9,6 @@ export type HeroAction = {
 };
 
 export type HeroContent = {
-  pill: string;
   title: string;
   tagline: string;
   tri: string;
@@ -25,15 +24,11 @@ type HomeHeroProps = HeroContent & {
 };
 
 /** Startseiten-Hero mit eigener h1 und animierter Grafik. */
-export function HomeHero({ pill, title, tagline, tri, sub, stats, actions, art }: HomeHeroProps) {
+export function HomeHero({ title, tagline, tri, sub, stats, actions, art }: HomeHeroProps) {
   return (
     <section className="hero" id="start">
       <div className="wrap">
         <div className="hero-inner fade-up">
-          <span className="pill-top">
-            <i />
-            {pill}
-          </span>
           <h1>{title}</h1>
           <p className="tagline" lang="en">
             {tagline}
