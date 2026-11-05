@@ -103,7 +103,7 @@ export const facts: readonly FactItem[] = [
   {
     icon: "server",
     value: "10 Server",
-    label: "Insgesamt zehn Server.",
+    label: "Insgesamt zehn Server im Betrieb. Intern laufen eigene Server, außerhalb ganz normale Server.",
   },
   {
     icon: "db",
@@ -113,7 +113,7 @@ export const facts: readonly FactItem[] = [
   {
     icon: "network",
     value: "Eigenes Subnetz",
-    label: "Ein eigenes IP-Subnetz und ein Server, der unsere Internetanbindung regelt.",
+    label: "Ein eigenes IP-Subnetz und ein Network-Server, der unsere Internetanbindung regelt.",
   },
   {
     icon: "refresh",
@@ -176,7 +176,7 @@ export const foundation: readonly Responsibility[] = [
     name: "Server",
     status: { tone: "ok", label: "Im Betrieb" },
     brand: "10 Server insgesamt",
-    text: "Zehn Server auf eigener Hardware, die wir selbst betreiben.",
+    text: "Intern laufen eigene Server, die Server außerhalb sind ganz normale Server.",
     highlight: true,
   },
   {
@@ -200,7 +200,7 @@ export const foundation: readonly Responsibility[] = [
     name: "Netzwerk",
     status: { tone: "ok", label: "Im Betrieb" },
     brand: "Eigenes IP-Subnetz",
-    text: "Ein Server regelt unsere Internetanbindung.",
+    text: "Ein Network-Server regelt unsere Internetanbindung.",
   },
   {
     icon: "globe",
@@ -224,13 +224,13 @@ export const foundationLink = { href: "/infrastruktur/", label: "Alle Details au
 /* --------------------------------------------------------------------- Speicher */
 
 export const storageParagraphs: readonly string[] = [
-  "Aktuell sind 250 TB SSD im Betrieb. Der Rest des Speichers ist im Aufbau: vier Server mit je 120 TB SSD (zusammen 480 TB) und ein Server mit knapp 500 TB HDD.",
+  "Aktuell sind 250 TB SSD im Betrieb. Der Rest des Speichers ist im Aufbau: vier Storage-Server mit je 120 TB SSD (zusammen 480 TB) und ein Storage-Server mit knapp 500 TB HDD.",
   "Das Ausbauziel sind knapp 1 Petabyte Rohkapazität. Wir sagen bewusst Rohkapazität: Die Zahl gilt vor Redundanz und ist keine Aussage darüber, wie viel davon nutzbar ist.",
 ];
 
 export const storageRows: readonly (readonly [string, string])[] = [
   ["SSD im Betrieb", "250 TB"],
-  ["Im Aufbau", "SSD-Ausbau auf 4 × 120 TB (480 TB) und 1 Server mit knapp 500 TB HDD"],
+  ["Im Aufbau", "SSD-Ausbau auf 4 × 120 TB (480 TB) und 1 Storage-Server mit knapp 500 TB HDD"],
   ["Ausbauziel gesamt (SSD und HDD)", "knapp 1 PB Rohkapazität, vor Redundanz"],
 ];
 
@@ -520,8 +520,8 @@ export const faq: readonly FaqItem[] = [
     q: "Was für Infrastruktur betreibt VylarisData?",
     a: (
       <p>
-        Zehn Server insgesamt, 250 TB SSD-Speicher im Betrieb (Ausbau auf knapp 1 PB Rohkapazität im Aufbau), ein
-        PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Server und ein Sicherheitssystem mit internem
+        Zehn Server insgesamt (intern eigene Server, extern normale Server), 250 TB SSD-Speicher im Betrieb (Ausbau auf knapp 1 PB Rohkapazität im Aufbau), ein
+        PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Network-Server und ein Sicherheitssystem mit internem
         Netzwerk-Setup. Die Details stehen auf der Seite{" "}
         <A className="link" href="/infrastruktur/">
           Infrastruktur

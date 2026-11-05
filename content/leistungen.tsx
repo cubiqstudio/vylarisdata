@@ -44,7 +44,7 @@ export const sections = {
   },
   bausteine: {
     eyebrow: "Bausteine",
-    title: "Sieben Bausteine unserer Infrastruktur",
+    title: "Acht Bausteine unserer Infrastruktur",
     lead: "Server, Speicher, Backup, Netzwerk und Sicherheit: So setzt sich unsere Infrastruktur zusammen, mit Status je Baustein.",
     callout: "Der DNS-Server ist aktuell in Wartung. Den Stand aller Systeme findest du live auf der",
     calloutLink: "Infrastruktur-Seite",
@@ -85,10 +85,10 @@ export const sections = {
 /* ------------------------------------------------------------------ Kennzahlen */
 
 export const keyFacts: readonly FactItem[] = [
-  { icon: "server", value: hw.servers, label: "Server insgesamt, selbst betrieben" },
+  { icon: "server", value: hw.servers, label: "Server insgesamt, intern und extern" },
   { icon: "db", value: "250 TB SSD", label: `Aktuell im Betrieb, der Rest (Ziel ${hw.totalShort}) ist im Aufbau` },
   { icon: "life", value: "PBS-Backup-System", label: "Unser eigenes System für Backups" },
-  { icon: "network", value: "Eigenes IP-Subnetz", label: "Mit eigenem Server für die Internetanbindung" },
+  { icon: "network", value: "Eigenes IP-Subnetz", label: "Mit eigenem Network-Server" },
 ];
 
 /* ----------------------------------------------------------------- Überblick */
@@ -101,7 +101,7 @@ export const overview: readonly OverviewRow[] = [
   {
     name: "Eigene Server & Betrieb",
     status: { tone: "ok", label: "Hardware im Betrieb" },
-    text: `${hw.servers} insgesamt, auf eigener Hardware. Anfragen laufen über den Kontaktweg der VylarisGroup.`,
+    text: `${hw.servers} insgesamt, intern eigene Server, extern normale Server. Anfragen laufen über den Kontaktweg der VylarisGroup.`,
   },
   {
     name: "Speicher & Datensicherung",
@@ -111,7 +111,7 @@ export const overview: readonly OverviewRow[] = [
   {
     name: "Netzwerk",
     status: { tone: "ok", label: "Im Betrieb" },
-    text: "Eigenes IP-Subnetz und ein Server, der unsere Internetanbindung regelt.",
+    text: "Eigenes IP-Subnetz und ein Network-Server, der unsere Internetanbindung regelt.",
   },
   {
     name: "DNS-Server",
@@ -171,10 +171,17 @@ export const softwareTiles: readonly SoftwareTile[] = [
 export const blocks: readonly BlockItem[] = [
   {
     icon: "server",
-    title: "Server",
+    title: "Interne Server",
     status: { tone: "ok", label: "Im Betrieb" },
-    figure: "10 Server",
-    text: "Unsere Server laufen auf eigener Hardware, die wir selbst betreiben.",
+    figure: "Intern",
+    text: "Unsere internen Server betreiben wir selbst.",
+  },
+  {
+    icon: "cloud",
+    title: "Externe Server",
+    status: { tone: "ok", label: "Im Betrieb" },
+    figure: "Extern",
+    text: "Die externen Server sind ganz normale Server.",
   },
   {
     icon: "db",
@@ -188,7 +195,7 @@ export const blocks: readonly BlockItem[] = [
     title: "Storage-Ausbau",
     status: { tone: "info", label: "Im Aufbau" },
     figure: "Ziel: knapp 1 PB",
-    text: "Im Aufbau: der SSD-Ausbau auf 4 × 120 TB (480 TB) und ein Server mit knapp 500 TB auf Festplatten (HDD).",
+    text: "Im Aufbau: der SSD-Ausbau auf 4 × 120 TB (480 TB) und ein Storage-Server mit knapp 500 TB auf Festplatten (HDD).",
   },
   {
     icon: "life",
@@ -202,7 +209,7 @@ export const blocks: readonly BlockItem[] = [
     title: "Eigenes Netzwerk",
     status: { tone: "ok", label: "Im Betrieb" },
     figure: "Eigenes IP-Subnetz",
-    text: "Ein Server regelt unsere Internetanbindung.",
+    text: "Ein Network-Server regelt unsere Internetanbindung.",
   },
   {
     icon: "globe",
@@ -233,10 +240,10 @@ export const hostingField: FieldContent = {
     "Anfragen zu unserer Technik laufen über den Kontaktweg der VylarisGroup auf vylaris.eu.",
   ],
   points: [
-    { lead: "10 Server insgesamt:", text: "auf eigener Hardware, von uns selbst betrieben." },
+    { lead: "10 Server insgesamt:", text: "intern eigene Server, extern normale Server." },
     { lead: "Eigener Speicher:", text: "aktuell 250 TB SSD, der Ausbau auf SSD und HDD ist im Aufbau." },
     { lead: "Eigenes PBS-Backup-System", text: "für Backups." },
-    { lead: "Eigenes Netzwerk:", text: "eigenes IP-Subnetz und ein Server für die Internetanbindung." },
+    { lead: "Eigenes Netzwerk:", text: "eigenes IP-Subnetz und ein Network-Server für die Internetanbindung." },
     { lead: "Live-Status:", text: "Den Stand unserer Systeme zeigt die Live-Statusübersicht auf der Infrastruktur-Seite." },
   ],
   link: { href: "/infrastruktur/", label: "Infrastruktur und Live-Status ansehen" },
@@ -244,9 +251,9 @@ export const hostingField: FieldContent = {
     eyebrow: "Unsere Hardware",
     arrows: false,
     layers: [
-      { icon: "server", name: "Server", description: "Zehn Server auf eigener Hardware.", highlight: true },
+      { icon: "server", name: "Server", description: "Interne und externe Server.", highlight: true },
       { icon: "db", name: "Speicher & Backup", description: "250 TB SSD im Betrieb, weiterer Speicher im Aufbau, PBS-Backup-System." },
-      { icon: "network", name: "Netzwerk & Sicherheit", description: "Eigenes IP-Subnetz, Server für die Internetanbindung, Sicherheitssystem." },
+      { icon: "network", name: "Netzwerk & Sicherheit", description: "Eigenes IP-Subnetz, Network-Server, Sicherheitssystem." },
     ],
   },
 };
@@ -258,14 +265,14 @@ export const speicherField: FieldContent = {
   eyebrow: "Leistungsfeld 02",
   title: `Speicher und Datensicherung: ${hw.ssdNow} im Betrieb`,
   status: { tone: "ok", label: "Im Betrieb" },
-  lead: `Aktuell sind ${hw.ssdNow} in Betrieb. Der Rest ist im Aufbau: vier Server mit je 120 TB SSD und ein Server mit knapp 500 TB HDD ergeben als Ziel ${hw.total}.`,
+  lead: `Aktuell sind ${hw.ssdNow} in Betrieb. Der Rest ist im Aufbau: vier Storage-Server mit je 120 TB SSD und ein Storage-Server mit knapp 500 TB HDD ergeben als Ziel ${hw.total}.`,
   paragraphs: [
     `Wir nennen hier bewusst die Rohkapazität: Das Ausbauziel von ${hw.ssdTarget} (480 TB) plus knapp 500 TB HDD ist die Summe der Speicher, bevor Redundanz abgezogen wird. Heute laufen ${hw.ssdNow}.`,
     "SSD und HDD sind zwei Speicherarten: Flash-Speicher auf der einen, Festplatten mit großer Kapazität auf der anderen Seite. Heute laufen 250 TB SSD, der weitere SSD-Ausbau und die HDD-Stufe entstehen gerade. Für Backups betreiben wir zusätzlich ein eigenes PBS-Backup-System.",
   ],
   points: [
     { lead: "250 TB SSD", text: "sind aktuell im Betrieb." },
-    { lead: "Im Aufbau:", text: "der SSD-Ausbau auf 4 × 120 TB (480 TB) und 1 Server mit knapp 500 TB HDD." },
+    { lead: "Im Aufbau:", text: "der SSD-Ausbau auf 4 × 120 TB (480 TB) und 1 Storage-Server mit knapp 500 TB HDD." },
     { lead: "Rohkapazität", text: "heißt: Summe der verbauten Speicher, vor Redundanz." },
     { lead: "PBS-Backup-System:", text: "unser eigenes System für Backups und Datensicherung." },
   ],
@@ -274,7 +281,7 @@ export const speicherField: FieldContent = {
     arrows: false,
     layers: [
       { icon: "db", name: hw.ssdNow, description: "Aktuell im Betrieb.", highlight: true },
-      { icon: "hdd", name: "Im Aufbau", description: "Weitere SSD-Kapazität und ein Server mit knapp 500 TB HDD." },
+      { icon: "hdd", name: "Im Aufbau", description: "Weitere SSD-Kapazität und ein Storage-Server mit knapp 500 TB HDD." },
       { icon: "layers", name: "Ziel: knapp 1 PB", description: "Rohkapazität nach dem Ausbau, vor Redundanz." },
       { icon: "life", name: "PBS-Backup-System", description: "Unser eigenes System für Backups." },
     ],
@@ -286,14 +293,14 @@ export const netzField: FieldContent = {
   eyebrow: "Leistungsfeld 03",
   title: "Eigenes Netzwerk mit eigenem IP-Subnetz",
   status: { tone: "ok", label: "Im Betrieb" },
-  lead: "Wir betreiben ein eigenes Netzwerk: ein eigenes IP-Subnetz und einen Server, der unsere Internetanbindung regelt.",
+  lead: "Wir betreiben ein eigenes Netzwerk: ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
   paragraphs: [
-    "Das Netzwerk gehört uns, vom IP-Subnetz bis zum Server, der die Verbindung ins Internet regelt.",
+    "Das Netzwerk gehört uns, vom IP-Subnetz bis zum Network-Server, der die Verbindung ins Internet regelt.",
     "Der DNS-Server ist aktuell in Wartung; seinen Stand siehst du live auf der Infrastruktur-Seite.",
   ],
   points: [
     { lead: "Eigenes IP-Subnetz:", text: "unser eigener Adressbereich." },
-    { lead: "Server:", text: "regelt unsere Internetanbindung." },
+    { lead: "Network-Server:", text: "regelt unsere Internetanbindung." },
     { lead: "DNS-Server:", text: "aktuell in Wartung." },
     { lead: "Sicherheitssystem:", text: "mit internem Netzwerk-Setup." },
   ],
@@ -303,7 +310,7 @@ export const netzField: FieldContent = {
     arrows: false,
     layers: [
       { icon: "link", name: "Eigenes IP-Subnetz", description: "Unser eigener Adressbereich." },
-      { icon: "network", name: "Server", description: "Regelt unsere Internetanbindung.", highlight: true },
+      { icon: "network", name: "Network-Server", description: "Regelt unsere Internetanbindung.", highlight: true },
       { icon: "globe", name: "DNS-Server", description: "Aktuell in Wartung." },
     ],
   },
@@ -448,7 +455,7 @@ export const audiences: readonly AudienceItem[] = [
 export const faq: readonly FaqItem[] = [
   {
     q: "Betreibt VylarisData wirklich eigene Hardware?",
-    a: `Ja. Wir betreiben ${hw.servers} insgesamt, alle auf eigener Hardware. Zur Infrastruktur gehören außerdem ${hw.ssdNow} Speicher im Betrieb, ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Server und ein Sicherheitssystem. Der Speicher wird gerade auf ${hw.total} Rohkapazität ausgebaut (vor Redundanz): vier Server mit je 120 TB SSD und ein Server mit knapp 500 TB HDD.`,
+    a: `Ja. Wir betreiben ${hw.servers} insgesamt, intern eigene Server, extern ganz normale Server. Zur Infrastruktur gehören außerdem ${hw.ssdNow} Speicher im Betrieb, ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Network-Server und ein Sicherheitssystem. Der Speicher wird gerade auf ${hw.total} Rohkapazität ausgebaut (vor Redundanz): vier Storage-Server mit je 120 TB SSD und ein Storage-Server mit knapp 500 TB HDD.`,
   },
   {
     q: "Ist alles im Normalbetrieb?",

@@ -95,8 +95,8 @@ export default function HomePage() {
             <>
               <CopyHead {...sections.speicher} id="speicher-h" />
               <p>
-                Aktuell sind 250 TB SSD in Betrieb. Der Rest ist im Aufbau: vier Server mit je 120 TB SSD und ein
-                Server mit knapp 500 TB HDD ergeben als Ausbauziel knapp 1 Petabyte Rohkapazität.
+                Aktuell sind 250 TB SSD in Betrieb. Der Rest ist im Aufbau: vier Storage-Server mit je 120 TB SSD und ein
+                Storage-Server mit knapp 500 TB HDD ergeben als Ausbauziel knapp 1 Petabyte Rohkapazität.
               </p>
               <p>Es ist die Rohkapazität vor Redundanz; die nutzbare Menge nennen wir hier nicht.</p>
               <Chips items={storageChips} blue />

@@ -86,9 +86,9 @@ export const numbersHead: UuHeadData = {
 };
 
 export const numbers: readonly FactItem[] = [
-  { value: "10", label: "Server insgesamt, selbst betrieben", icon: "server" },
+  { value: "10", label: "Server insgesamt, intern und extern", icon: "server" },
   { value: "250 TB", label: "SSD-Speicher aktuell im Betrieb", icon: "zap" },
-  { value: "Im Aufbau", label: "Der Rest des Speichers: weitere SSD und ein Server mit knapp 500 TB HDD", icon: "hdd" },
+  { value: "Im Aufbau", label: "Der Rest des Speichers: weitere SSD und ein Storage-Server mit knapp 500 TB HDD", icon: "hdd" },
   { value: "knapp 1 PB", label: "Ausbauziel: Rohkapazität insgesamt, vor Redundanz gerechnet", icon: "layers" },
 ];
 
@@ -108,7 +108,7 @@ export const assets: readonly AssetItem[] = [
   {
     icon: "server",
     title: "10 Server",
-    text: "Zehn Server auf eigener Hardware. Mehr verraten wir zu den Einzelheiten nicht.",
+    text: "Intern setzen wir auf eigene Server, extern auf ganz normale Server. Mehr verraten wir dazu nicht.",
     status: { tone: "ok", label: "Im Betrieb" },
   },
   {
@@ -121,7 +121,7 @@ export const assets: readonly AssetItem[] = [
   {
     icon: "hdd",
     title: "Speicherausbau",
-    text: "Im Aufbau: weitere SSD-Kapazität und ein Server mit knapp 500 TB HDD. Ziel sind knapp 1 PB Rohkapazität.",
+    text: "Im Aufbau: weitere SSD-Kapazität und ein Storage-Server mit knapp 500 TB HDD. Ziel sind knapp 1 PB Rohkapazität.",
     status: { tone: "info", label: "Im Aufbau" },
   },
   {
@@ -134,7 +134,7 @@ export const assets: readonly AssetItem[] = [
   {
     icon: "network",
     title: "Eigenes Netz",
-    text: "Wir haben ein eigenes IP-Subnetz und einen Server, der unsere Internetanbindung regelt.",
+    text: "Wir haben ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
     status: { tone: "ok", label: "Im Betrieb" },
   },
   {
@@ -362,7 +362,7 @@ export const history: readonly TimelineItem[] = [
   {
     status: { tone: "ok", label: "Im Betrieb" },
     title: "Die Infrastruktur von VylarisData",
-    text: "Heute betreibt VylarisData 10 Server, 250 TB SSD-Speicher (der Ausbau auf knapp 1 PB ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Server und ein Sicherheitssystem.",
+    text: "Heute betreibt VylarisData 10 Server, 250 TB SSD-Speicher (der Ausbau auf knapp 1 PB ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Network-Server und ein Sicherheitssystem.",
   },
   {
     status: { tone: "warn", label: "Geplant" },
@@ -389,7 +389,7 @@ export const workStyle: readonly WorkStyleItem[] = [
   },
   {
     lead: "Eigenes Netz.",
-    text: "Wir haben ein eigenes IP-Subnetz und einen Server, der unsere Internetanbindung regelt.",
+    text: "Wir haben ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
   },
   {
     lead: "Schutz im Netz.",
@@ -478,7 +478,7 @@ export const faq: readonly FaqItem[] = [
   },
   {
     q: "Wie groß ist eure Infrastruktur?",
-    a: "Wir betreiben 10 Server. Für den Speicher haben wir aktuell 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind vier Server mit je 120 TB SSD und ein Server mit knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität, also vor Redundanz gerechnet.",
+    a: "Wir betreiben 10 Server, intern eigene Server und extern ganz normale Server. Für den Speicher haben wir aktuell 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind vier Storage-Server mit je 120 TB SSD und ein Storage-Server mit knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität, also vor Redundanz gerechnet.",
   },
   {
     q: "Wo sehe ich den aktuellen Stand der Systeme?",

@@ -36,7 +36,7 @@ export const hero: HeroContent = {
   title: "VylarisData – eigene Server-Infrastruktur",
   tagline: site.tagline,
   tri: site.tri,
-  sub: "10 Server, aktuell 250 TB SSD im Betrieb, ein eigenes IP-Subnetz mit eigenem Server, ein PBS-Backup-System und ein Sicherheitssystem: Das ist die eigene Infrastruktur von VylarisData. Wir betreiben sie selbst. Der Speicher wird auf knapp 1 Petabyte ausgebaut.",
+  sub: "10 Server, aktuell 250 TB SSD im Betrieb, ein eigenes IP-Subnetz mit eigenem Network-Server, ein PBS-Backup-System und ein Sicherheitssystem: Das ist die eigene Infrastruktur von VylarisData. Wir betreiben sie selbst. Der Speicher wird auf knapp 1 Petabyte ausgebaut.",
   stats: ["10 Server", "250 TB SSD im Betrieb", "Eigenes Subnetz"],
   actions: [
     { href: "/infrastruktur/", label: "Die Infrastruktur ansehen", variant: "primary", icon: "arrow" },
@@ -106,7 +106,7 @@ export const facts: readonly FactItem[] = [
   {
     icon: "server",
     value: "10 Server",
-    label: "Insgesamt zehn Server.",
+    label: "Insgesamt zehn Server: intern eigene Server, extern ganz normale Server.",
   },
   {
     icon: "db",
@@ -116,7 +116,7 @@ export const facts: readonly FactItem[] = [
   {
     icon: "network",
     value: "Eigenes Subnetz",
-    label: "Ein eigener IP-Subnetzbereich und ein Server, der unsere Internetanbindung regelt.",
+    label: "Ein eigener IP-Subnetzbereich und ein Network-Server, der unsere Internetanbindung regelt.",
   },
   { icon: "refresh", value: "PBS-Backup", label: "Ein PBS-Backup-System für die Datensicherung." },
   { icon: "shield", value: "Sicherheitssystem", label: "Ein Sicherheitssystem gehört zur Infrastruktur." },
@@ -153,17 +153,17 @@ export const buildingBlocks: readonly IconCardItem[] = [
   {
     icon: "server",
     title: "10 Server",
-    text: "Insgesamt zehn Server, die wir selbst betreiben.",
+    text: "Intern laufen unsere eigenen Server. Bei den externen Servern geben wir den Typ nicht an.",
   },
   {
     icon: "db",
     title: "Speicher",
-    text: "Aktuell sind 250 TB SSD in Betrieb. Der Ausbau um vier Server mit je 120 TB SSD und einen Server mit knapp 500 TB HDD ist im Aufbau.",
+    text: "Aktuell sind 250 TB SSD in Betrieb. Der Ausbau um vier Storage-Server mit je 120 TB SSD und einen Storage-Server mit knapp 500 TB HDD ist im Aufbau.",
   },
   {
     icon: "network",
     title: "Eigenes Netzwerk",
-    text: "Ein eigener IP-Subnetzbereich und ein Server, der unsere Internetanbindung regelt.",
+    text: "Ein eigener IP-Subnetzbereich und ein Network-Server, der unsere Internetanbindung regelt.",
   },
   {
     icon: "refresh",
@@ -188,7 +188,7 @@ export const storageChips: readonly string[] = ["250 TB SSD im Betrieb", "Rest i
 
 export const storageRows: readonly (readonly [string, string])[] = [
   ["SSD-Storage im Betrieb", "250 TB SSD"],
-  ["Im Aufbau", "SSD-Ausbau auf 4 × 120 TB (480 TB) und 1 Server mit knapp 500 TB HDD"],
+  ["Im Aufbau", "SSD-Ausbau auf 4 × 120 TB (480 TB) und 1 Storage-Server mit knapp 500 TB HDD"],
   ["Ausbauziel", "Knapp 1 PB Rohkapazität"],
   ["Datensicherung", "PBS-Backup-System"],
 ];
@@ -209,7 +209,7 @@ export const areas: readonly IconCardItem[] = [
   {
     icon: "network",
     title: "Netzwerk & Sicherheit",
-    text: "Eigenes IP-Subnetz, ein Server für die Internetanbindung und ein Sicherheitssystem.",
+    text: "Eigenes IP-Subnetz, ein Network-Server und ein Sicherheitssystem.",
   },
   {
     icon: "refresh",
@@ -265,7 +265,7 @@ export const principles: readonly IconCardItem[] = [
   {
     icon: "network",
     title: "Eigenes Netzwerk",
-    text: "Mit eigenem IP-Subnetz und eigenem Server haben wir unsere Internetanbindung selbst in der Hand.",
+    text: "Mit eigenem IP-Subnetz und eigenem Network-Server haben wir unsere Internetanbindung selbst in der Hand.",
   },
   {
     icon: "activity",
@@ -318,7 +318,7 @@ export const roadmap: readonly StepItem[] = [
   },
   {
     title: "Speicherausbau",
-    text: "Der Rest des Speichers (weitere SSD-Kapazität und ein Server mit HDD, Ziel knapp 1 PB) ist im Aufbau.",
+    text: "Der Rest des Speichers (weitere SSD-Kapazität und ein Storage-Server mit HDD, Ziel knapp 1 PB) ist im Aufbau.",
     status: { tone: "info", label: "Im Aufbau" },
   },
   {
@@ -351,7 +351,7 @@ export const chipGroups: readonly ChipGroupData[] = [
 export const faq: readonly FaqItem[] = [
   {
     q: "Was betreibt VylarisData an Infrastruktur?",
-    a: "10 Server, aktuell 250 TB SSD im Betrieb (der Ausbau um weitere SSD-Kapazität und einen Server mit knapp 500 TB HDD ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit einem Server für die Internetanbindung und ein Sicherheitssystem mit internem Netzwerk-Setup.",
+    a: "10 Server (intern eigene Server, extern ganz normale Server), aktuell 250 TB SSD im Betrieb (der Ausbau um weitere SSD-Kapazität und einen Storage-Server mit knapp 500 TB HDD ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit einem Network-Server und ein Sicherheitssystem mit internem Netzwerk-Setup.",
   },
   {
     q: "Wie viel Speicher habt ihr?",

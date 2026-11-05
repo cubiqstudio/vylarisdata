@@ -52,15 +52,15 @@ export const behindHead = {
 
 /** Erste Reihe: die Eckdaten. Zahlen wie auf der Seite Infrastruktur. */
 export const behindFacts: readonly FactItem[] = [
-  { value: "10 Server", label: "insgesamt, auf eigener Hardware.", icon: "server" },
+  { value: "10 Server", label: "insgesamt: intern eigene Server, extern normale Server.", icon: "server" },
   { value: "250 TB SSD", label: "Aktuell im Betrieb. Der Rest des Speichers (Ziel knapp 1 PB) ist im Aufbau.", icon: "hdd" },
-  { value: "Eigenes Netz", label: "Eigenes IP-Subnetz und ein Server, der unsere Internetanbindung regelt.", icon: "network" },
+  { value: "Eigenes Netz", label: "Eigenes IP-Subnetz und ein Network-Server, der unsere Internetanbindung regelt.", icon: "network" },
   { value: "PBS-System", label: "Eigenes PBS-Backup-System für die Datensicherung.", icon: "refresh" },
 ];
 
 /** Zweite Reihe: Speicher, Sicherheit, DNS und Ausblick. Den Live-Zustand zeigt nur das Status-Board. */
 export const behindMoreFacts: readonly FactItem[] = [
-  { value: "Speicherausbau", label: "Im Aufbau: vier Server mit je 120 TB SSD und einer mit knapp 500 TB HDD, Ziel knapp 1 PB.", icon: "db" },
+  { value: "Speicherausbau", label: "Im Aufbau: vier Storage-Server mit je 120 TB SSD und einer mit knapp 500 TB HDD, Ziel knapp 1 PB.", icon: "db" },
   { value: "Sicherheitssystem", label: "Mit internem Netzwerk-Setup.", icon: "shield" },
   { value: "DNS-Server", label: "Aktuell in Wartung. Den Stand zeigt das Status-Board.", icon: "globe" },
   { value: "Ausbau geplant", label: "Wir planen, das Vylaris-Ökosystem weiter auszubauen.", icon: "layers" },
@@ -350,7 +350,7 @@ export const faq: readonly FaqItem[] = [
   },
   {
     q: "Was betreibt VylarisData an Infrastruktur?",
-    a: "Wir betreiben zehn Server. Für den Speicher laufen aktuell 250 TB SSD. Der Rest ist im Aufbau: vier Server mit je 120 TB SSD und einer mit knapp 500 TB HDD, Ziel ist knapp ein Petabyte Rohkapazität vor Redundanz. Außerdem gehören ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Server, ein DNS-Server (aktuell in Wartung) und ein Sicherheitssystem mit internem Netzwerk-Setup zu unserer Infrastruktur.",
+    a: "Wir betreiben zehn Server insgesamt: intern eigene Server, außerhalb normale Server. Für den Speicher laufen aktuell 250 TB SSD. Der Rest ist im Aufbau: vier Storage-Server mit je 120 TB SSD und einer mit knapp 500 TB HDD, Ziel ist knapp ein Petabyte Rohkapazität vor Redundanz. Außerdem gehören ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Network-Server, ein DNS-Server (aktuell in Wartung) und ein Sicherheitssystem mit internem Netzwerk-Setup zu unserer Infrastruktur.",
   },
   {
     q: "Ist der DNS-Server verfügbar, und wo sehe ich den Status?",

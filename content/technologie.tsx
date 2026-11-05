@@ -88,28 +88,28 @@ export const heads = {
 export const hardwareFacts: readonly FactItem[] = [
   { value: "10", label: "Server insgesamt" },
   { value: "250 TB", label: "SSD-Speicher aktuell im Betrieb" },
-  { value: "Im Aufbau", label: "Der Rest des Speichers: weitere SSD und ein Server mit knapp 500 TB HDD" },
+  { value: "Im Aufbau", label: "Der Rest des Speichers: weitere SSD und ein Storage-Server mit knapp 500 TB HDD" },
   { value: "knapp 1 PB", label: "Ausbauziel, Rohkapazität aus SSD und HDD, vor Redundanz" },
 ];
 
 export const hardwareTiles: readonly TechTileData[] = [
   {
     icon: "server",
-    title: "10 Server",
-    text: "Insgesamt zehn Server gehören zu VylarisData. Wir betreiben sie selbst.",
-    chips: [{ label: "10 Server" }],
+    title: "Intern: eigene Server",
+    text: "Unsere internen Server betreiben wir selbst. Sie gehören zu den 10 Servern von VylarisData.",
+    chips: [{ label: "Intern" }],
   },
   {
     icon: "cloud",
     iconTone: "indigo",
-    title: "Selbst betrieben",
-    text: "Die Server betreiben wir selbst. Zu Einzelheiten der Einrichtung machen wir bewusst keine Angaben.",
-    chips: [{ label: "Eigene Hardware" }],
+    title: "Extern: ganz normale Server",
+    text: "Die externen Server sind reguläre Server. Zu Einzelheiten der Einrichtung machen wir bewusst keine Angaben.",
+    chips: [{ label: "Extern" }],
   },
   {
     icon: "hdd",
     title: "Storage",
-    text: "Aktuell sind 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind 4 Server mit je 120 TB SSD und 1 Server mit knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität.",
+    text: "Aktuell sind 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind 4 Storage-Server mit je 120 TB SSD und 1 Storage-Server mit knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität.",
     chips: [{ label: "250 TB SSD im Betrieb" }, { label: "Weiterer Speicher im Aufbau" }],
   },
   {
@@ -122,8 +122,8 @@ export const hardwareTiles: readonly TechTileData[] = [
   {
     icon: "network",
     title: "Eigenes Netz",
-    text: "Wir betreiben ein eigenes IP-Subnetz und einen Server, der unsere Internetanbindung regelt.",
-    chips: [{ label: "Eigenes IP-Subnetz" }, { label: "Eigener Server" }],
+    text: "Wir betreiben ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
+    chips: [{ label: "Eigenes IP-Subnetz" }, { label: "Network-Server" }],
   },
   {
     icon: "shield",
@@ -138,11 +138,12 @@ export const inventoryHead = ["Komponente", "Stand"] as const;
 
 export const inventoryRows: readonly (readonly [string, ReactNode])[] = [
   ["Server insgesamt", "10"],
-  ["Server", <Status key="srv" tone="ok">Im Betrieb</Status>],
+  ["Server (intern)", <Status key="int" tone="ok">Im Betrieb</Status>],
+  ["Server (extern)", <Status key="ext" tone="ok">Im Betrieb</Status>],
   ["SSD-Speicher, 250 TB", <Status key="ssd" tone="ok">Im Betrieb</Status>],
-  ["Speicherausbau (SSD-Ausbau auf 4 × 120 TB, 1 Server mit knapp 500 TB HDD)", <Status key="hdd" tone="info">Im Aufbau</Status>],
+  ["Speicherausbau (SSD-Ausbau auf 4 × 120 TB, 1 Storage-Server mit knapp 500 TB HDD)", <Status key="hdd" tone="info">Im Aufbau</Status>],
   ["PBS-Backup-System", <Status key="pbs" tone="ok">Im Betrieb</Status>],
-  ["Eigenes IP-Subnetz und Server für die Internetanbindung", <Status key="net" tone="ok">Im Betrieb</Status>],
+  ["Eigenes IP-Subnetz und Network-Server", <Status key="net" tone="ok">Im Betrieb</Status>],
   ["Sicherheitssystem mit internem Netzwerk-Setup", <Status key="sec" tone="ok">Im Betrieb</Status>],
   ["DNS-Server", <Status key="dns" tone="warn">In Wartung</Status>],
   ["Ökosystem weiter ausbauen", <Status key="eco" tone="info">Geplant</Status>],
@@ -157,7 +158,7 @@ export const hardwareChecks = [
     1 PB Rohkapazität. Das ist die Zahl vor Redundanz, nicht die nutzbare Menge.
   </>,
   <>
-    <strong>Eigene Netzbasis:</strong> Mit eigenem IP-Subnetz und eigenem Server regeln wir unsere Internetanbindung selbst.
+    <strong>Eigene Netzbasis:</strong> Mit eigenem IP-Subnetz und eigenem Network-Server regeln wir unsere Internetanbindung selbst.
   </>,
 ];
 
@@ -396,7 +397,7 @@ export const faq: readonly FaqItem[] = [
     a: (
       <p>
         10 Server, 250 TB SSD-Speicher im Betrieb (der Ausbau auf knapp 1 PB Rohkapazität ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit
-        Server für die Internetanbindung und ein Sicherheitssystem mit internem Netzwerk-Setup. Die Details stehen oben, den Live-Stand zeigt die
+        Network-Server und ein Sicherheitssystem mit internem Netzwerk-Setup. Die Details stehen oben, den Live-Stand zeigt die
         Seite{" "}
         <A className="link" href="/infrastruktur/">
           Infrastruktur
