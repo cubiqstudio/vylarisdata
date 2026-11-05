@@ -54,10 +54,6 @@ export default async function LegalAdminPage({ searchParams }: { searchParams: P
             <br />
             <Link href="/datenschutz/">Datenschutzerklärung ansehen</Link>
           </p>
-          <p className="muted small">
-            Hinweis: Diese Maske hilft beim Ausfüllen, ersetzt aber keine Rechtsberatung. Welche Angaben für dich Pflicht sind, hängt von Rechtsform und
-            Tätigkeit ab – im Zweifel lass dich beraten.
-          </p>
         </div>
       </div>
 

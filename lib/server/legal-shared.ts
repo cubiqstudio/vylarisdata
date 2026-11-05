@@ -184,7 +184,7 @@ export function validateLegal(raw: Record<string, unknown>): ValidationResult {
 /* ------------------------------------------------------- Vollständigkeitsprüfung */
 export type Gap = { field: string; label: string; area: "impressum" | "datenschutz" };
 
-/** Liefert die Pflichtangaben, die noch fehlen. Keine Rechtsberatung – nur ein Hinweis auf offensichtliche Lücken. */
+/** Liefert die Pflichtangaben, die noch fehlen (Hinweis auf offensichtliche Lücken). */
 export function legalGaps(d: LegalData): Gap[] {
   const g: Gap[] = [];
   const need = (ok: boolean, field: string, label: string, area: Gap["area"] = "impressum") => {

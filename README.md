@@ -131,10 +131,6 @@ Eine Vollständigkeitsprüfung zeigt fehlende Pflichtangaben. Fehlt etwas, ersch
 markierter Platzhalter. Eingaben werden geprüft (E-Mail, Telefon, USt-IdNr., Längen) und als reiner Text ausgegeben –
 HTML aus Eingaben wird nie ausgeführt. Jede Änderung steht im Protokoll (nur die Feldnamen, nicht die Inhalte).
 
-> Die Maske hilft beim Ausfüllen, ersetzt aber **keine Rechtsberatung**. Welche Angaben Pflicht sind, hängt von Rechtsform und
-> Tätigkeit ab. Die Datenschutzerklärung nennt auch die Auslieferung über Cloudflare und den Admin-Cookie; prüfe, ob sie zu
-> deinem tatsächlichen Betrieb passt (z. B. Verträge mit Dienstleistern).
-
 ## Sicherheit
 
 **Betrieb**
