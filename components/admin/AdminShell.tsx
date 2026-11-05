@@ -4,6 +4,7 @@ import { LogoutForm } from "./Forms";
 
 const links = [
   { href: "/admin/", label: "Übersicht" },
+  { href: "/admin/rechtliches/", label: "Rechtliches" },
   { href: "/admin/sicherheit/", label: "Sicherheit" },
   { href: "/admin/protokoll/", label: "Protokoll" },
 ] as const;

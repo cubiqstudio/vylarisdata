@@ -5,6 +5,7 @@ import { Status } from "@/components/ui";
 import { AuditTable } from "@/components/admin/AuditTable";
 import { getAudit } from "@/lib/server/audit";
 import { requireAdmin } from "@/lib/server/guard";
+import { getLegal, legalGaps } from "@/lib/server/legal";
 import { getStatusBoard, groupLabels, stateLabels, type ComponentState } from "@/lib/server/status";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +15,8 @@ const time = (iso: string) => new Date(iso).toLocaleString("de-DE", { dateStyle:
 
 export default async function AdminHome() {
   const admin = await requireAdmin();
-  const [board, events] = await Promise.all([getStatusBoard(), getAudit(8)]);
+  const [board, events, legal] = await Promise.all([getStatusBoard(), getAudit(8), getLegal()]);
+  const gaps = legalGaps(legal);
 
   return (
     <AdminShell
@@ -35,6 +37,13 @@ export default async function AdminHome() {
           </p>
           <p>
             <Link href="/admin/sicherheit/">{admin.totp?.enabled ? "Sicherheit verwalten" : "Jetzt aktivieren (empfohlen)"}</Link>
+          </p>
+        </div>
+        <div className="admin-card">
+          <h2>Rechtliche Angaben</h2>
+          <p>{gaps.length === 0 ? <Status tone="ok">Vollständig</Status> : <Status tone="warn">{gaps.length} Angabe(n) fehlen</Status>}</p>
+          <p>
+            <Link href="/admin/rechtliches/">Impressum und Datenschutz pflegen</Link>
           </p>
         </div>
         <div className="admin-card">

@@ -14,7 +14,8 @@ export type AuditEvent =
   | "twofactor_enabled"
   | "twofactor_disabled"
   | "recovery_used"
-  | "recovery_regenerated";
+  | "recovery_regenerated"
+  | "legal_changed";
 
 export type AuditEntry = { t: string; event: AuditEvent; user?: string; ip?: string; detail?: string };
 
@@ -54,6 +55,7 @@ export const auditLabels: Record<AuditEvent, string> = {
   twofactor_disabled: "Zwei-Faktor-Anmeldung deaktiviert",
   recovery_used: "Wiederherstellungscode verwendet",
   recovery_regenerated: "Wiederherstellungscodes neu erzeugt",
+  legal_changed: "Rechtliche Angaben geändert",
 };
 
 /** Wie audit(), aber je Schlüssel höchstens einmal in 5 Minuten – schützt das Protokoll vor Fluten. */

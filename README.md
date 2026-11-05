@@ -13,8 +13,9 @@ Besucher, keine Drittanbieter-Ressourcen (die Schrift Poppins ist lokal eingebun
 - **Öffentliche Seiten:** Start, Leistungen, Infrastruktur, Technologie, Ökosystem, Über uns, Kontakt (vorgerendert).
 - **Live-Status der Infrastruktur** auf der Seite „Infrastruktur“: Zustand jedes Systems (Im Betrieb, In Wartung,
   Eingeschränkt, Störung) mit Hinweis und Zeitstempel.
-- **Admin-Bereich** unter `/admin/` mit Anmeldung: Status pflegen, Passwort ändern, Zwei-Faktor-Anmeldung (TOTP) mit
-  Wiederherstellungscodes, Protokoll aller sicherheitsrelevanten Ereignisse.
+- **Admin-Bereich** unter `/admin/` mit Anmeldung: Status pflegen, **Impressum und Datenschutz pflegen**, Passwort ändern,
+  Zwei-Faktor-Anmeldung (TOTP) mit Wiederherstellungscodes, Protokoll aller sicherheitsrelevanten Ereignisse.
+- **Impressum und Datenschutzerklärung** entstehen aus den Angaben im Admin-Bereich (siehe unten).
 
 ## So wird die Seite betrieben
 
@@ -113,6 +114,26 @@ Umgebungsvariablen setzen und `./install.sh --yes` ausführen.
 5. prüft Tunnel und Erreichbarkeit und räumt alte Images auf.
 
 `update --check` prüft nur, ob ein Update verfügbar ist (Exit-Code 10 = ja) und eignet sich für einen Cronjob.
+
+## Impressum und Datenschutz pflegen
+
+Im Admin-Bereich unter **Rechtliches** (`/admin/rechtliches/`) trägst du alle Angaben ein; die Seiten `/impressum/` und
+`/datenschutz/` setzen sich daraus sofort zusammen:
+
+- **Anbieter:** Markenname, Firma, Rechtsform, Inhaber, Vertretungsberechtigte (je nach Rechtsform)
+- **Anschrift und Kontakt:** Straße, PLZ, Ort, Land, E-Mail, Telefon (optional)
+- **Registereintrag:** ein-/ausschaltbar; Register, Registergericht und Registernummer (die Werte bleiben beim Ausschalten gespeichert)
+- **Umsatzsteuer:** *Kleinunternehmerregelung (§ 19 UStG)* oder *Regelbesteuerung* mit USt-IdNr. (§ 27a UStG)
+- **Weiteres:** Aufsichtsbehörde, verantwortliche Person nach § 18 Abs. 2 MStV, Verbraucherstreitbeilegung, freie Hinweise
+- **Datenschutz:** Speicherdauer der Logfiles, Datenschutzbeauftragte(r), Aufsichtsbehörde, freie Hinweise
+
+Eine Vollständigkeitsprüfung zeigt fehlende Pflichtangaben. Fehlt etwas, erscheint auf der öffentlichen Seite ein gelb
+markierter Platzhalter. Eingaben werden geprüft (E-Mail, Telefon, USt-IdNr., Längen) und als reiner Text ausgegeben –
+HTML aus Eingaben wird nie ausgeführt. Jede Änderung steht im Protokoll (nur die Feldnamen, nicht die Inhalte).
+
+> Die Maske hilft beim Ausfüllen, ersetzt aber **keine Rechtsberatung**. Welche Angaben Pflicht sind, hängt von Rechtsform und
+> Tätigkeit ab. Die Datenschutzerklärung nennt auch die Auslieferung über Cloudflare und den Admin-Cookie; prüfe, ob sie zu
+> deinem tatsächlichen Betrieb passt (z. B. Verträge mit Dienstleistern).
 
 ## Sicherheit
 

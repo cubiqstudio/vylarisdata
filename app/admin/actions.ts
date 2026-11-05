@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {
   adminExists,
@@ -14,6 +15,7 @@ import {
   USERNAME_RE,
 } from "@/lib/server/admin";
 import { audit, auditThrottled } from "@/lib/server/audit";
+import { saveLegal, validateLegal } from "@/lib/server/legal";
 import { clientIp, requireAdmin, sameOrigin } from "@/lib/server/guard";
 import { hashPassword, validateNewPassword, verifyPassword } from "@/lib/server/password";
 import { attempt, backoffMs, BusyError, ipBucket, limited, release, sleep, used } from "@/lib/server/ratelimit";
@@ -289,4 +291,19 @@ export async function regenerateRecoveryAction(_prev: FormState, fd: FormData): 
   });
   await audit("recovery_regenerated", { user: admin.username, ip: await clientIp() });
   return { ok: "Neue Wiederherstellungscodes erzeugt. Die alten sind ungültig.", codes };
+}
+
+/* ------------------------------------------------------- Rechtliche Angaben */
+export async function saveLegalAction(_prev: FormState, fd: FormData): Promise<FormState> {
+  if (!(await sameOrigin())) return BAD_REQUEST;
+  const admin = await requireAdmin();
+  const raw: Record<string, string> = {};
+  for (const [k, v] of fd.entries()) if (typeof v === "string" && !k.startsWith("$ACTION")) raw[k] = v.slice(0, 4000);
+  const result = validateLegal(raw);
+  if (!result.ok) return { error: result.errors.join(" ") };
+  const changed = await saveLegal(result.data);
+  await audit("legal_changed", { user: admin.username, ip: await clientIp(), detail: changed.length ? changed.join(", ") : "keine Änderung" });
+  revalidatePath("/admin/rechtliches/");
+  // Seite neu laden: Das Formular zeigt dann die gespeicherten Werte, die Meldung steht oben auf der Seite.
+  redirect("/admin/rechtliches/?saved=1");
 }
