@@ -49,8 +49,7 @@ export default async function AdminHome() {
         <div className="admin-card">
           <h2>Öffentliche Statusseite</h2>
           <p>
-            {board.components.filter((c) => c.state === "operational").length} von {board.components.filter((c) => c.state !== "building").length} Systemen im Normalbetrieb
-            {board.components.some((c) => c.state === "building") ? `, ${board.components.filter((c) => c.state === "building").length} im Aufbau` : ""}.
+            {board.components.filter((c) => c.state === "operational").length} von {board.components.length} Systemen im Normalbetrieb.
           </p>
           <p>
             <Link href="/infrastruktur/">Seite ansehen</Link>

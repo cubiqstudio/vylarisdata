@@ -86,7 +86,7 @@ export const heads = {
 /* ----------------------------------------------------- Fakten & Hardware */
 
 export const hardwareFacts: readonly FactItem[] = [
-  { value: "10", label: "Server in Betrieb" },
+  { value: "10", label: "Server insgesamt" },
   { value: "250 TB", label: "SSD-Speicher aktuell im Betrieb" },
   { value: "Im Aufbau", label: "Der Rest des Speichers: weitere SSD und ein Server mit knapp 500 TB HDD" },
   { value: "knapp 1 PB", label: "Ausbauziel, Rohkapazität aus SSD und HDD, vor Redundanz" },
@@ -96,7 +96,7 @@ export const hardwareTiles: readonly TechTileData[] = [
   {
     icon: "server",
     title: "10 Server",
-    text: "Insgesamt zehn Server gehören zu VylarisData. Sie stehen auf eigener Hardware.",
+    text: "Insgesamt zehn Server gehören zu VylarisData. Wir betreiben sie selbst.",
     chips: [{ label: "10 Server" }],
   },
   {
@@ -110,7 +110,7 @@ export const hardwareTiles: readonly TechTileData[] = [
     icon: "hdd",
     title: "Storage",
     text: "Aktuell sind 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind 4 Server mit je 120 TB SSD und 1 Server mit knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität.",
-    chips: [{ label: "250 TB SSD im Betrieb" }, { label: "Ausbau im Aufbau" }],
+    chips: [{ label: "250 TB SSD im Betrieb" }, { label: "Weiterer Speicher im Aufbau" }],
   },
   {
     icon: "life",
@@ -140,7 +140,7 @@ export const inventoryRows: readonly (readonly [string, ReactNode])[] = [
   ["Server insgesamt", "10"],
   ["Server", <Status key="srv" tone="ok">Im Betrieb</Status>],
   ["SSD-Speicher, 250 TB", <Status key="ssd" tone="ok">Im Betrieb</Status>],
-  ["Speicherausbau (weitere SSD, 1 Server mit knapp 500 TB HDD)", <Status key="hdd" tone="info">Im Aufbau</Status>],
+  ["Speicherausbau (SSD-Ausbau auf 4 × 120 TB, 1 Server mit knapp 500 TB HDD)", <Status key="hdd" tone="info">Im Aufbau</Status>],
   ["PBS-Backup-System", <Status key="pbs" tone="ok">Im Betrieb</Status>],
   ["Eigenes IP-Subnetz und Server für die Internetanbindung", <Status key="net" tone="ok">Im Betrieb</Status>],
   ["Sicherheitssystem mit internem Netzwerk-Setup", <Status key="sec" tone="ok">Im Betrieb</Status>],

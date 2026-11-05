@@ -25,6 +25,7 @@ export const heroLead =
 /** Statushinweise im Seitenkopf und in den FAQ. */
 export const heroStatus: readonly UuStatusItem[] = [
   { tone: "ok", label: "Infrastruktur im Betrieb" },
+  { tone: "info", label: "Speicher im Aufbau" },
   { tone: "info", label: "DNS-Server aktuell in Wartung" },
 ];
 
@@ -173,13 +174,13 @@ export const assetsNote = (
 export const transparencyHead: UuHeadData = {
   id: "transparenz-h",
   eyebrow: "Transparenz",
-  title: "Du siehst, was läuft. Und was gerade gewartet wird.",
+  title: "Du siehst, was läuft. Und was gerade entsteht oder gewartet wird.",
 };
 
 export const transparencyCopy = (
   <p>
     Transparenz gehört für uns zum Angebot: Auf unserer Website steht nicht nur, was in Betrieb ist, sondern auch, was
-    gerade gewartet wird und was geplant ist. Den Stand pflegen wir selbst in einem geschützten Bereich und zeigen ihn
+    gerade aufgebaut oder gewartet wird und was geplant ist. Den Stand pflegen wir selbst in einem geschützten Bereich und zeigen ihn
     live auf der Infrastruktur-Seite.
   </p>
 );
@@ -211,7 +212,7 @@ export const principles: readonly PrincipleItem[] = [
     icon: "eye",
     iconTone: "indigo",
     title: "Transparenz vor Marketing",
-    text: "Wir sagen, was läuft, was in Wartung ist und was geplant ist.",
+    text: "Wir sagen, was läuft, was im Aufbau ist, was in Wartung ist und was geplant ist.",
   },
   {
     icon: "shield",
@@ -400,7 +401,7 @@ export const workStyle: readonly WorkStyleItem[] = [
   },
   {
     lead: "Klare Statusangaben.",
-    text: "Was läuft, kennzeichnen wir als „Im Betrieb“, was wir vorhaben, als „Geplant“.",
+    text: "Was läuft, kennzeichnen wir als „Im Betrieb“, was wir gerade aufbauen, als „Im Aufbau“, was gewartet wird, als „In Wartung“ und was wir vorhaben, als „Geplant“.",
   },
 ];
 
@@ -409,7 +410,7 @@ export const targetLayers: readonly UuLayer[] = [
   {
     icon: "server",
     name: "Infrastruktur",
-    description: "10 Server, Storage, PBS-Backup, eigenes Netz und Sicherheitssystem. Im Betrieb.",
+    description: "10 Server, 250 TB SSD, PBS-Backup, eigenes Netz und Sicherheitssystem im Betrieb. Weiterer Speicher im Aufbau.",
   },
   {
     icon: "layers",

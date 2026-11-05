@@ -19,20 +19,25 @@ const formatTime = (iso?: string) =>
  */
 export async function LiveStatus() {
   const board = await getStatusBoard();
-  const building = board.components.filter((c) => c.state === "building").length;
-  const live = board.components.length - building; // Im Aufbau befindliche Bausteine zählen nicht als Störung
-  const operational = board.components.filter((c) => c.state === "operational").length;
+  const total = board.components.length;
+  const count = (st: ComponentState) => board.components.filter((c) => c.state === st).length;
+  const operational = count("operational");
+  const extras = [
+    count("building") && `${count("building")} im Aufbau`,
+    count("maintenance") && `${count("maintenance")} in Wartung`,
+    count("degraded") && `${count("degraded")} eingeschränkt`,
+    count("outage") && `${count("outage")} gestört`,
+  ].filter(Boolean);
   const groups = (Object.keys(groupLabels) as ComponentGroup[])
     .map((g) => ({ g, items: board.components.filter((c) => c.group === g) }))
     .filter((x) => x.items.length > 0);
-  const allGood = operational === live;
+  const allGood = operational === total;
 
   return (
     <div className="livestatus" aria-live="polite">
       <div className="livestatus-head">
         <Status tone={allGood ? "ok" : "info"}>
-          {(allGood ? "Alle laufenden Systeme im Betrieb" : `${operational} von ${live} Systemen im Normalbetrieb`) +
-            (building ? ` · ${building} im Aufbau` : "")}
+          {allGood ? "Alle Systeme im Betrieb" : [`${operational} von ${total} Systemen im Normalbetrieb`, ...extras].join(" · ")}
         </Status>
         {formatTime(board.updatedAt) && <span className="muted">Zuletzt aktualisiert: {formatTime(board.updatedAt)}</span>}
       </div>

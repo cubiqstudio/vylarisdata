@@ -30,7 +30,7 @@ export const meta = {
 export const pageText = {
   hero: {
     eyebrow: "Unsere Infrastruktur",
-    title: "Eigene Hardware. Eigenes Netz. Im Ausbau.",
+    title: "Eigene Hardware. Eigenes Netz. Im Aufbau.",
     lead: `${serverCount} Server, aktuell ${ssdTbNow} TB SSD im Betrieb, ein eigenes PBS-Backup-System, ein eigenes IP-Subnetz und ein Sicherheitssystem: Das ist bestehende Hardware. Der Rest des Speichers (Ziel knapp 1 PB) ist im Aufbau, der DNS-Server in Wartung. Den Zustand aller Systeme zeigen wir live auf dieser Seite.`,
     primary: "Live-Status ansehen",
     secondary: "Die Zahlen",
@@ -158,7 +158,7 @@ export const rechenleistung: TopicContent = {
   eyebrow: "Rechenleistung",
   title: `${serverCount} Server auf eigener Hardware.`,
   paragraphs: [
-    `Unsere Rechenleistung verteilt sich auf insgesamt ${serverCount} Server. Sie stehen auf eigener Hardware, die wir selbst betreiben.`,
+    `Unsere Rechenleistung verteilt sich auf insgesamt ${serverCount} Server. Wir betreiben sie selbst.`,
     "Wie die Server im Einzelnen eingerichtet sind, nennen wir bewusst nicht: Details zur Technik gehören nicht auf eine öffentliche Seite.",
   ],
   points: [
@@ -185,11 +185,11 @@ export const speicher: TopicContent = {
   title: "250 TB SSD im Betrieb, Ausbau auf knapp 1 PB.",
   paragraphs: [
     `Heute tragen ${ssdTbNow} TB SSD unseren Speicher. Der Rest ist im Aufbau: Am Ende sollen ${storageServers} Server für den Speicher stehen, ${ssdServers} mit je ${ssdTbEach} TB SSD (zusammen ${ssdTbTotal} TB) und ${hddServers} Server mit knapp 500 TB HDD.`,
-    "In einfachen Worten: SSDs speichern ohne bewegliche Teile und sind in der Regel schneller im Zugriff. Festplatten (HDD) sind die klassische Technik, um sehr große Datenmengen unterzubringen. Heute läuft die schnelle SSD-Stufe, die HDD-Stufe entsteht gerade.",
+    "In einfachen Worten: SSDs speichern ohne bewegliche Teile und sind in der Regel schneller im Zugriff. Festplatten (HDD) sind die klassische Technik, um sehr große Datenmengen unterzubringen. Heute laufen 250 TB SSD, der weitere SSD-Ausbau und die HDD-Stufe entstehen gerade.",
   ],
   points: [
     point("Im Betrieb:", `${ssdTbNow} TB SSD.`),
-    point("Im Aufbau:", `Weitere SSD-Kapazität (Ziel ${ssdServers} × ${ssdTbEach} TB) und ${hddServers} Server mit knapp 500 TB HDD.`),
+    point("Im Aufbau:", `SSD-Ausbau auf ${ssdServers} × ${ssdTbEach} TB (${ssdTbTotal} TB) und ${hddServers} Server mit knapp 500 TB HDD.`),
     point("Ausbauziel:", "Zusammen knapp 1 PB Rohkapazität, gerechnet vor Redundanz."),
   ],
   visual: {

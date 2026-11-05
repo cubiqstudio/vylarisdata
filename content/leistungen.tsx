@@ -44,7 +44,7 @@ export const sections = {
   },
   bausteine: {
     eyebrow: "Bausteine",
-    title: "Acht Bausteine unserer Infrastruktur",
+    title: "Sieben Bausteine unserer Infrastruktur",
     lead: "Server, Speicher, Backup, Netzwerk und Sicherheit: So setzt sich unsere Infrastruktur zusammen, mit Status je Baustein.",
     callout: "Der DNS-Server ist aktuell in Wartung. Den Stand aller Systeme findest du live auf der",
     calloutLink: "Infrastruktur-Seite",
@@ -62,8 +62,8 @@ export const sections = {
   },
   stand: {
     eyebrow: "Stand und Ausblick",
-    title: "Was läuft, was in Wartung ist, was wir planen",
-    lead: "Drei Zustände, klar getrennt: im Betrieb, in Wartung und geplant.",
+    title: "Was läuft, was im Aufbau ist, was in Wartung ist, was wir planen",
+    lead: "Vier Zustände, klar getrennt: im Betrieb, im Aufbau, in Wartung und geplant.",
   },
   arbeitsweise: {
     eyebrow: "Ablauf",
@@ -188,7 +188,7 @@ export const blocks: readonly BlockItem[] = [
     title: "Storage-Ausbau",
     status: { tone: "info", label: "Im Aufbau" },
     figure: "Ziel: knapp 1 PB",
-    text: "Im Aufbau: weitere SSD-Kapazität (Ziel 4 × 120 TB) und ein Server mit knapp 500 TB auf Festplatten (HDD).",
+    text: "Im Aufbau: der SSD-Ausbau auf 4 × 120 TB (480 TB) und ein Server mit knapp 500 TB auf Festplatten (HDD).",
   },
   {
     icon: "life",
@@ -245,7 +245,7 @@ export const hostingField: FieldContent = {
     arrows: false,
     layers: [
       { icon: "server", name: "Server", description: "Zehn Server auf eigener Hardware.", highlight: true },
-      { icon: "db", name: "Speicher & Backup", description: "250 TB SSD im Betrieb, Ausbau im Aufbau, PBS-Backup-System." },
+      { icon: "db", name: "Speicher & Backup", description: "250 TB SSD im Betrieb, weiterer Speicher im Aufbau, PBS-Backup-System." },
       { icon: "network", name: "Netzwerk & Sicherheit", description: "Eigenes IP-Subnetz, Server für die Internetanbindung, Sicherheitssystem." },
     ],
   },
@@ -261,11 +261,11 @@ export const speicherField: FieldContent = {
   lead: `Aktuell sind ${hw.ssdNow} in Betrieb. Der Rest ist im Aufbau: vier Server mit je 120 TB SSD und ein Server mit knapp 500 TB HDD ergeben als Ziel ${hw.total}.`,
   paragraphs: [
     `Wir nennen hier bewusst die Rohkapazität: Das Ausbauziel von ${hw.ssdTarget} (480 TB) plus knapp 500 TB HDD ist die Summe der Speicher, bevor Redundanz abgezogen wird. Heute laufen ${hw.ssdNow}.`,
-    "SSD und HDD sind zwei Speicherarten: Flash-Speicher auf der einen, Festplatten mit großer Kapazität auf der anderen Seite. Heute läuft die SSD-Stufe, die HDD-Stufe entsteht gerade. Für Backups betreiben wir zusätzlich ein eigenes PBS-Backup-System.",
+    "SSD und HDD sind zwei Speicherarten: Flash-Speicher auf der einen, Festplatten mit großer Kapazität auf der anderen Seite. Heute laufen 250 TB SSD, der weitere SSD-Ausbau und die HDD-Stufe entstehen gerade. Für Backups betreiben wir zusätzlich ein eigenes PBS-Backup-System.",
   ],
   points: [
     { lead: "250 TB SSD", text: "sind aktuell im Betrieb." },
-    { lead: "Im Aufbau:", text: "weitere SSD-Kapazität (Ziel 4 × 120 TB) und 1 Server mit knapp 500 TB HDD." },
+    { lead: "Im Aufbau:", text: "der SSD-Ausbau auf 4 × 120 TB (480 TB) und 1 Server mit knapp 500 TB HDD." },
     { lead: "Rohkapazität", text: "heißt: Summe der verbauten Speicher, vor Redundanz." },
     { lead: "PBS-Backup-System:", text: "unser eigenes System für Backups und Datensicherung." },
   ],

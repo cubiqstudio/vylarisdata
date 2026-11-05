@@ -33,7 +33,7 @@ export const crumbs: readonly Crumb[] = [{ label: "Start", href: "/" }, { label:
 export const hero = {
   eyebrow: "Offizieller Kontaktweg",
   title: "Sprich mit der Infrastruktur hinter dem Vylaris-Ökosystem",
-  lead: "Zehn Server, 250 TB SSD im Betrieb, eigenes Netz und eigenes Backup: VylarisData läuft auf eigener Hardware. Du erreichst uns über das Kontakt- und Ticketsystem der VylarisGroupEurope.",
+  lead: "Zehn Server, 250 TB SSD im Betrieb, eigenes Netz und eigenes Backup: VylarisData läuft auf eigener Hardware, der Speicherausbau auf knapp 1 PB ist im Aufbau. Du erreichst uns über das Kontakt- und Ticketsystem der VylarisGroupEurope.",
 } as const;
 
 export const heroActions: { primary: LinkAction; secondary: LinkAction } = {
@@ -52,7 +52,7 @@ export const behindHead = {
 
 /** Erste Reihe: die Eckdaten. Zahlen wie auf der Seite Infrastruktur. */
 export const behindFacts: readonly FactItem[] = [
-  { value: "10 Server", label: "insgesamt im Betrieb, auf eigener Hardware.", icon: "server" },
+  { value: "10 Server", label: "insgesamt, auf eigener Hardware.", icon: "server" },
   { value: "250 TB SSD", label: "Aktuell im Betrieb. Der Rest des Speichers (Ziel knapp 1 PB) ist im Aufbau.", icon: "hdd" },
   { value: "Eigenes Netz", label: "Eigenes IP-Subnetz und ein Server, der unsere Internetanbindung regelt.", icon: "network" },
   { value: "PBS-System", label: "Eigenes PBS-Backup-System für die Datensicherung.", icon: "refresh" },

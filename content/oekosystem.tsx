@@ -38,7 +38,7 @@ export const heads = {
     id: "zahlen-h",
     eyebrow: "Das Fundament in Zahlen",
     title: "Die Basis des Ökosystems steht.",
-    lead: "Eigene Hardware statt Absichtserklärung. Das sind die Eckdaten der Infrastruktur, die VylarisData betreibt.",
+    lead: "Eigene Hardware im Betrieb, der Speicher wird ausgebaut. Das sind die Eckdaten der Infrastruktur, die VylarisData betreibt.",
   },
   overview: {
     id: "uebersicht-h",
@@ -50,7 +50,7 @@ export const heads = {
     id: "fundament-h",
     eyebrow: "Das Fundament",
     title: "Sechs Bausteine, fünf davon im Betrieb.",
-    lead: "Sechs Bausteine tragen die Infrastruktur, fünf sind im Betrieb. Der DNS-Server wird gerade gewartet.",
+    lead: "Sechs Bausteine tragen die Infrastruktur, fünf sind im Betrieb. Beim Speicher läuft der Ausbau (Im Aufbau), der DNS-Server wird gerade gewartet.",
   },
   responsibilities: {
     id: "zustaendigkeiten-h",
@@ -103,7 +103,7 @@ export const facts: readonly FactItem[] = [
   {
     icon: "server",
     value: "10 Server",
-    label: "Insgesamt zehn Server im Betrieb.",
+    label: "Insgesamt zehn Server.",
   },
   {
     icon: "db",
@@ -152,7 +152,7 @@ export const brands: readonly EcoBrand[] = [
     name: "VylarisData",
     sub: "vylarisdata.com",
     icon: "cpu",
-    status: { tone: "ok", label: "Infrastruktur im Betrieb" },
+    status: { tone: "ok", label: "Infrastruktur im Betrieb, Speicher im Aufbau" },
     text: "Geschäftsbereich Software Development & Technology: Technologie und Infrastruktur der Gruppe, mit eigenen Servern, eigenem Speicher und eigenem Netz. Alle Details unter Infrastruktur.",
     current: true,
     action: { href: "/infrastruktur/", label: "Zur Infrastruktur" },
@@ -230,8 +230,8 @@ export const storageParagraphs: readonly string[] = [
 
 export const storageRows: readonly (readonly [string, string])[] = [
   ["SSD im Betrieb", "250 TB"],
-  ["Im Aufbau", "weitere SSD (Ziel 4 × 120 TB) und 1 Server mit knapp 500 TB HDD"],
-  ["Ausbauziel", "knapp 1 PB Rohkapazität, vor Redundanz"],
+  ["Im Aufbau", "SSD-Ausbau auf 4 × 120 TB (480 TB) und 1 Server mit knapp 500 TB HDD"],
+  ["Ausbauziel gesamt (SSD und HDD)", "knapp 1 PB Rohkapazität, vor Redundanz"],
 ];
 
 /* --------------------------------------------------------------------- Allianz */

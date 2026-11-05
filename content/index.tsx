@@ -32,7 +32,7 @@ export const homeMeta = {
 /* Hero */
 
 export const hero: HeroContent = {
-  pill: "Teil der VylarisGroup · Infrastruktur im Aufbau",
+  pill: "Teil der VylarisGroup · Infrastruktur im Betrieb, Speicher im Aufbau",
   title: "VylarisData – eigene Server-Infrastruktur",
   tagline: site.tagline,
   tri: site.tri,
@@ -59,7 +59,7 @@ export const sections = {
   },
   infrastruktur: {
     eyebrow: "Was wir betreiben",
-    title: "Eigene Hardware. Eigenes Netzwerk. Im Ausbau.",
+    title: "Eigene Hardware. Eigenes Netzwerk. Im Aufbau.",
     lead: "Server, Speicher, Netzwerk, Datensicherung und Sicherheit: Diese Bausteine gehören zu unserer Infrastruktur.",
   },
   speicher: {
@@ -106,7 +106,7 @@ export const facts: readonly FactItem[] = [
   {
     icon: "server",
     value: "10 Server",
-    label: "Insgesamt zehn Server im Betrieb.",
+    label: "Insgesamt zehn Server.",
   },
   {
     icon: "db",
@@ -188,7 +188,7 @@ export const storageChips: readonly string[] = ["250 TB SSD im Betrieb", "Rest i
 
 export const storageRows: readonly (readonly [string, string])[] = [
   ["SSD-Storage im Betrieb", "250 TB SSD"],
-  ["Im Aufbau", "Weitere SSD-Kapazität und 1 Server mit knapp 500 TB HDD"],
+  ["Im Aufbau", "SSD-Ausbau auf 4 × 120 TB (480 TB) und 1 Server mit knapp 500 TB HDD"],
   ["Ausbauziel", "Knapp 1 PB Rohkapazität"],
   ["Datensicherung", "PBS-Backup-System"],
 ];
