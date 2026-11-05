@@ -15,12 +15,11 @@ export * from "./status-shared";
 
 /** Ausgangszustand laut Betreiber-Angaben. */
 export const defaultComponents: readonly StatusComponent[] = [
-  { id: "kvm", name: "KVM-Server (intern)", group: "compute", detail: "Interne Server mit KVM", state: "operational" },
-  { id: "extern", name: "Server (extern)", group: "compute", detail: "Ganz normale Server", state: "operational" },
-  { id: "storage-ssd", name: "Storage-Server SSD", group: "storage", detail: "4 Server mit je 120 TB SSD", state: "operational" },
-  { id: "storage-hdd", name: "Storage-Server HDD", group: "storage", detail: "1 Server mit knapp 500 TB HDD", state: "operational" },
+  { id: "server", name: "Server", group: "compute", detail: "10 Server insgesamt", state: "operational" },
+  { id: "storage-ssd", name: "SSD-Speicher", group: "storage", detail: "Aktuell 250 TB SSD in Betrieb", state: "operational" },
+  { id: "storage-ausbau", name: "Speicher-Ausbau", group: "storage", detail: "Weitere SSD-Kapazität und ein Server mit knapp 500 TB HDD, Ziel knapp 1 PB", state: "building" },
   { id: "pbs", name: "PBS-Backup-System", group: "backup", detail: "System für Backups", state: "operational" },
-  { id: "netzwerk", name: "Netzwerk", group: "network", detail: "Eigenes IP-Subnetz, Network-Server steuert die Internetanbindung", state: "operational" },
+  { id: "netzwerk", name: "Netzwerk", group: "network", detail: "Eigenes IP-Subnetz, ein Server steuert die Internetanbindung", state: "operational" },
   { id: "dns", name: "DNS-Server", group: "network", detail: "Namensauflösung", state: "maintenance", note: "Aktuell in Wartung" },
   { id: "security", name: "Sicherheitssystem", group: "security", detail: "Mit internem Netzwerk-Setup", state: "operational" },
 ];

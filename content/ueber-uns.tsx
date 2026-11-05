@@ -14,13 +14,13 @@ import { site } from "@/content/site";
 export const meta = {
   title: "Über uns: Eigene Hardware, eigenes Netz",
   description:
-    "Wer hinter VylarisData steht: Technikmarke der VylarisGroup mit 10 Servern, fast 1 PB Rohkapazität, eigenem Netz und PBS-Backup-System.",
+    "Wer hinter VylarisData steht: Technikmarke der VylarisGroup mit 10 Servern, 250 TB SSD im Betrieb, eigenem Netz und PBS-Backup-System. Der Speicherausbau ist im Aufbau.",
   path: "/ueber-uns/",
 } as const;
 
 /** Seitenkopf: Einleitung. */
 export const heroLead =
-  "VylarisData ist die Technikmarke der VylarisGroup und betreibt eigene Hardware: 10 Server, fast 1 PB Rohkapazität, ein eigenes IP-Subnetz, ein PBS-Backup-System und ein Sicherheitssystem. Eine Marke von CircleUpWilms.";
+  "VylarisData ist die Technikmarke der VylarisGroup und betreibt eigene Hardware: 10 Server, aktuell 250 TB SSD im Betrieb (Ausbau auf knapp 1 PB im Aufbau), ein eigenes IP-Subnetz, ein PBS-Backup-System und ein Sicherheitssystem. Eine Marke von CircleUpWilms.";
 
 /** Statushinweise im Seitenkopf und in den FAQ. */
 export const heroStatus: readonly UuStatusItem[] = [
@@ -43,11 +43,11 @@ export const missionCopy = (
   <>
     <p>
       Unser Leitsatz lautet „Powering the Vylaris Ecosystem“. Als Technikmarke der VylarisGroup betreiben wir{" "}
-      <strong className="strong">bestehende Hardware</strong>: <strong className="strong">10 Server</strong>, Storage mit{" "}
-      <strong className="strong">fast 1 PB Rohkapazität</strong>, ein eigenes Netz und ein PBS-Backup-System.
+      <strong className="strong">bestehende Hardware</strong>: <strong className="strong">10 Server</strong>, aktuell{" "}
+      <strong className="strong">250 TB SSD</strong> im Betrieb, ein eigenes Netz und ein PBS-Backup-System. Der Rest des Speichers ist im Aufbau.
     </p>
     <p>
-      Die Infrastruktur ist in Betrieb. Geplant ist, das Vylaris-Ökosystem weiter auszubauen.
+      Die Infrastruktur ist in Betrieb, der Speicher wird ausgebaut. Geplant ist, das Vylaris-Ökosystem weiter auszubauen.
     </p>
     <p>
       Unser Bereich ist Software Development & Technology. Wie wir dabei denken und arbeiten, halten wir auf dieser
@@ -85,14 +85,14 @@ export const numbersHead: UuHeadData = {
 };
 
 export const numbers: readonly FactItem[] = [
-  { value: "10", label: "Server insgesamt, intern und extern", icon: "server" },
-  { value: "4 × 120 TB", label: "SSD auf vier Storage-Servern, zusammen 480 TB", icon: "zap" },
-  { value: "knapp 500 TB", label: "HDD auf einem Storage-Server", icon: "hdd" },
-  { value: "fast 1 PB", label: "Rohkapazität insgesamt, vor Redundanz gerechnet", icon: "layers" },
+  { value: "10", label: "Server insgesamt, selbst betrieben", icon: "server" },
+  { value: "250 TB", label: "SSD-Speicher aktuell im Betrieb", icon: "zap" },
+  { value: "Im Aufbau", label: "Der Rest des Speichers: weitere SSD und ein Server mit knapp 500 TB HDD", icon: "hdd" },
+  { value: "knapp 1 PB", label: "Ausbauziel: Rohkapazität insgesamt, vor Redundanz gerechnet", icon: "layers" },
 ];
 
 export const numbersNote =
-  "Die Rohkapazität ergibt sich aus 4 × 120 TB SSD und knapp 500 TB HDD, gerechnet vor jeder Redundanz.";
+  "Das Ausbauziel ergibt sich aus 4 × 120 TB SSD und knapp 500 TB HDD, gerechnet vor jeder Redundanz. Heute laufen 250 TB SSD.";
 
 /* ----------------------------------------------------------------- Bestand */
 
@@ -107,21 +107,21 @@ export const assets: readonly AssetItem[] = [
   {
     icon: "server",
     title: "10 Server",
-    text: "Intern setzen wir auf KVM-Server, extern auf klassische Server. Mehr verraten wir dazu nicht.",
+    text: "Zehn Server auf eigener Hardware. Mehr verraten wir zu den Einzelheiten nicht.",
     status: { tone: "ok", label: "Im Betrieb" },
   },
   {
     icon: "zap",
     iconTone: "indigo",
-    title: "4 Storage-Server mit SSD",
-    text: "Jeder dieser vier Storage-Server hat 120 TB SSD. Zusammen sind das 480 TB SSD-Speicher.",
+    title: "250 TB SSD",
+    text: "Unser SSD-Speicher mit 250 TB ist aktuell im Betrieb.",
     status: { tone: "ok", label: "Im Betrieb" },
   },
   {
     icon: "hdd",
-    title: "Storage-Server mit HDD",
-    text: "Ein Storage-Server mit knapp 500 TB HDD. Mit den SSD-Servern ergibt das fast 1 PB Rohkapazität.",
-    status: { tone: "ok", label: "Im Betrieb" },
+    title: "Speicherausbau",
+    text: "Im Aufbau: weitere SSD-Kapazität und ein Server mit knapp 500 TB HDD. Ziel sind knapp 1 PB Rohkapazität.",
+    status: { tone: "info", label: "Im Aufbau" },
   },
   {
     icon: "refresh",
@@ -133,7 +133,7 @@ export const assets: readonly AssetItem[] = [
   {
     icon: "network",
     title: "Eigenes Netz",
-    text: "Wir haben ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
+    text: "Wir haben ein eigenes IP-Subnetz und einen Server, der unsere Internetanbindung regelt.",
     status: { tone: "ok", label: "Im Betrieb" },
   },
   {
@@ -185,7 +185,8 @@ export const transparencyCopy = (
 );
 
 export const statusLayers: readonly UuLayer[] = [
-  { icon: "check", name: "Im Betrieb", description: "10 Server, Storage, PBS-Backup, eigenes Netz und Sicherheitssystem." },
+  { icon: "check", name: "Im Betrieb", description: "10 Server, 250 TB SSD, PBS-Backup, eigenes Netz und Sicherheitssystem." },
+  { icon: "hdd", iconTone: "indigo", name: "Im Aufbau", description: "Der Rest des Speichers, Ziel knapp 1 PB." },
   { icon: "wrench", iconTone: "indigo", name: "In Wartung", description: "Der DNS-Server." },
   { icon: "rocket", name: "Geplant", description: "Das Vylaris-Ökosystem weiter ausbauen.", highlight: true },
 ];
@@ -226,7 +227,7 @@ export const principles: readonly PrincipleItem[] = [
   {
     icon: "refresh",
     title: "Datensicherung im Alltag",
-    text: "Ein eigenes PBS-Backup-System und ein eigenes Netz mit eigenem Network-Server gehören zu unserem Betrieb.",
+    text: "Ein eigenes PBS-Backup-System und ein eigenes Netz mit eigenem Server gehören zu unserem Betrieb.",
   },
   {
     icon: "code",
@@ -360,7 +361,7 @@ export const history: readonly TimelineItem[] = [
   {
     status: { tone: "ok", label: "Im Betrieb" },
     title: "Die Infrastruktur von VylarisData",
-    text: "Heute betreibt VylarisData 10 Server, Storage-Server mit fast 1 PB Rohkapazität, ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Network-Server und ein Sicherheitssystem.",
+    text: "Heute betreibt VylarisData 10 Server, 250 TB SSD-Speicher (der Ausbau auf knapp 1 PB ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Server und ein Sicherheitssystem.",
   },
   {
     status: { tone: "warn", label: "Geplant" },
@@ -387,7 +388,7 @@ export const workStyle: readonly WorkStyleItem[] = [
   },
   {
     lead: "Eigenes Netz.",
-    text: "Wir haben ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
+    text: "Wir haben ein eigenes IP-Subnetz und einen Server, der unsere Internetanbindung regelt.",
   },
   {
     lead: "Schutz im Netz.",
@@ -476,7 +477,7 @@ export const faq: readonly FaqItem[] = [
   },
   {
     q: "Wie groß ist eure Infrastruktur?",
-    a: "Wir betreiben 10 Server, intern als KVM-Server und extern als klassische Server. Für den Speicher haben wir vier Storage-Server mit je 120 TB SSD und einen Storage-Server mit knapp 500 TB HDD. Zusammen sind das fast 1 PB Rohkapazität, also vor Redundanz gerechnet.",
+    a: "Wir betreiben 10 Server. Für den Speicher haben wir aktuell 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind vier Server mit je 120 TB SSD und ein Server mit knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität, also vor Redundanz gerechnet.",
   },
   {
     q: "Wo sehe ich den aktuellen Stand der Systeme?",

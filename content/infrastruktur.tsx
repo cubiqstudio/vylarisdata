@@ -6,13 +6,14 @@ import type { TopicVisualContent } from "@/components/sections/infrastruktur/Top
 import { site } from "@/content/site";
 
 /* ------------------------------------------------------------- Kennzahlen
- * Schreibweise: Zahlen mit Einheit als Ziffern (10 Server, 4 × 120 TB, knapp 1 PB).
+ * Schreibweise: Zahlen mit Einheit als Ziffern (10 Server, 250 TB SSD, knapp 1 PB).
  * Alle Kennzahlen stehen nur hier und werden in den Texten eingesetzt. */
 
 const serverCount = 10;
 const ssdServers = 4;
 const ssdTbEach = 120;
-const ssdTbTotal = ssdServers * ssdTbEach;
+const ssdTbTotal = ssdServers * ssdTbEach; // Ausbauziel SSD
+const ssdTbNow = 250; // aktuell in Betrieb
 const hddServers = 1;
 const storageServers = ssdServers + hddServers;
 
@@ -20,7 +21,7 @@ const storageServers = ssdServers + hddServers;
 
 export const meta = {
   title: "Infrastruktur",
-  description: `${serverCount} Server, ${ssdTbTotal} TB SSD plus knapp 500 TB HDD, eigenes PBS-Backup-System und IP-Subnetz: Unsere Infrastruktur im Überblick, mit Live-Status.`,
+  description: `${serverCount} Server, aktuell ${ssdTbNow} TB SSD im Betrieb und ein Speicherausbau auf knapp 1 PB, eigenes PBS-Backup-System und IP-Subnetz: Unsere Infrastruktur im Überblick, mit Live-Status.`,
   path: "/infrastruktur/",
 } as const;
 
@@ -29,15 +30,15 @@ export const meta = {
 export const pageText = {
   hero: {
     eyebrow: "Unsere Infrastruktur",
-    title: "Eigene Hardware. Eigenes Netz. Im Betrieb.",
-    lead: `${serverCount} Server, knapp 1 PB Rohkapazität, ein eigenes PBS-Backup-System, ein eigenes IP-Subnetz und ein Sicherheitssystem: Das ist keine Planung, sondern bestehende Hardware. Aktuell ist nur der DNS-Server in Wartung. Den Zustand aller Systeme zeigen wir live auf dieser Seite.`,
+    title: "Eigene Hardware. Eigenes Netz. Im Ausbau.",
+    lead: `${serverCount} Server, aktuell ${ssdTbNow} TB SSD im Betrieb, ein eigenes PBS-Backup-System, ein eigenes IP-Subnetz und ein Sicherheitssystem: Das ist bestehende Hardware. Der Rest des Speichers (Ziel knapp 1 PB) ist im Aufbau, der DNS-Server in Wartung. Den Zustand aller Systeme zeigen wir live auf dieser Seite.`,
     primary: "Live-Status ansehen",
     secondary: "Die Zahlen",
   },
   zahlen: {
     eyebrow: "Die Zahlen",
-    title: `${serverCount} Server, knapp 1 PB.`,
-    lead: "Bestehende Hardware, keine Planung. Hier die Eckdaten unserer Infrastruktur.",
+    title: `${serverCount} Server, ${ssdTbNow} TB SSD, Ziel knapp 1 PB.`,
+    lead: "Was heute läuft und was gerade entsteht: die Eckdaten unserer Infrastruktur.",
     ariaLabel: "Eckdaten der Infrastruktur",
   },
   ueberblick: {
@@ -57,7 +58,7 @@ export const pageText = {
   },
   naechstes: {
     eyebrow: "Stand und Ausblick",
-    title: "Heute im Betrieb, danach der Ausbau.",
+    title: "Heute im Betrieb, der Ausbau läuft.",
     lead: "Wir planen, unser Ökosystem weiter auszubauen. Jeder Punkt trägt den Status, der heute stimmt.",
   },
   faq: {
@@ -77,17 +78,17 @@ export const pageText = {
 /* ---------------------------------------------------------------- Fakten */
 
 export const facts: readonly Fact[] = [
-  { id: "server", value: `${serverCount} Server`, label: "Intern KVM-Server, extern klassische Server." },
-  { id: "ssd", value: `${ssdServers} × ${ssdTbEach} TB`, label: `SSD, verteilt auf ${ssdServers} Storage-Server. Zusammen ${ssdTbTotal} TB SSD.` },
-  { id: "hdd", value: "Knapp 500 TB", label: `HDD in ${hddServers} eigenen Storage-Server.` },
-  { id: "raw", value: "Knapp 1 PB", label: "Summe aller Laufwerke vor Redundanz. Die Rechnung steht darunter." },
-  { id: "netz", value: "Eigenes IP-Subnetz", label: "Dazu ein Network-Server, der unsere Internetanbindung regelt." },
+  { id: "server", value: `${serverCount} Server`, label: "Eigene Hardware, von uns selbst betrieben." },
+  { id: "ssd", value: `${ssdTbNow} TB SSD`, label: "Aktuell in Betrieb. Das ist unser heutiger Speicher." },
+  { id: "hdd", value: "Im Aufbau", label: `Der Rest des Speichers: weitere SSD-Kapazität und ${hddServers} Server mit knapp 500 TB HDD.` },
+  { id: "raw", value: "Ziel: knapp 1 PB", label: "Rohkapazität nach dem Ausbau, vor Redundanz. Die Rechnung steht darunter." },
+  { id: "netz", value: "Eigenes IP-Subnetz", label: "Dazu ein Server, der unsere Internetanbindung regelt." },
   { id: "pbs", value: "PBS-Backup-System", label: "Ein eigenes System für Backups." },
   { id: "security", value: "Sicherheitssystem", label: "Ein Sicherheitssystem mit eigenem, internem Netzwerk-Setup." },
   { id: "live", value: "Live-Status", label: "Der Zustand unserer Systeme, von uns gepflegt und direkt auf dieser Seite sichtbar." },
 ];
 
-export const rawCapacityNote = `Rohkapazität: ${ssdServers} × ${ssdTbEach} TB SSD (= ${ssdTbTotal} TB) plus knapp 500 TB HDD ergeben knapp 1 PB. Das ist die Summe der verbauten Laufwerke vor Redundanz. Die nutzbare Kapazität liegt je nach Redundanz darunter.`;
+export const rawCapacityNote = `Aktuell sind ${ssdTbNow} TB SSD in Betrieb. Der Rest ist im Aufbau: Das Ausbauziel sind ${ssdServers} × ${ssdTbEach} TB SSD (= ${ssdTbTotal} TB) plus knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität. Gemeint ist die Summe der Laufwerke vor Redundanz, die nutzbare Kapazität liegt je nach Redundanz darunter.`;
 
 /* ------------------------------------------------------------ Überblick */
 
@@ -101,12 +102,12 @@ export const overviewLayers: readonly Layer[] = [
   {
     icon: "cpu",
     name: "Rechenleistung",
-    text: `${serverCount} Server insgesamt: intern KVM-Server, extern klassische Server.`,
+    text: `${serverCount} Server insgesamt, alle auf eigener Hardware.`,
   },
   {
     icon: "hdd",
     name: "Speicher",
-    text: `${ssdServers} Storage-Server mit je ${ssdTbEach} TB SSD und ${hddServers} Storage-Server mit knapp 500 TB HDD. Zusammen knapp 1 PB Rohkapazität.`,
+    text: `Aktuell ${ssdTbNow} TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind ${storageServers} Server mit zusammen knapp 1 PB Rohkapazität.`,
     highlight: true,
   },
   {
@@ -117,7 +118,7 @@ export const overviewLayers: readonly Layer[] = [
   {
     icon: "network",
     name: "Netzwerk",
-    text: "Eigenes IP-Subnetz und ein Network-Server, der die Internetanbindung regelt.",
+    text: "Eigenes IP-Subnetz und ein Server, der die Internetanbindung regelt.",
   },
   {
     icon: "shield",
@@ -155,23 +156,23 @@ const point = (lead: string, text: string): TopicPoint => ({ lead, text });
 export const rechenleistung: TopicContent = {
   id: "rechenleistung",
   eyebrow: "Rechenleistung",
-  title: `${serverCount} Server: KVM-Virtualisierung intern, klassische Server extern.`,
+  title: `${serverCount} Server auf eigener Hardware.`,
   paragraphs: [
-    `Unsere Rechenleistung verteilt sich auf insgesamt ${serverCount} Server. Wir unterscheiden zwischen internen und externen Servern. Die internen Server sind KVM-Server, also Virtualisierung: Mehrere Systeme laufen getrennt voneinander auf derselben Hardware.`,
-    "Die externen Server sind ganz normale Server. Zu ihnen nennen wir keine Details zur Virtualisierung.",
+    `Unsere Rechenleistung verteilt sich auf insgesamt ${serverCount} Server. Sie stehen auf eigener Hardware, die wir selbst betreiben.`,
+    "Wie die Server im Einzelnen eingerichtet sind, nennen wir bewusst nicht: Details zur Technik gehören nicht auf eine öffentliche Seite.",
   ],
   points: [
     point(`${serverCount} Server:`, "Die gesamte Rechenleistung liegt auf eigener Hardware."),
-    point("Intern:", "KVM-Server."),
-    point("Extern:", "Ganz normale Server."),
+    point("Betrieb:", "Wir betreiben die Server selbst."),
+    point("Sichtbar:", "Der Zustand steht im Live-Status auf dieser Seite."),
   ],
   visual: {
     kind: "flow",
-    heading: `Aufteilung der ${serverCount} Server`,
+    heading: `Unsere ${serverCount} Server`,
     arrows: false,
     layers: [
-      { icon: "cpu", name: "Intern", text: "KVM-Server.", highlight: true },
-      { icon: "server", name: "Extern", text: "Ganz normale Server." },
+      { icon: "cpu", name: `${serverCount} Server`, text: "Die gesamte Rechenleistung.", highlight: true },
+      { icon: "server", name: "Eigene Hardware", text: "Von uns selbst betrieben." },
     ],
   },
 };
@@ -181,23 +182,23 @@ export const speicher: TopicContent = {
   band: true,
   reverse: true,
   eyebrow: "Speicher",
-  title: "Knapp 1 PB Rohkapazität auf zwei Stufen.",
+  title: "250 TB SSD im Betrieb, Ausbau auf knapp 1 PB.",
   paragraphs: [
-    `${storageServers} Storage-Server tragen unseren Speicher: ${ssdServers} mit je ${ssdTbEach} TB SSD (zusammen ${ssdTbTotal} TB) und ${hddServers} Server mit knapp 500 TB HDD.`,
-    "In einfachen Worten: SSDs speichern ohne bewegliche Teile und sind in der Regel schneller im Zugriff. Festplatten (HDD) sind die klassische Technik, um sehr große Datenmengen unterzubringen. Wir haben beides und damit zwei Stufen mit unterschiedlichen Stärken.",
+    `Heute tragen ${ssdTbNow} TB SSD unseren Speicher. Der Rest ist im Aufbau: Am Ende sollen ${storageServers} Server für den Speicher stehen, ${ssdServers} mit je ${ssdTbEach} TB SSD (zusammen ${ssdTbTotal} TB) und ${hddServers} Server mit knapp 500 TB HDD.`,
+    "In einfachen Worten: SSDs speichern ohne bewegliche Teile und sind in der Regel schneller im Zugriff. Festplatten (HDD) sind die klassische Technik, um sehr große Datenmengen unterzubringen. Heute läuft die schnelle SSD-Stufe, die HDD-Stufe entsteht gerade.",
   ],
   points: [
-    point("SSD-Stufe:", `${ssdServers} Storage-Server mit je ${ssdTbEach} TB, zusammen ${ssdTbTotal} TB.`),
-    point("HDD-Stufe:", `${hddServers} Storage-Server mit knapp 500 TB.`),
-    point("Rohkapazität:", "Zusammen knapp 1 PB, gerechnet vor Redundanz."),
+    point("Im Betrieb:", `${ssdTbNow} TB SSD.`),
+    point("Im Aufbau:", `Weitere SSD-Kapazität (Ziel ${ssdServers} × ${ssdTbEach} TB) und ${hddServers} Server mit knapp 500 TB HDD.`),
+    point("Ausbauziel:", "Zusammen knapp 1 PB Rohkapazität, gerechnet vor Redundanz."),
   ],
   visual: {
     kind: "outline",
     heading: "Speicher in Zahlen",
     items: [
-      `${ssdServers} Storage-Server × ${ssdTbEach} TB SSD = ${ssdTbTotal} TB SSD`,
-      `${hddServers} Storage-Server mit knapp 500 TB HDD`,
-      "Summe: knapp 1 PB Rohkapazität",
+      `Im Betrieb: ${ssdTbNow} TB SSD`,
+      `Im Aufbau: Ausbau auf ${ssdServers} × ${ssdTbEach} TB SSD und ${hddServers} Server mit knapp 500 TB HDD`,
+      "Ausbauziel: knapp 1 PB Rohkapazität",
     ],
     chips: [{ label: "SSD", blue: true }, { label: "HDD" }, { label: "Rohkapazität" }],
   },
@@ -228,14 +229,14 @@ export const netzwerk: TopicContent = {
   band: true,
   reverse: true,
   eyebrow: "Netzwerk",
-  title: "Eigenes IP-Subnetz und ein Network-Server für die Internetanbindung.",
+  title: "Eigenes IP-Subnetz und ein Server für die Internetanbindung.",
   paragraphs: [
-    "Wir betreiben ein eigenes Netzwerk mit einem eigenen IP-Subnetz. Ein Network-Server regelt unsere Internetanbindung.",
+    "Wir betreiben ein eigenes Netzwerk mit einem eigenen IP-Subnetz. Ein Server regelt unsere Internetanbindung.",
     "Wir betreiben auch einen DNS-Server. Er ist aktuell in Wartung. Den Stand zeigt der Live-Status, denn Transparenz gehört zu dem, was wir versprechen.",
   ],
   points: [
     point("Eigenes IP-Subnetz:", "Ein Adressbereich, der zu unserem Netz gehört."),
-    point("Network-Server:", "Regelt unsere Internetanbindung."),
+    point("Server:", "Regelt unsere Internetanbindung."),
     point("DNS-Server:", "Aktuell in Wartung."),
   ],
   visual: {
@@ -243,7 +244,7 @@ export const netzwerk: TopicContent = {
     heading: "Bausteine des Netzwerks",
     arrows: false,
     layers: [
-      { icon: "globe", name: "Network-Server", text: "Regelt unsere Internetanbindung.", highlight: true },
+      { icon: "globe", name: "Server", text: "Regelt unsere Internetanbindung.", highlight: true },
       { icon: "network", name: "Eigenes IP-Subnetz", text: "Der Adressbereich unseres Netzes." },
       { icon: "wrench", name: "DNS-Server", text: "Aktuell in Wartung." },
     ],
@@ -283,7 +284,12 @@ export const roadmap: readonly TimelineItem[] = [
   {
     title: "Heute im Betrieb",
     status: { tone: "ok", label: "Im Betrieb" },
-    text: "Alle Systeme außer dem DNS-Server. Details stehen im Live-Status.",
+    text: `Server, ${ssdTbNow} TB SSD-Speicher, PBS-Backup, Netzwerk und Sicherheitssystem. Details stehen im Live-Status.`,
+  },
+  {
+    title: "Speicherausbau",
+    status: { tone: "info", label: "Im Aufbau" },
+    text: "Der Rest des Speichers ist im Aufbau: weitere SSD-Kapazität und ein Server mit HDD, Ziel knapp 1 PB Rohkapazität. Wir nennen keinen Termin.",
   },
   {
     title: "Wartung des DNS-Servers",
@@ -302,10 +308,11 @@ export const roadmapNotes: TopicVisualContent = {
   heading: "So lesen wir die Zustände",
   items: [
     "Im Betrieb: Das System ist da und läuft.",
+    "Im Aufbau: Die Hardware entsteht gerade und ist noch nicht im Betrieb.",
     "In Wartung: Wir arbeiten daran, offen ausgewiesen.",
     "Geplant: Ein Vorhaben, noch nicht umgesetzt.",
   ],
-  chips: [{ label: "Im Betrieb", blue: true }, { label: "In Wartung" }, { label: "Geplant" }],
+  chips: [{ label: "Im Betrieb", blue: true }, { label: "Im Aufbau" }, { label: "In Wartung" }, { label: "Geplant" }],
   note: "Für geplante Vorhaben nennen wir keine festen Termine.",
 };
 
@@ -316,11 +323,20 @@ export const faq: readonly FaqItem[] = [
     q: "Wie viele Server habt ihr?",
     a: (
       <p>
-        Insgesamt {serverCount} Server. Intern laufen KVM-Server, extern ganz normale Server. Mehr dazu im Abschnitt{" "}
+        Insgesamt {serverCount} Server. Mehr dazu im Abschnitt{" "}
         <A href="#rechenleistung" className="link">
           Rechenleistung
         </A>
         .
+      </p>
+    ),
+  },
+  {
+    q: "Wie viel Speicher habt ihr?",
+    a: (
+      <p>
+        Aktuell {ssdTbNow} TB SSD im Betrieb. Der Rest ist im Aufbau: Das Ausbauziel sind knapp 1 PB Rohkapazität aus{" "}
+        {ssdServers} × {ssdTbEach} TB SSD und knapp 500 TB HDD, gerechnet vor Redundanz.
       </p>
     ),
   },

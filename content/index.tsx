@@ -25,19 +25,19 @@ export function leadItems(items: readonly CheckItem[]): ReactNode[] {
 export const homeMeta = {
   title: "VylarisData – eigene Server-Infrastruktur",
   description:
-    "10 Server, fast 1 PB Speicher, eigenes Netzwerk und PBS-Backup: die eigene Infrastruktur von VylarisData, einer Marke von CircleUpWilms.",
+    "10 Server, 250 TB SSD im Betrieb und ein Speicherausbau auf knapp 1 PB, eigenes Netzwerk und PBS-Backup: die eigene Infrastruktur von VylarisData, einer Marke von CircleUpWilms.",
   path: "/",
 } as const;
 
 /* Hero */
 
 export const hero: HeroContent = {
-  pill: "Teil der VylarisGroup · Bestehende Infrastruktur",
+  pill: "Teil der VylarisGroup · Infrastruktur im Aufbau",
   title: "VylarisData – eigene Server-Infrastruktur",
   tagline: site.tagline,
   tri: site.tri,
-  sub: "10 Server, fast 1 Petabyte Rohkapazität, ein eigenes IP-Subnetz mit eigenem Netzwerk-Server, ein PBS-Backup-System und ein Sicherheitssystem: Das ist die eigene Infrastruktur von VylarisData. Wir betreiben sie selbst.",
-  stats: ["10 Server", "Fast 1 PB Speicher", "Eigenes Subnetz"],
+  sub: "10 Server, aktuell 250 TB SSD im Betrieb, ein eigenes IP-Subnetz mit eigenem Server, ein PBS-Backup-System und ein Sicherheitssystem: Das ist die eigene Infrastruktur von VylarisData. Wir betreiben sie selbst. Der Speicher wird auf knapp 1 Petabyte ausgebaut.",
+  stats: ["10 Server", "250 TB SSD im Betrieb", "Eigenes Subnetz"],
   actions: [
     { href: "/infrastruktur/", label: "Die Infrastruktur ansehen", variant: "primary", icon: "arrow" },
     { href: "/leistungen/", label: "Unsere Aufgabenfelder", variant: "secondary" },
@@ -50,7 +50,7 @@ export const sections = {
   eckdaten: {
     eyebrow: "Auf einen Blick",
     title: "Unsere Infrastruktur auf einen Blick.",
-    lead: "Keine Pläne, sondern Hardware im Betrieb.",
+    lead: "Hardware im Betrieb, der Speicher wächst: Der Ausbau läuft.",
   },
   fokus: {
     eyebrow: "Unser Fokus",
@@ -59,12 +59,12 @@ export const sections = {
   },
   infrastruktur: {
     eyebrow: "Was wir betreiben",
-    title: "Eigene Hardware. Eigenes Netzwerk. Im Betrieb.",
+    title: "Eigene Hardware. Eigenes Netzwerk. Im Ausbau.",
     lead: "Server, Speicher, Netzwerk, Datensicherung und Sicherheit: Diese Bausteine gehören zu unserer Infrastruktur.",
   },
   speicher: {
     eyebrow: "Speicher",
-    title: "Fast ein Petabyte Rohkapazität.",
+    title: "250 TB SSD im Betrieb, Ausbau auf knapp 1 PB.",
   },
   leistungen: {
     eyebrow: "Software Development & Technology",
@@ -87,8 +87,8 @@ export const sections = {
   },
   roadmap: {
     eyebrow: "Stand und Ausblick",
-    title: "Was läuft, was gewartet wird, was kommt.",
-    lead: "Drei Punkte im Überblick. Termine nennen wir bewusst nicht.",
+    title: "Was läuft, was entsteht, was gewartet wird, was kommt.",
+    lead: "Vier Punkte im Überblick. Termine nennen wir bewusst nicht.",
   },
   technologie: {
     eyebrow: "Technologie",
@@ -110,13 +110,13 @@ export const facts: readonly FactItem[] = [
   },
   {
     icon: "db",
-    value: "Fast 1 PB",
-    label: "Rohkapazität im Speicher: 4 × 120 TB SSD (480 TB) plus ein Storage-Server mit knapp 500 TB HDD.",
+    value: "250 TB SSD",
+    label: "Aktuell im Betrieb. Der Rest des Speichers (knapp 1 PB als Ziel) ist im Aufbau.",
   },
   {
     icon: "network",
     value: "Eigenes Subnetz",
-    label: "Ein eigener IP-Subnetzbereich und ein Netzwerk-Server, der unsere Internetanbindung regelt.",
+    label: "Ein eigener IP-Subnetzbereich und ein Server, der unsere Internetanbindung regelt.",
   },
   { icon: "refresh", value: "PBS-Backup", label: "Ein PBS-Backup-System für die Datensicherung." },
   { icon: "shield", value: "Sicherheitssystem", label: "Ein Sicherheitssystem gehört zur Infrastruktur." },
@@ -153,17 +153,17 @@ export const buildingBlocks: readonly IconCardItem[] = [
   {
     icon: "server",
     title: "10 Server",
-    text: "Intern laufen die Server als KVM-Server. Bei den externen Servern geben wir den Typ nicht an.",
+    text: "Insgesamt zehn Server, die wir selbst betreiben.",
   },
   {
     icon: "db",
-    title: "Storage-Server",
-    text: "Vier Storage-Server mit je 120 TB SSD und ein Storage-Server mit knapp 500 TB HDD.",
+    title: "Speicher",
+    text: "Aktuell sind 250 TB SSD in Betrieb. Der Ausbau um vier Server mit je 120 TB SSD und einen Server mit knapp 500 TB HDD ist im Aufbau.",
   },
   {
     icon: "network",
     title: "Eigenes Netzwerk",
-    text: "Ein eigener IP-Subnetzbereich und ein Netzwerk-Server, der unsere Internetanbindung regelt.",
+    text: "Ein eigener IP-Subnetzbereich und ein Server, der unsere Internetanbindung regelt.",
   },
   {
     icon: "refresh",
@@ -184,12 +184,12 @@ export const buildingBlocks: readonly IconCardItem[] = [
 
 /* Speicher */
 
-export const storageChips: readonly string[] = ["4 × 120 TB SSD", "Knapp 500 TB HDD", "Fast 1 PB Rohkapazität"];
+export const storageChips: readonly string[] = ["250 TB SSD im Betrieb", "Rest im Aufbau", "Ziel: knapp 1 PB"];
 
 export const storageRows: readonly (readonly [string, string])[] = [
-  ["SSD-Storage", "4 Storage-Server mit je 120 TB SSD, zusammen 480 TB"],
-  ["HDD-Storage", "1 Storage-Server mit knapp 500 TB HDD"],
-  ["Rohkapazität gesamt", "Fast 1 PB"],
+  ["SSD-Storage im Betrieb", "250 TB SSD"],
+  ["Im Aufbau", "Weitere SSD-Kapazität und 1 Server mit knapp 500 TB HDD"],
+  ["Ausbauziel", "Knapp 1 PB Rohkapazität"],
   ["Datensicherung", "PBS-Backup-System"],
 ];
 
@@ -204,12 +204,12 @@ export const areas: readonly IconCardItem[] = [
   {
     icon: "server",
     title: "Server & Speicher",
-    text: "Betrieb der eigenen Server und Storage-Server. Zahlen und Details stehen auf der Infrastruktur-Seite.",
+    text: "Betrieb der eigenen Server. Zahlen und Details stehen auf der Infrastruktur-Seite.",
   },
   {
     icon: "network",
     title: "Netzwerk & Sicherheit",
-    text: "Eigenes IP-Subnetz, ein Netzwerk-Server für die Internetanbindung und ein Sicherheitssystem.",
+    text: "Eigenes IP-Subnetz, ein Server für die Internetanbindung und ein Sicherheitssystem.",
   },
   {
     icon: "refresh",
@@ -265,7 +265,7 @@ export const principles: readonly IconCardItem[] = [
   {
     icon: "network",
     title: "Eigenes Netzwerk",
-    text: "Mit eigenem IP-Subnetz und eigenem Netzwerk-Server haben wir unsere Internetanbindung selbst in der Hand.",
+    text: "Mit eigenem IP-Subnetz und eigenem Server haben wir unsere Internetanbindung selbst in der Hand.",
   },
   {
     icon: "activity",
@@ -313,8 +313,13 @@ export const brands: readonly EcoBrand[] = [
 export const roadmap: readonly StepItem[] = [
   {
     title: "Eigene Infrastruktur",
-    text: "Server, Speicher, Netzwerk, PBS-Backup-System und Sicherheitssystem sind in Betrieb.",
+    text: "Server, 250 TB SSD-Speicher, Netzwerk, PBS-Backup-System und Sicherheitssystem sind in Betrieb.",
     status: { tone: "ok", label: "Im Betrieb" },
+  },
+  {
+    title: "Speicherausbau",
+    text: "Der Rest des Speichers (weitere SSD-Kapazität und ein Server mit HDD, Ziel knapp 1 PB) ist im Aufbau.",
+    status: { tone: "info", label: "Im Aufbau" },
   },
   {
     title: "DNS-Server",
@@ -346,11 +351,11 @@ export const chipGroups: readonly ChipGroupData[] = [
 export const faq: readonly FaqItem[] = [
   {
     q: "Was betreibt VylarisData an Infrastruktur?",
-    a: "10 Server (intern als KVM-Server), vier Storage-Server mit je 120 TB SSD und einen Storage-Server mit knapp 500 TB HDD, ein PBS-Backup-System, ein eigenes IP-Subnetz mit einem Netzwerk-Server für die Internetanbindung und ein Sicherheitssystem mit internem Netzwerk-Setup.",
+    a: "10 Server, aktuell 250 TB SSD im Betrieb (der Ausbau um weitere SSD-Kapazität und einen Server mit knapp 500 TB HDD ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit einem Server für die Internetanbindung und ein Sicherheitssystem mit internem Netzwerk-Setup.",
   },
   {
     q: "Wie viel Speicher habt ihr?",
-    a: "Zusammen fast 1 Petabyte Rohkapazität: 4 × 120 TB SSD (480 TB) plus knapp 500 TB HDD.",
+    a: "Aktuell haben wir 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind knapp 1 Petabyte Rohkapazität aus 4 × 120 TB SSD (480 TB) plus knapp 500 TB HDD.",
   },
   {
     q: "Wo stehen die Server?",

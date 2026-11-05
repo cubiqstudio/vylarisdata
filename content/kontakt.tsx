@@ -33,7 +33,7 @@ export const crumbs: readonly Crumb[] = [{ label: "Start", href: "/" }, { label:
 export const hero = {
   eyebrow: "Offizieller Kontaktweg",
   title: "Sprich mit der Infrastruktur hinter dem Vylaris-Ökosystem",
-  lead: "Zehn Server, knapp 1 PB Rohkapazität, eigenes Netz und eigenes Backup: VylarisData läuft auf eigener Hardware. Du erreichst uns über das Kontakt- und Ticketsystem der VylarisGroupEurope.",
+  lead: "Zehn Server, 250 TB SSD im Betrieb, eigenes Netz und eigenes Backup: VylarisData läuft auf eigener Hardware. Du erreichst uns über das Kontakt- und Ticketsystem der VylarisGroupEurope.",
 } as const;
 
 export const heroActions: { primary: LinkAction; secondary: LinkAction } = {
@@ -46,21 +46,21 @@ export const heroActions: { primary: LinkAction; secondary: LinkAction } = {
 export const behindHead = {
   id: "dahinter-h",
   eyebrow: "Hinter dem Ticket",
-  title: "Zehn Server, knapp 1 PB, ein eigenes Netz",
-  lead: "Wer uns schreibt, erreicht bestehende Hardware im Betrieb: eigene Server, ein eigenes Backup-System, ein eigenes IP-Subnetz und knapp ein Petabyte Rohkapazität.",
+  title: "Zehn Server, 250 TB SSD, ein eigenes Netz",
+  lead: "Wer uns schreibt, erreicht Hardware im Betrieb: eigene Server, ein eigenes Backup-System, ein eigenes IP-Subnetz und 250 TB SSD im Betrieb, der Speicherausbau auf knapp ein Petabyte ist im Aufbau.",
 } as const;
 
 /** Erste Reihe: die Eckdaten. Zahlen wie auf der Seite Infrastruktur. */
 export const behindFacts: readonly FactItem[] = [
-  { value: "10 Server", label: "insgesamt im Betrieb: intern KVM-Server, extern normale Server.", icon: "server" },
-  { value: "Knapp 1 PB", label: "Rohkapazität vor Redundanz: 4 × 120 TB SSD plus knapp 500 TB HDD.", icon: "hdd" },
-  { value: "Eigenes Netz", label: "Eigenes IP-Subnetz und ein Network-Server, der unsere Internetanbindung regelt.", icon: "network" },
+  { value: "10 Server", label: "insgesamt im Betrieb, auf eigener Hardware.", icon: "server" },
+  { value: "250 TB SSD", label: "Aktuell im Betrieb. Der Rest des Speichers (Ziel knapp 1 PB) ist im Aufbau.", icon: "hdd" },
+  { value: "Eigenes Netz", label: "Eigenes IP-Subnetz und ein Server, der unsere Internetanbindung regelt.", icon: "network" },
   { value: "PBS-System", label: "Eigenes PBS-Backup-System für die Datensicherung.", icon: "refresh" },
 ];
 
 /** Zweite Reihe: Speicher, Sicherheit, DNS und Ausblick. Den Live-Zustand zeigt nur das Status-Board. */
 export const behindMoreFacts: readonly FactItem[] = [
-  { value: "5 Storage-Server", label: "Vier mit je 120 TB SSD (zusammen 480 TB) und einer mit knapp 500 TB HDD.", icon: "db" },
+  { value: "Speicherausbau", label: "Im Aufbau: vier Server mit je 120 TB SSD und einer mit knapp 500 TB HDD, Ziel knapp 1 PB.", icon: "db" },
   { value: "Sicherheitssystem", label: "Mit internem Netzwerk-Setup.", icon: "shield" },
   { value: "DNS-Server", label: "Aktuell in Wartung. Den Stand zeigt das Status-Board.", icon: "globe" },
   { value: "Ausbau geplant", label: "Wir planen, das Vylaris-Ökosystem weiter auszubauen.", icon: "layers" },
@@ -350,7 +350,7 @@ export const faq: readonly FaqItem[] = [
   },
   {
     q: "Was betreibt VylarisData an Infrastruktur?",
-    a: "Wir betreiben zehn Server insgesamt: intern KVM-Server, außerhalb normale Server. Für den Speicher sorgen fünf Storage-Server: vier mit je 120 TB SSD und einer mit knapp 500 TB HDD, zusammen knapp ein Petabyte Rohkapazität vor Redundanz. Außerdem gehören ein PBS-Backup-System, ein eigenes IP-Subnetz mit Network-Server, ein DNS-Server (aktuell in Wartung) und ein Sicherheitssystem mit internem Netzwerk-Setup zu unserer Infrastruktur.",
+    a: "Wir betreiben zehn Server. Für den Speicher laufen aktuell 250 TB SSD. Der Rest ist im Aufbau: vier Server mit je 120 TB SSD und einer mit knapp 500 TB HDD, Ziel ist knapp ein Petabyte Rohkapazität vor Redundanz. Außerdem gehören ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Server, ein DNS-Server (aktuell in Wartung) und ein Sicherheitssystem mit internem Netzwerk-Setup zu unserer Infrastruktur.",
   },
   {
     q: "Ist der DNS-Server verfügbar, und wo sehe ich den Status?",

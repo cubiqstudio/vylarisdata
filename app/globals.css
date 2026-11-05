@@ -452,7 +452,8 @@ a.tile:hover{transform:translateY(-2px)}
 @media(min-width:1024px){.facts{grid-template-columns:repeat(4,1fr)}}
 .fact{border-radius:1rem;border:1px solid var(--border);background:var(--surface);padding:1.5rem;box-shadow:var(--shadow)}
 .fact b{display:block;font-size:1.5rem;font-weight:600;letter-spacing:-.03em;color:var(--heading);line-height:1.2}
-.fact span{display:block;margin-top:.4rem;font-size:.85rem;color:var(--text)}
+.fact span:not(.icon){display:block;margin-top:.4rem;font-size:.85rem;line-height:1.55;color:var(--text)}
+.fact>.icon{display:inline-flex;margin:0 0 1rem}
 
 /* Trennlinie mit Titel */
 .rule{display:flex;align-items:center;gap:1rem;margin:4rem 0 0;color:var(--muted);font-size:.75rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase}

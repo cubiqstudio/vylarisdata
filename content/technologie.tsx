@@ -11,7 +11,7 @@ import { site } from "@/content/site";
 export const meta = {
   title: "Technologie und Infrastruktur",
   description:
-    "10 Server, knapp 1 PB Rohkapazität aus SSD und HDD, eigenes IP-Subnetz und PBS-Backup-System: die Infrastruktur und die Grundsätze von VylarisData.",
+    "10 Server, 250 TB SSD im Betrieb, ein Speicherausbau auf knapp 1 PB, eigenes IP-Subnetz und PBS-Backup-System: die Infrastruktur und die Grundsätze von VylarisData.",
   path: "/technologie/",
 } as const;
 
@@ -25,7 +25,7 @@ export const hero = {
       <Gradient>Eigene Hardware</Gradient>, eigene Technik.
     </>
   ),
-  lead: "10 Server, knapp 1 PB Rohkapazität, ein eigenes IP-Subnetz und ein PBS-Backup-System: Die Infrastruktur von VylarisData läuft. Wir entwickeln Technik für das Vylaris-Ökosystem und betreiben eigene Hardware, nach klaren Grundsätzen und mit transparentem Stand.",
+  lead: "10 Server, 250 TB SSD im Betrieb, ein eigenes IP-Subnetz und ein PBS-Backup-System: Die Infrastruktur von VylarisData läuft, der Speicher wird auf knapp 1 PB ausgebaut. Wir entwickeln Technik für das Vylaris-Ökosystem und betreiben eigene Hardware, nach klaren Grundsätzen und mit transparentem Stand.",
   primaryAction: { href: "#hardware", label: "Unsere Hardware" },
   secondaryAction: { href: "/infrastruktur/", label: "Live-Status ansehen" },
 } as const;
@@ -36,14 +36,14 @@ export const heads = {
   hardware: {
     id: "hardware-h",
     eyebrow: "Eigene Infrastruktur",
-    title: "5 Storage-Server, ein PBS-Backup-System, ein eigenes IP-Subnetz: Das ist unsere Infrastruktur.",
+    title: "250 TB SSD, ein PBS-Backup-System, ein eigenes IP-Subnetz: Das ist unsere Infrastruktur.",
     lead: "Wir entwickeln Software und betreiben eigene Hardware. Hier siehst du, woraus sie besteht: Server, Speicher, Backup, Netz und Sicherheit.",
   },
   inventory: {
     id: "bestand-h",
     eyebrow: "Bestand im Überblick",
     title: "Jede Komponente mit ihrem Stand.",
-    lead: "Hier siehst du jede Komponente mit ihrem aktuellen Stand: Im Betrieb ist, was läuft. In Wartung ist, was gerade gepflegt wird. Geplant ist, was noch kommt.",
+    lead: "Hier siehst du jede Komponente mit ihrem aktuellen Stand: Im Betrieb ist, was läuft. Im Aufbau ist, was gerade entsteht. In Wartung ist, was gerade gepflegt wird. Geplant ist, was noch kommt.",
   },
   website: {
     id: "website-h",
@@ -54,8 +54,8 @@ export const heads = {
   status: {
     id: "stand-h",
     eyebrow: "Stand heute",
-    title: "Was läuft, was in Wartung ist und was geplant ist.",
-    lead: "Wir trennen offen zwischen dem, was im Betrieb ist, dem, was gerade gewartet wird, und dem, was wir planen.",
+    title: "Was läuft, was entsteht, was in Wartung ist und was geplant ist.",
+    lead: "Wir trennen offen zwischen dem, was im Betrieb ist, dem, was gerade entsteht oder gewartet wird, und dem, was wir planen.",
   },
   principles: {
     id: "grundsaetze-h",
@@ -87,30 +87,30 @@ export const heads = {
 
 export const hardwareFacts: readonly FactItem[] = [
   { value: "10", label: "Server in Betrieb" },
-  { value: "4 × 120 TB", label: "SSD-Storage in 4 Storage-Servern" },
-  { value: "knapp 500 TB", label: "HDD-Storage in 1 Storage-Server" },
-  { value: "knapp 1 PB", label: "Rohkapazität aus SSD und HDD, vor Redundanz" },
+  { value: "250 TB", label: "SSD-Speicher aktuell im Betrieb" },
+  { value: "Im Aufbau", label: "Der Rest des Speichers: weitere SSD und ein Server mit knapp 500 TB HDD" },
+  { value: "knapp 1 PB", label: "Ausbauziel, Rohkapazität aus SSD und HDD, vor Redundanz" },
 ];
 
 export const hardwareTiles: readonly TechTileData[] = [
   {
     icon: "server",
-    title: "Intern: KVM-Server",
-    text: "Unsere internen Server sind KVM-Server. Sie gehören zu den 10 Servern von VylarisData.",
-    chips: [{ label: "Intern" }, { label: "KVM" }],
+    title: "10 Server",
+    text: "Insgesamt zehn Server gehören zu VylarisData. Sie stehen auf eigener Hardware.",
+    chips: [{ label: "10 Server" }],
   },
   {
     icon: "cloud",
     iconTone: "indigo",
-    title: "Extern: eigene Server",
-    text: "Die externen Server sind reguläre Server. Ob KVM oder etwas anderes, geben wir bewusst nicht an.",
-    chips: [{ label: "Extern" }],
+    title: "Selbst betrieben",
+    text: "Die Server betreiben wir selbst. Zu Einzelheiten der Einrichtung machen wir bewusst keine Angaben.",
+    chips: [{ label: "Eigene Hardware" }],
   },
   {
     icon: "hdd",
-    title: "5 Storage-Server",
-    text: "4 Storage-Server mit je 120 TB SSD und 1 Storage-Server mit knapp 500 TB HDD. Zusammen sind das knapp 1 PB Rohkapazität.",
-    chips: [{ label: "4 × 120 TB SSD" }, { label: "knapp 500 TB HDD" }],
+    title: "Storage",
+    text: "Aktuell sind 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind 4 Server mit je 120 TB SSD und 1 Server mit knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität.",
+    chips: [{ label: "250 TB SSD im Betrieb" }, { label: "Ausbau im Aufbau" }],
   },
   {
     icon: "life",
@@ -122,8 +122,8 @@ export const hardwareTiles: readonly TechTileData[] = [
   {
     icon: "network",
     title: "Eigenes Netz",
-    text: "Wir betreiben ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
-    chips: [{ label: "Eigenes IP-Subnetz" }, { label: "Network-Server" }],
+    text: "Wir betreiben ein eigenes IP-Subnetz und einen Server, der unsere Internetanbindung regelt.",
+    chips: [{ label: "Eigenes IP-Subnetz" }, { label: "Eigener Server" }],
   },
   {
     icon: "shield",
@@ -138,12 +138,11 @@ export const inventoryHead = ["Komponente", "Stand"] as const;
 
 export const inventoryRows: readonly (readonly [string, ReactNode])[] = [
   ["Server insgesamt", "10"],
-  ["KVM-Server (intern)", <Status key="kvm" tone="ok">Im Betrieb</Status>],
-  ["Server (extern)", <Status key="ext" tone="ok">Im Betrieb</Status>],
-  ["4 Storage-Server, je 120 TB SSD", <Status key="ssd" tone="ok">Im Betrieb</Status>],
-  ["1 Storage-Server, knapp 500 TB HDD", <Status key="hdd" tone="ok">Im Betrieb</Status>],
+  ["Server", <Status key="srv" tone="ok">Im Betrieb</Status>],
+  ["SSD-Speicher, 250 TB", <Status key="ssd" tone="ok">Im Betrieb</Status>],
+  ["Speicherausbau (weitere SSD, 1 Server mit knapp 500 TB HDD)", <Status key="hdd" tone="info">Im Aufbau</Status>],
   ["PBS-Backup-System", <Status key="pbs" tone="ok">Im Betrieb</Status>],
-  ["Eigenes IP-Subnetz und Network-Server", <Status key="net" tone="ok">Im Betrieb</Status>],
+  ["Eigenes IP-Subnetz und Server für die Internetanbindung", <Status key="net" tone="ok">Im Betrieb</Status>],
   ["Sicherheitssystem mit internem Netzwerk-Setup", <Status key="sec" tone="ok">Im Betrieb</Status>],
   ["DNS-Server", <Status key="dns" tone="warn">In Wartung</Status>],
   ["Ökosystem weiter ausbauen", <Status key="eco" tone="info">Geplant</Status>],
@@ -154,11 +153,11 @@ export const hardwareChecks = [
     <strong>Eigene Hardware:</strong> Server, Speicher, Backup und Netz betreiben wir selbst.
   </>,
   <>
-    <strong>Nachvollziehbare Kapazität:</strong> 4 × 120 TB SSD und knapp 500 TB HDD sind knapp 1 PB Rohkapazität. Das ist die Zahl
-    vor Redundanz, nicht die nutzbare Menge.
+    <strong>Nachvollziehbare Kapazität:</strong> Heute laufen 250 TB SSD. Das Ausbauziel (4 × 120 TB SSD und knapp 500 TB HDD) sind knapp
+    1 PB Rohkapazität. Das ist die Zahl vor Redundanz, nicht die nutzbare Menge.
   </>,
   <>
-    <strong>Eigene Netzbasis:</strong> Mit eigenem IP-Subnetz und eigenem Network-Server regeln wir unsere Internetanbindung selbst.
+    <strong>Eigene Netzbasis:</strong> Mit eigenem IP-Subnetz und eigenem Server regeln wir unsere Internetanbindung selbst.
   </>,
 ];
 
@@ -314,13 +313,18 @@ export const statusItems: readonly TimelineItem[] = [
     title: "Eigene Infrastruktur",
     text: (
       <>
-        Die Infrastruktur ist im Betrieb, mit Ausnahme des DNS-Servers. Den Live-Stand zeigt die Seite{" "}
+        Die Infrastruktur ist im Betrieb, mit Ausnahme des DNS-Servers und des noch im Aufbau befindlichen Speicherausbaus. Den Live-Stand zeigt die Seite{" "}
         <A className="link" href="/infrastruktur/">
           Infrastruktur
         </A>
         .
       </>
     ),
+  },
+  {
+    status: { tone: "info", label: "Im Aufbau" },
+    title: "Speicherausbau",
+    text: "Aktuell sind 250 TB SSD in Betrieb. Der Rest des Speichers ist im Aufbau, Ziel sind knapp 1 PB Rohkapazität.",
   },
   {
     status: { tone: "warn", label: "In Wartung" },
@@ -330,7 +334,7 @@ export const statusItems: readonly TimelineItem[] = [
   {
     status: { tone: "info", label: "Geplant" },
     title: "Das Ökosystem weiter ausbauen",
-    text: "Geplant ist, das Vylaris-Ökosystem weiter auszubauen. Das ist der einzige Punkt in dieser Liste, der noch vor uns liegt.",
+    text: "Geplant ist, das Vylaris-Ökosystem weiter auszubauen. Das ist der einzige Punkt in dieser Liste, der noch nicht begonnen hat.",
   },
 ];
 
@@ -391,8 +395,8 @@ export const faq: readonly FaqItem[] = [
     q: "Welche Infrastruktur betreibt VylarisData?",
     a: (
       <p>
-        10 Server, 5 Storage-Server mit knapp 1 PB Rohkapazität, ein PBS-Backup-System, ein eigenes IP-Subnetz mit
-        Network-Server und ein Sicherheitssystem mit internem Netzwerk-Setup. Die Details stehen oben, den Live-Stand zeigt die
+        10 Server, 250 TB SSD-Speicher im Betrieb (der Ausbau auf knapp 1 PB Rohkapazität ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit
+        Server für die Internetanbindung und ein Sicherheitssystem mit internem Netzwerk-Setup. Die Details stehen oben, den Live-Stand zeigt die
         Seite{" "}
         <A className="link" href="/infrastruktur/">
           Infrastruktur
@@ -403,7 +407,7 @@ export const faq: readonly FaqItem[] = [
   },
   {
     q: "Was bedeutet Rohkapazität?",
-    a: "Rohkapazität ist die Summe aller Speicherplatten, bevor Redundanz abgezogen wird. Die nutzbare Menge hängt von der Redundanz ab.",
+    a: "Rohkapazität ist die Summe aller Speicherplatten, bevor Redundanz abgezogen wird. Die nutzbare Menge hängt von der Redundanz ab. Die Zahl knapp 1 PB ist unser Ausbauziel, aktuell sind 250 TB SSD im Betrieb.",
   },
   {
     q: "Was bedeutet „In Wartung“ im Statusboard?",

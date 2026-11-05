@@ -10,7 +10,7 @@ import { getStatusBoard, groupLabels, stateLabels, type ComponentState } from "@
 
 export const dynamic = "force-dynamic";
 
-const tone = (s: ComponentState) => (s === "operational" ? "ok" : s === "maintenance" ? "info" : "warn");
+const tone = (s: ComponentState) => (s === "operational" ? "ok" : s === "maintenance" || s === "building" ? "info" : "warn");
 const time = (iso: string) => new Date(iso).toLocaleString("de-DE", { dateStyle: "short", timeStyle: "medium", timeZone: "Europe/Berlin" });
 
 export default async function AdminHome() {
@@ -49,7 +49,8 @@ export default async function AdminHome() {
         <div className="admin-card">
           <h2>Öffentliche Statusseite</h2>
           <p>
-            {board.components.filter((c) => c.state === "operational").length} von {board.components.length} Systemen im Normalbetrieb.
+            {board.components.filter((c) => c.state === "operational").length} von {board.components.filter((c) => c.state !== "building").length} Systemen im Normalbetrieb
+            {board.components.some((c) => c.state === "building") ? `, ${board.components.filter((c) => c.state === "building").length} im Aufbau` : ""}.
           </p>
           <p>
             <Link href="/infrastruktur/">Seite ansehen</Link>
