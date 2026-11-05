@@ -4,8 +4,8 @@ export type UuChip = { label: string; blue?: boolean };
 export function UuChips({ items }: { items: readonly UuChip[] }) {
   return (
     <div className="chips">
-      {items.map((c) => (
-        <span key={c.label} className={c.blue ? "chip blue" : "chip"}>
+      {items.map((c, i) => (
+        <span key={`${i}-${c.label}`} className={c.blue ? "chip blue" : "chip"}>
           {c.label}
         </span>
       ))}

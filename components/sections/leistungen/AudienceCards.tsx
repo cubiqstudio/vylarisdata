@@ -1,13 +1,14 @@
 import { Cards, Icon, type IconName } from "@/components/ui";
+import type { IconTone } from "./types";
 
 export type AudienceItem = {
   icon: IconName;
-  iconTone?: "indigo";
+  iconTone?: IconTone;
   title: string;
   text: string;
 };
 
-/** Zielgruppen-Karten (Feature-Kacheln) mit optional abgesetztem Icon-Farbton. */
+/** Einordnungs-Karten (Feature-Kacheln) mit optional abgesetztem Icon-Farbton. */
 export function AudienceCards({ items }: { items: readonly AudienceItem[] }) {
   return (
     <Cards cols={3}>

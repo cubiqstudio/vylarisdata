@@ -1,30 +1,49 @@
 import { AllianceEco } from "@/components/sections/ueber-uns/AllianceEco";
-import { PartyCard, PrincipleTile } from "@/components/sections/ueber-uns/UuCards";
+import { AssetTile, PartyCard, PrincipleTile } from "@/components/sections/ueber-uns/UuCards";
 import { UuChips } from "@/components/sections/ueber-uns/UuChips";
 import { UuFacts } from "@/components/sections/ueber-uns/UuFacts";
-import { UuHead } from "@/components/sections/ueber-uns/UuHead";
+import { UuHead, UuTitle } from "@/components/sections/ueber-uns/UuHead";
 import { UuHero, UuStatus } from "@/components/sections/ueber-uns/UuHero";
 import { UuSplit, UuVisual } from "@/components/sections/ueber-uns/UuSplit";
 import { UuStack } from "@/components/sections/ueber-uns/UuStack";
-import { Button, Callout, Cards, Checks, Cta, Faq, Gradient, Section, Timeline } from "@/components/ui";
+import { Button, Callout, Cards, Checks, Cta, Facts, Faq, Gradient, Section, SectionHead, Timeline } from "@/components/ui";
 import {
   allianceCh,
   allianceEu,
-  allianceIntro,
+  allianceHead,
+  assets,
+  assetsHead,
+  assetsNote,
+  ctaCopy,
   faq,
+  faqHead,
+  heroLead,
+  heroStatus,
   history,
-  hostingStatus,
+  historyHead,
   importantChips,
+  importantCopy,
+  importantHead,
   meta,
   missionChips,
+  missionCopy,
+  missionHead,
+  missionVisual,
+  numbers,
+  numbersHead,
+  numbersNote,
   overviewLayers,
   parties,
   partiesHead,
   partiesNote,
   principles,
   siteFacts,
+  statusLayers,
   targetLayers,
+  transparencyCopy,
+  transparencyHead,
   valuesHead,
+  workHead,
   workStyle,
 } from "@/content/ueber-uns";
 import { site } from "@/content/site";
@@ -38,70 +57,95 @@ export default function UeberUnsPage() {
       <UuHero
         crumbs={[{ label: "Start", href: "/" }, { label: "Über uns" }]}
         eyebrow={site.area}
-        title="Die Technik hinter dem Vylaris-Ökosystem."
-        lead="VylarisData ist eine Marke von CircleUpWilms und verantwortet innerhalb der VylarisGroup den Bereich Software Development & Technology. Die Infrastruktur, die künftig das Hosting der Gruppe übernimmt, ist im Aufbau."
-        status={hostingStatus}
+        title={
+          <>
+            Eigene Hardware. Eigenes Netz. <Gradient>Ein Ökosystem.</Gradient>
+          </>
+        }
+        lead={heroLead}
+        status={heroStatus}
         actions={
           <>
-            <Button href="/oekosystem/" size="lg" icon="arrow">
-              Das Ökosystem
+            <Button href="/infrastruktur/" size="lg" icon="arrow">
+              Zur Infrastruktur
             </Button>
-            <Button href="/kontakt/" variant="secondary" size="lg">
-              Kontakt
+            <Button href="/oekosystem/" variant="secondary" size="lg">
+              Das Ökosystem
             </Button>
           </>
         }
       />
 
-      <Section id="mission" labelledBy="mission-h">
+      <Section id="mission" labelledBy={missionHead.id}>
         <UuSplit
           copy={
             <>
-              <p className="eyebrow">Unsere Mission</p>
-              <h2 className="h2" id="mission-h">
-                Das Vylaris-Ökosystem technisch tragen.
-              </h2>
-              <p>
-                Unser Leitsatz lautet „Powering the Vylaris Ecosystem“. Die Dienste der VylarisGroup brauchen eine
-                technische Basis, die ihnen gehört und die sie verstehen. Diese wollen wir bauen.
-              </p>
-              <p>
-                VylarisData übernimmt <strong className="strong">künftig das Hosting der VylarisGroup</strong>. Die
-                Infrastruktur dafür ist <strong className="strong">im Aufbau</strong>. Wir sagen das so deutlich, weil
-                wir nichts versprechen wollen, was noch nicht steht.
-              </p>
-              <p>
-                Unser Bereich ist Software Development & Technology. Die Grundsätze, nach denen später betrieben werden
-                soll, halten wir auf dieser Seite fest.
-              </p>
+              <UuTitle {...missionHead} />
+              {missionCopy}
             </>
           }
           visual={
             <UuVisual soft>
-              <p className="eyebrow">VylarisData</p>
-              <p className="h3 uu-claim">
-                <Gradient>{site.tri}</Gradient>
-              </p>
-              <p className="mt-6">
-                Drei Wörter als Leitlinie: Technik, die du verstehst, Infrastruktur, die du kontrollierst, und Ideen, die
-                wir weiterentwickeln.
-              </p>
+              {missionVisual}
               <UuChips items={missionChips} />
             </UuVisual>
           }
         />
       </Section>
 
-      <Section id="werte" labelledBy="werte-h" band>
-        <UuHead {...valuesHead} />
+      <Section id="zahlen" labelledBy={numbersHead.id} band>
+        <UuHead {...numbersHead} />
+        <Facts items={numbers} />
+        <div className="mt-8">
+          <Callout>{numbersNote}</Callout>
+        </div>
+      </Section>
+
+      <Section id="bestand" labelledBy={assetsHead.id}>
+        <UuHead {...assetsHead} />
         <Cards cols={4}>
+          {assets.map((a) => (
+            <AssetTile key={a.title} item={a} />
+          ))}
+        </Cards>
+        <div className="mt-8">
+          <Callout>{assetsNote}</Callout>
+        </div>
+      </Section>
+
+      <Section id="transparenz" labelledBy={transparencyHead.id} band>
+        <UuSplit
+          reverse
+          copy={
+            <>
+              <UuTitle {...transparencyHead} />
+              {transparencyCopy}
+              <div className="hero-cta mt-6">
+                <Button href="/infrastruktur/" icon="arrow">
+                  Live-Status ansehen
+                </Button>
+              </div>
+            </>
+          }
+          visual={
+            <UuVisual soft>
+              <p className="eyebrow">Ehrlich im Stand</p>
+              <UuStack layers={statusLayers} />
+            </UuVisual>
+          }
+        />
+      </Section>
+
+      <Section id="werte" labelledBy={valuesHead.id}>
+        <UuHead {...valuesHead} />
+        <Cards cols={3}>
           {principles.map((p) => (
             <PrincipleTile key={p.title} item={p} />
           ))}
         </Cards>
       </Section>
 
-      <Section id="dahinter" labelledBy="dahinter-h">
+      <Section id="dahinter" labelledBy={partiesHead.id} band>
         <UuHead {...partiesHead} />
         <Cards cols={3}>
           {parties.map((p) => (
@@ -113,29 +157,19 @@ export default function UeberUnsPage() {
         </div>
       </Section>
 
-      <Section id="allianz" labelledBy="allianz-h" band>
-        <div className="center">
-          <p className="eyebrow">Allianz CH & EU</p>
-          <h2 className="h2" id="allianz-h">
-            Zwei Seiten, eine Gruppe.
-          </h2>
-          <p className="lead">{allianceIntro}</p>
-        </div>
+      <Section id="allianz" labelledBy={allianceHead.id}>
+        <SectionHead center {...allianceHead} />
         <AllianceEco left={allianceCh} right={allianceEu} />
       </Section>
 
-      <Section id="geschichte" labelledBy="geschichte-h">
+      <Section id="geschichte" labelledBy={historyHead.id} band>
         <UuSplit
           narrow
           copy={
             <>
-              <p className="eyebrow">Unsere Geschichte</p>
-              <h2 className="h2" id="geschichte-h">
-                Vom Homelab zur gemeinsamen Infrastruktur.
-              </h2>
-              <p className="lead">Die wichtigsten Etappen, ohne Jahreszahlen.</p>
+              <UuHead {...historyHead} />
               <UuVisual soft className="mt-8">
-                <p className="eyebrow">Stand im Überblick</p>
+                <p className="eyebrow">Die Gruppe im Überblick</p>
                 <UuStack layers={overviewLayers} />
               </UuVisual>
             </>
@@ -144,18 +178,11 @@ export default function UeberUnsPage() {
         />
       </Section>
 
-      <Section id="arbeitsweise" labelledBy="arbeit-h" band>
+      <Section id="arbeitsweise" labelledBy={workHead.id}>
         <UuSplit
           copy={
             <>
-              <p className="eyebrow">Wie wir arbeiten</p>
-              <h2 className="h2" id="arbeit-h">
-                Ruhig, planvoll, in kleinen Schritten.
-              </h2>
-              <p>
-                Wir orientieren uns an bewährten Grundsätzen aus dem Software- und Serverbetrieb. Sie beschreiben, wie wir
-                arbeiten wollen, sobald die Infrastruktur steht.
-              </p>
+              <UuHead {...workHead} />
               <Checks
                 items={workStyle.map((w) => (
                   <>
@@ -167,32 +194,21 @@ export default function UeberUnsPage() {
           }
           visual={
             <UuVisual>
-              <p className="eyebrow">Zielbild</p>
-              <UuStack layers={targetLayers} arrows />
+              <p className="eyebrow">Unsere Ebenen</p>
+              <UuStack layers={targetLayers} />
             </UuVisual>
           }
         />
       </Section>
 
-      <Section id="wichtig" labelledBy="wichtig-h">
+      <Section id="wichtig" labelledBy={importantHead.id} band>
         <UuSplit
           reverse
-          wichtig
+          equalHeight
           copy={
             <>
-              <p className="eyebrow">Das ist uns wichtig</p>
-              <h2 className="h2" id="wichtig-h">
-                Offen entwickelt, ohne Tracking.
-              </h2>
-              <p>
-                VylarisGroupEurope setzt auf Open-Source-Dienste, die dauerhaft kostenlos nutzbar sind, ohne Tracking und
-                auf DSGVO-konformer Infrastruktur in Europa. An diesem Anspruch messen wir uns.
-              </p>
-              <p>
-                Diese Website macht es vor: Sie setzt <strong className="strong">keine Cookies</strong> und nutzt{" "}
-                <strong className="strong">kein Tracking</strong>. Schriften und Skripte kommen von derselben Domain, und
-                deine Wahl zwischen hellem, dunklem oder dem Systemdesign bleibt lokal in deinem Browser.
-              </p>
+              <UuTitle {...importantHead} />
+              {importantCopy}
               <UuChips items={importantChips} />
             </>
           }
@@ -204,17 +220,13 @@ export default function UeberUnsPage() {
         />
       </Section>
 
-      <Section id="faq" labelledBy="faq-h" band>
+      <Section id="faq" labelledBy={faqHead.id}>
         <UuSplit
           narrow
           copy={
             <>
-              <p className="eyebrow">Häufige Fragen</p>
-              <h2 className="h2" id="faq-h">
-                Kurze Antworten zu VylarisData.
-              </h2>
-              <p className="lead">Das Wichtigste zu Stand, Zusammenhang und Kontakt.</p>
-              <UuStatus label={hostingStatus} />
+              <UuHead {...faqHead} />
+              <UuStatus items={heroStatus} />
             </>
           }
           visual={<Faq items={faq} />}
@@ -226,12 +238,12 @@ export default function UeberUnsPage() {
         id="cta-h"
         title={
           <>
-            Neugierig auf <Gradient>VylarisData</Gradient>?
+            Sieh dir an, was bei <Gradient>uns</Gradient> läuft.
           </>
         }
-        text="Schau dir unsere Leistungen an oder melde dich über VylarisGroupEurope bei uns."
-        primary={{ href: "/leistungen/", label: "Unsere Leistungen" }}
-        secondary={{ href: site.links.contact, label: "Kontakt über VylarisGroupEurope", icon: "ext" }}
+        text={ctaCopy.text}
+        primary={ctaCopy.primary}
+        secondary={ctaCopy.secondary}
       />
     </>
   );

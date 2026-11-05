@@ -1,13 +1,15 @@
-import { Checks, Dots, Visual } from "@/components/ui";
+import { A, Checks, Dots, Visual } from "@/components/ui";
 import { LayerStack, type Layer } from "./LayerStack";
 
 export type ChipItem = { label: string; blue?: boolean };
+export type VisualLink = { href: string; label: string };
 
 /** Rechte Spalte eines Themenabschnitts in drei Varianten. */
 export type TopicVisualContent =
-  | { kind: "outline"; heading: string; items: readonly string[]; chips: readonly ChipItem[] }
+  | { kind: "outline"; heading: string; items: readonly string[]; chips: readonly ChipItem[]; note?: string }
   | { kind: "flow"; heading: string; layers: readonly Layer[]; arrows: boolean }
-  | { kind: "checks"; heading: string; items: readonly string[] };
+  | { kind: "checks"; heading: string; items: readonly string[] }
+  | { kind: "links"; heading: string; links: readonly VisualLink[] };
 
 export function TopicVisual({ visual }: { visual: TopicVisualContent }) {
   switch (visual.kind) {
@@ -23,6 +25,7 @@ export function TopicVisual({ visual }: { visual: TopicVisualContent }) {
               </span>
             ))}
           </div>
+          {visual.note && <p className="muted mt-4">{visual.note}</p>}
         </Visual>
       );
     case "flow":
@@ -36,6 +39,19 @@ export function TopicVisual({ visual }: { visual: TopicVisualContent }) {
         <Visual soft>
           <p className="h4">{visual.heading}</p>
           <Checks items={visual.items} />
+        </Visual>
+      );
+    case "links":
+      return (
+        <Visual>
+          <p className="h4">{visual.heading}</p>
+          <Dots
+            items={visual.links.map((l) => (
+              <A key={l.href} href={l.href} className="link">
+                {l.label}
+              </A>
+            ))}
+          />
         </Visual>
       );
   }

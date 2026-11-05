@@ -1,25 +1,26 @@
-import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { AllianceFlow } from "@/components/sections/oekosystem/AllianceFlow";
 import { EcoBrandCard } from "@/components/sections/oekosystem/EcoBrandCard";
+import { CopyHead } from "@/components/sections/oekosystem/CopyHead";
 import { EcoCta } from "@/components/sections/oekosystem/EcoCta";
+import { FeatureGrid } from "@/components/sections/oekosystem/FeatureGrid";
 import { LayerArrow } from "@/components/sections/oekosystem/LayerArrow";
+import { LinkLine } from "@/components/sections/oekosystem/LinkLine";
 import { LinkTile } from "@/components/sections/oekosystem/LinkTile";
 import { Panel, PanelFacts } from "@/components/sections/oekosystem/Panel";
 import { ResponsibilityList } from "@/components/sections/oekosystem/ResponsibilityList";
+import { StatusBoard } from "@/components/sections/oekosystem/StatusBoard";
 import {
-  A,
   Button,
   Cards,
   Checks,
   Faq,
-  Gradient,
+  Facts,
   PageHero,
   Section,
   SectionHead,
   Split,
-  Tile,
-  Timeline,
+  SpecTable,
   Visual,
 } from "@/components/ui";
 import {
@@ -34,29 +35,31 @@ import {
   circleUpWilmsParagraphs,
   circleUpWilmsRows,
   copies,
+  ecoCta,
+  facts,
   faq,
   faqText,
+  foundation,
+  foundationLink,
   groupPanel,
   heads,
+  heroLead,
+  heroTitle,
   linkTiles,
   meta,
+  progressNote,
   progressText,
   responsibilities,
-  timeline,
+  responsibilitiesFooter,
+  siteProofs,
+  statusGroups,
+  storageParagraphs,
+  storageRows,
   values,
 } from "@/content/oekosystem";
-import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
-/* Der Titel nennt den Markennamen bereits, daher ohne Titel-Suffix des Layouts. */
-const base = pageMetadata(meta);
-export const metadata: Metadata = {
-  ...base,
-  title: { absolute: meta.title },
-  openGraph: { ...base.openGraph, title: meta.title },
-};
-
-const flushTop: CSSProperties = { marginTop: 0 };
+export const metadata: Metadata = pageMetadata(meta);
 
 export default function OekosystemPage() {
   return (
@@ -64,48 +67,66 @@ export default function OekosystemPage() {
       <PageHero
         crumbs={[{ label: "Start", href: "/" }, { label: "Ökosystem" }]}
         eyebrow="Ökosystem der VylarisGroup"
-        title="Ein Ökosystem, vier Bausteine."
-        lead="Die VylarisGroup besteht aus vier Teilen, die sich ergänzen. Hier siehst du, wer was macht und wo VylarisData steht."
+        title={heroTitle}
+        lead={heroLead}
         actions={
           <>
-            <Button href="#uebersicht" size="lg" icon="arrow">
-              Zur Übersicht
+            <Button href="#fundament" size="lg" icon="arrow">
+              Das Fundament ansehen
             </Button>
-            <Button href="#wer-macht-was" variant="secondary" size="lg">
-              Wer macht was
+            <Button href="#uebersicht" variant="secondary" size="lg">
+              Zur Übersicht
             </Button>
           </>
         }
       />
 
-      <Section id="uebersicht" labelledBy={heads.overview.id} large>
+      <Section id="zahlen" labelledBy={heads.facts.id}>
+        <SectionHead {...heads.facts} />
+        <Facts items={facts} />
+      </Section>
+
+      <Section id="uebersicht" labelledBy={heads.overview.id} large band>
         <SectionHead {...heads.overview} />
         <Panel tone="blue" icon="globe" title={groupPanel.title} subtitle={groupPanel.subtitle} centered>
           <p className="mt-4">{groupPanel.text}</p>
         </Panel>
-        <LayerArrow spaced />
-        <ul className="cards c2" style={flushTop}>
+        <LayerArrow />
+        <Cards cols={2}>
           {brands.map((brand) => (
             <EcoBrandCard key={brand.name} brand={brand} />
           ))}
-        </ul>
+        </Cards>
       </Section>
 
-      <Section id="allianz" labelledBy={copies.alliance.id} band>
+      <Section id="fundament" labelledBy={heads.foundation.id} large>
+        <SectionHead {...heads.foundation} />
+        <ResponsibilityList items={foundation} />
+        <LinkLine {...foundationLink} />
+      </Section>
+
+      <Section id="speicher" labelledBy={copies.storage.id} band>
         <Split
           copy={
             <>
-              <p className="eyebrow">{copies.alliance.eyebrow}</p>
-              <h2 className="h2" id={copies.alliance.id}>
-                {copies.alliance.title}
-              </h2>
+              <CopyHead {...copies.storage} />
+              {storageParagraphs.map((text) => (
+                <p key={text}>{text}</p>
+              ))}
+            </>
+          }
+          visual={<SpecTable head={["Baustein", "Kapazität"]} rows={storageRows} />}
+        />
+      </Section>
+
+      <Section id="allianz" labelledBy={copies.alliance.id}>
+        <Split
+          copy={
+            <>
+              <CopyHead {...copies.alliance} />
               <p>{allianceParagraph}</p>
               <Checks items={allianceChecks} />
-              <p className="mt-6">
-                <A className="link" href={allianceLink.href}>
-                  {allianceLink.label}
-                </A>
-              </p>
+              <LinkLine {...allianceLink} />
             </>
           }
           visual={
@@ -116,15 +137,12 @@ export default function OekosystemPage() {
         />
       </Section>
 
-      <Section id="circleupwilms" labelledBy={copies.circleUpWilms.id}>
+      <Section id="circleupwilms" labelledBy={copies.circleUpWilms.id} band>
         <Split
           reverse
           copy={
             <>
-              <p className="eyebrow">{copies.circleUpWilms.eyebrow}</p>
-              <h2 className="h2" id={copies.circleUpWilms.id}>
-                {copies.circleUpWilms.title}
-              </h2>
+              <CopyHead {...copies.circleUpWilms} />
               {circleUpWilmsParagraphs.map((text) => (
                 <p key={text}>{text}</p>
               ))}
@@ -138,57 +156,32 @@ export default function OekosystemPage() {
         />
       </Section>
 
-      <Section id="wer-macht-was" labelledBy={heads.responsibilities.id} band>
-        <SectionHead
-          {...heads.responsibilities}
-          lead={
-            <>
-              Vier Aufgaben, klar verteilt. Anfragen laufen gebündelt über{" "}
-              <A className="link" href={site.links.contact}>
-                vylaris.eu/contact
-              </A>
-              .
-            </>
-          }
-        />
+      <Section id="wer-macht-was" labelledBy={heads.responsibilities.id}>
+        <SectionHead {...heads.responsibilities} />
         <ResponsibilityList items={responsibilities} />
-        <p className="mt-6">
-          Mehr zur Technik und zum Aufbau findest du auf der Seite{" "}
-          <A className="link" href="/infrastruktur/">
-            Infrastruktur
-          </A>
-          , Kontaktmöglichkeiten auf der{" "}
-          <A className="link" href="/kontakt/">
-            Kontaktseite
-          </A>
-          .
-        </p>
+        <p className="mt-6">{responsibilitiesFooter}</p>
       </Section>
 
-      <Section id="weg" labelledBy={copies.progress.id}>
+      <Section id="stand" labelledBy={copies.progress.id} band>
         <Split
           copy={
             <>
-              <p className="eyebrow">{copies.progress.eyebrow}</p>
-              <h2 className="h2" id={copies.progress.id}>
-                {copies.progress.title}
-              </h2>
+              <CopyHead {...copies.progress} />
               <p>{progressText}</p>
             </>
           }
-          visual={<Timeline items={timeline} />}
+          visual={<StatusBoard groups={statusGroups} note={progressNote} />}
         />
+      </Section>
+
+      <Section id="betrieb" labelledBy={heads.site.id}>
+        <SectionHead {...heads.site} />
+        <FeatureGrid items={siteProofs} />
       </Section>
 
       <Section id="werte" labelledBy={heads.values.id} band>
         <SectionHead {...heads.values} center />
-        <Cards cols={4}>
-          {values.map((v) => (
-            <Tile key={v.title} icon={v.icon} title={v.title} variant="feature">
-              {v.text}
-            </Tile>
-          ))}
-        </Cards>
+        <FeatureGrid items={values} />
       </Section>
 
       <Section id="links" labelledBy={heads.links.id}>
@@ -200,14 +193,11 @@ export default function OekosystemPage() {
         </Cards>
       </Section>
 
-      <Section id="faq" labelledBy={copies.faq.id} band>
+      <Section id="faq" labelledBy={copies.faq.id}>
         <Split
           copy={
             <>
-              <p className="eyebrow">{copies.faq.eyebrow}</p>
-              <h2 className="h2" id={copies.faq.id}>
-                {copies.faq.title}
-              </h2>
+              <CopyHead {...copies.faq} />
               <p>{faqText}</p>
             </>
           }
@@ -215,18 +205,7 @@ export default function OekosystemPage() {
         />
       </Section>
 
-      <EcoCta
-        id="kontakt"
-        headingId="cta-h"
-        title={
-          <>
-            Du willst mehr über das <Gradient>Ökosystem</Gradient> wissen?
-          </>
-        }
-        text="Schau dir an, wie wir die Infrastruktur aufbauen, oder nimm über VylarisGroupEurope Kontakt zu uns auf."
-        primary={{ href: site.links.contact, label: "Kontakt aufnehmen", icon: "mail" }}
-        secondary={{ href: "/infrastruktur/", label: "Zur Infrastruktur" }}
-      />
+      <EcoCta {...ecoCta} />
     </>
   );
 }

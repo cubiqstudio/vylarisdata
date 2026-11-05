@@ -1,9 +1,10 @@
 import { Fragment, type ReactNode } from "react";
 import { Icon, type IconName } from "@/components/ui";
+import { iconClass, type IconTone } from "./types";
 
 export type UuLayer = {
   icon: IconName;
-  iconTone?: "indigo";
+  iconTone?: IconTone;
   name: string;
   description: ReactNode;
   highlight?: boolean;
@@ -22,7 +23,7 @@ export function UuStack({ layers, arrows }: { layers: readonly UuLayer[]; arrows
           )}
           <div className={l.highlight ? "layer hi" : "layer"}>
             <span className="lname">
-              <span className={l.iconTone ? `icon ${l.iconTone}` : "icon"}>
+              <span className={iconClass(l.iconTone)}>
                 <Icon name={l.icon} />
               </span>
               {l.name}

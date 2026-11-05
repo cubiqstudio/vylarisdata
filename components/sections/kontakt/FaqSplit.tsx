@@ -1,11 +1,11 @@
-import { Faq, Icon, type FaqItem, type IconName } from "@/components/ui";
-
-export type FaqAside = { icon: IconName; title: string; text: string };
+import type { ReactNode } from "react";
+import { Faq, Tile, type FaqItem } from "@/components/ui";
+import type { FaqAside } from "./types";
 
 type FaqSplitProps = {
   eyebrow: string;
   id: string;
-  title: string;
+  title: ReactNode;
   items: readonly FaqItem[];
   aside: FaqAside;
 };
@@ -21,13 +21,9 @@ export function FaqSplit({ eyebrow, id, title, items, aside }: FaqSplitProps) {
         </h2>
         <Faq items={items} />
       </div>
-      <div className="tile feature">
-        <span className="icon">
-          <Icon name={aside.icon} />
-        </span>
-        <h3>{aside.title}</h3>
-        <p>{aside.text}</p>
-      </div>
+      <Tile as="div" variant="feature" icon={aside.icon} title={aside.title}>
+        {aside.text}
+      </Tile>
     </div>
   );
 }

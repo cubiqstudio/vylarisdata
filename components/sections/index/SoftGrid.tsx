@@ -1,13 +1,14 @@
 import { Icon, type IconName } from "@/components/ui";
 
-export type SoftItem = {
+/** Icon-Karte (Icon, Titel, Text), gemeinsam für alle Kartenlisten der Startseite. */
+export type IconCardItem = {
   icon: IconName;
   title: string;
   text: string;
 };
 
 /** Dreispaltiges Raster aus weichen Karten (.card-soft). */
-export function SoftGrid({ items }: { items: readonly SoftItem[] }) {
+export function SoftGrid({ items }: { items: readonly IconCardItem[] }) {
   return (
     <ul className="grid grid-3">
       {items.map((it) => (

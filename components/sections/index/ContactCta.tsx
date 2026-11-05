@@ -3,15 +3,18 @@ import { Button, type IconName } from "@/components/ui";
 
 type CtaAction = { href: string; label: string; icon?: IconName };
 
-type ContactCtaProps = {
+export type ContactCtaContent = {
+  text: string;
+  primary: CtaAction;
+  secondary: CtaAction;
+};
+
+type ContactCtaProps = ContactCtaContent & {
   /** id der Sektion (Anker) */
   id: string;
   /** id der Überschrift */
   headingId: string;
   title: ReactNode;
-  text: string;
-  primary: CtaAction;
-  secondary: CtaAction;
 };
 
 /** Abschluss-Block der Startseite; Icon des primären Buttons steht vor dem Text. */

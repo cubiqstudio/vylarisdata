@@ -17,7 +17,7 @@ export type TopicContent = {
   visual: TopicVisualContent;
 };
 
-/** Abschnitt mit Text links (oder rechts) und Zielbild daneben. */
+/** Abschnitt mit Text links (oder rechts) und Begleitgrafik daneben. */
 export function TopicSection({ topic }: { topic: TopicContent }) {
   const headId = `${topic.id}-h`;
   return (

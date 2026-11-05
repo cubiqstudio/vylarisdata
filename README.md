@@ -5,22 +5,30 @@ Website von **VylarisData** – *Powering the Vylaris Ecosystem. Technology. Inf
 - Zugehörigkeit: VylarisGroup · Geschäftsbereich: Software Development & Technology
 - Marke von: CircleUpWilms · Domain: vylarisdata.com
 
-Gebaut mit **Next.js** (App Router, statischer Export), **React** und **TypeScript** (strict).
-Kein Tracking, keine Cookies, keine Drittanbieter-Ressourcen (die Schrift Poppins ist lokal eingebunden).
+Gebaut mit **Next.js** (App Router), **React** und **TypeScript** (strict). Kein Tracking, keine Cookies für
+Besucher, keine Drittanbieter-Ressourcen (die Schrift Poppins ist lokal eingebunden).
+
+## Was die Seite kann
+
+- **Öffentliche Seiten:** Start, Leistungen, Infrastruktur, Technologie, Ökosystem, Über uns, Kontakt (vorgerendert).
+- **Live-Status der Infrastruktur** auf der Seite „Infrastruktur“: Zustand jedes Systems (Im Betrieb, In Wartung,
+  Eingeschränkt, Störung) mit Hinweis und Zeitstempel.
+- **Admin-Bereich** unter `/admin/` mit Anmeldung: Status pflegen, Passwort ändern, Zwei-Faktor-Anmeldung (TOTP) mit
+  Wiederherstellungscodes, Protokoll aller sicherheitsrelevanten Ereignisse.
 
 ## So wird die Seite betrieben
 
 ```
-Besucher ──HTTPS──▶ Cloudflare ◀──ausgehende Verbindung── cloudflared ──▶ nginx ──▶ statische Seite
+Besucher ──HTTPS──▶ Cloudflare ◀──ausgehende Verbindung── cloudflared ──▶ Next.js-Server ──▶ Volume /data
                                     (Tunnel)               (Container)    (Container, ohne Port)
 ```
 
-- Die Seite läuft in **Docker** (`compose.yaml`): ein nginx-Container (ohne Root-Rechte, schreibgeschützt,
-  ohne Internetzugang) und ein `cloudflared`-Container für den **Cloudflare Tunnel**.
+- Alles läuft in **Docker** (`compose.yaml`): ein Next.js-Container (ohne Root-Rechte, schreibgeschütztes
+  Dateisystem, ohne Internetzugang) und ein `cloudflared`-Container für den **Cloudflare Tunnel**.
 - **Keine offenen Ports:** Der Server veröffentlicht keinen einzigen Port. Der Tunnel baut nur ausgehende
   Verbindungen zu Cloudflare auf (Port 7844). Eingehend kann die Firewall komplett gesperrt bleiben.
-- HTTPS, DDoS-Schutz und Caching übernimmt Cloudflare. Es gibt keine zusätzliche öffentliche Adresse
-  außer `vylarisdata.com`.
+- Veränderliche Daten (Admin-Zugang, Sitzungen, Status, Protokoll) liegen im Docker-Volume `vd-data`
+  und bleiben bei Updates erhalten.
 
 ## Installation: ein Befehl
 
@@ -41,9 +49,9 @@ Der Installer fragt dabei nach deinem **Cloudflare-API-Token** und führt der Re
 2. erklären, wie du den API-Token in Cloudflare anlegst und wo du die Account-ID findest,
 3. Token (unsichtbare Eingabe) und Account-ID abfragen und bei Cloudflare prüfen,
 4. Zugangsdaten lokal in `.env.local` speichern (Rechte 600, steht in `.gitignore`),
-5. den **Tunnel** anlegen und die Route `vylarisdata.com → nginx` setzen,
+5. den **Tunnel** anlegen und die Route `vylarisdata.com → Container` setzen,
 6. den **DNS-Eintrag** (CNAME auf den Tunnel) setzen,
-7. Container bauen und starten, Tunnel-Status und Erreichbarkeit prüfen.
+7. Container bauen und starten, Tunnel-Status und Erreichbarkeit prüfen und den **Admin-Zugang** einrichten.
 
 ### Den Token in Cloudflare anlegen
 
@@ -59,6 +67,17 @@ Der Installer fragt dabei nach deinem **Cloudflare-API-Token** und führt der Re
 Die Domain `vylarisdata.com` muss in diesem Cloudflare-Konto liegen (Nameserver von Cloudflare).
 Hat der Token keine DNS-Rechte, zeigt der Installer genau, welchen CNAME du von Hand setzen musst.
 
+### Admin-Zugang einrichten
+
+```bash
+./install.sh admin
+```
+
+Der Befehl erzeugt einen einmaligen **Einrichtungs-Schlüssel** (gilt eine Stunde) und zeigt ihn an. Damit legst du auf
+`https://vylarisdata.com/admin/setup/` Benutzername und Passwort fest (mindestens 12 Zeichen). Danach ist die
+Einrichtungsseite dauerhaft gesperrt und der Schlüssel wird entfernt. Anschließend im Admin-Bereich unter
+**Sicherheit** die Zwei-Faktor-Anmeldung aktivieren (empfohlen). Passwort verloren: `./install.sh admin-reset`.
+
 ### Befehle
 
 ```bash
@@ -68,6 +87,8 @@ Hat der Token keine DNS-Rechte, zeigt der Installer genau, welchen CNAME du von 
 ./install.sh status     # Tunnel, Container und Erreichbarkeit
 ./install.sh logs       # Logs ansehen
 ./install.sh stop       # Container stoppen (Seite offline)
+./install.sh admin      # Admin-Zugang einrichten
+./install.sh admin-reset # Admin-Zugang zurücksetzen
 ./install.sh verify     # gespeicherten Token prüfen
 ./install.sh domain     # DNS-Eintrag und Tunnel-Route (neu) setzen
 ./install.sh forget     # gespeicherte Zugangsdaten löschen
@@ -84,29 +105,39 @@ Umgebungsvariablen setzen und `./install.sh --yes` ausführen.
 ./install.sh update
 ```
 
-Der Befehl macht der Reihe nach:
-
-1. holt die neueste Version aus Git und zeigt, welche Änderungen kommen (`git pull --ff-only`; bei lokalen
-   Änderungen fragt er vorher nach),
+1. holt die neueste Version aus Git und zeigt, welche Änderungen kommen (bei lokalen Änderungen fragt er nach),
 2. startet sich bei Bedarf selbst mit der neuen Installer-Version neu,
-3. sichert das laufende Image als Rückfallstand, lädt aktuelle Basis-Images (nginx, Node, cloudflared)
-   und baut die Seite neu – schlägt der Build fehl, läuft die bisherige Seite unverändert weiter,
-4. startet neu und wartet, bis nginx gesund ist; wird die neue Version nicht gesund, **rollt er automatisch
-   auf den vorherigen Stand zurück**,
+3. sichert das laufende Image als Rückfallstand, lädt aktuelle Basis-Images und baut neu – schlägt der Build
+   fehl, läuft die bisherige Seite unverändert weiter,
+4. startet neu und wartet, bis die Seite gesund ist; sonst **automatischer Rollback** auf den vorherigen Stand,
 5. prüft Tunnel und Erreichbarkeit und räumt alte Images auf.
 
-`./install.sh update --check` prüft nur, ob ein Update verfügbar ist (Exit-Code 10 = ja), und eignet sich für
-einen Cronjob. Auch ohne neuen Code erneuert `update` die Container-Images (Sicherheitsupdates).
+`update --check` prüft nur, ob ein Update verfügbar ist (Exit-Code 10 = ja) und eignet sich für einen Cronjob.
 
-### Sicherheit
+## Sicherheit
 
+**Betrieb**
 - Der API-Token wird nie ausgegeben, nie als Kommandozeilenargument übergeben und nie committet.
 - Der Tunnel-Container bekommt nur einen **eigenen Tunnel-Token** (`.env.tunnel`), nie den API-Token.
-- `.env.local` und `.env.tunnel` haben Rechte 600 und stehen in `.gitignore`.
-- Beide Container laufen mit `cap_drop: ALL`, `no-new-privileges` und schreibgeschütztem Dateisystem;
-  nginx läuft als normaler Benutzer und hat keinen Zugang zum Internet.
-- Sicherheits-Header (CSP, HSTS, nosniff, kein Framing) setzt nginx (`docker/nginx.conf`, `docker/security.conf`).
-- Token mit Ablaufdatum und nur den nötigen Rechten anlegen; bei Verdacht in Cloudflare widerrufen.
+- `.env.local`, `.env.tunnel` und `.env.app` haben Rechte 600 und stehen in `.gitignore`.
+- Beide Container laufen mit `cap_drop: ALL`, `no-new-privileges` und schreibgeschütztem Dateisystem; der
+  Web-Container läuft als normaler Benutzer ohne Internetzugang. Einzig `/data` ist beschreibbar.
+- Sicherheits-Header (CSP, HSTS, nosniff, kein Framing) setzt die Anwendung (`next.config.ts`);
+  der Admin-Bereich wird nie zwischengespeichert und nie indexiert.
+
+**Admin-Anmeldung**
+- Passwörter (mindestens 14 Zeichen) werden mit **scrypt** gehasht (N=65536, individuelles Salz); unbekannte Benutzer kosten dieselbe Zeit,
+  damit die Antwort nichts verrät.
+- Serverseitige Sitzungen: im Cookie liegt ein zufälliger 256-Bit-Wert, auf der Platte nur dessen Hash.
+  Cookie: `HttpOnly`, `Secure`, `SameSite=Strict`, Präfix `__Host-`; 2 Stunden Inaktivität, höchstens 12 Stunden.
+- Versuche werden vor der Prüfung reserviert: Nach 8 Versuchen wird eine Adresse (IPv6 als /64) 15 Minuten gesperrt, auch bei
+  parallelem Ansturm. Eine kontoweite Bremse verlängert die Wartezeit bei vielen Fehlversuchen; rechenintensive
+  Passwortprüfungen laufen höchstens zwei gleichzeitig.
+- **Zwei-Faktor (TOTP)** mit Replay-Schutz und 8 einmaligen Wiederherstellungscodes (nur als Hash gespeichert). Der Code-Schritt
+  hat ein eigenes Limit je Konto (10 Versuche je 15 Minuten), das ein richtiges Passwort nicht zurücksetzt.
+- Jede Aktion prüft die Herkunft der Anfrage (Origin/Sec-Fetch-Site) zusätzlich zum Schutz des Frameworks.
+- Passwort ändern sowie Zwei-Faktor starten, aktivieren oder deaktivieren verlangt das aktuelle Passwort und beendet alle anderen Sitzungen. Alle sicherheitsrelevanten Ereignisse stehen im Protokoll.
+- Die Erst-Einrichtung braucht den einmaligen Schlüssel aus `./install.sh admin` und ist danach gesperrt.
 
 ## Entwickeln
 
@@ -114,28 +145,30 @@ Voraussetzung: Node.js 20 oder neuer.
 
 ```bash
 npm install
-npm run dev          # Entwicklungsserver auf http://localhost:3000
+npm run dev          # Entwicklungsserver auf http://localhost:3000 (Daten in .data/)
 npm run typecheck    # TypeScript-Prüfung
-npm run build        # statischer Export nach out/
-npm run preview      # fertigen Export lokal ansehen (http://localhost:4173)
+npm test             # Sicherheits-Tests (TOTP-Testvektoren, Limits, Passwort-Regeln); Node.js 22.18 oder neuer
+npm run build        # Produktions-Build (Standalone-Server in .next/standalone)
 ```
+
+Für den lokalen Test des Admin-Bereichs über HTTP: `ADMIN_SETUP_TOKEN=<mindestens 16 Zeichen> ADMIN_INSECURE_COOKIES=1 npm run dev`.
 
 ## Aufbau
 
 ```
-app/                  Seiten (Next.js App Router): page.tsx je Route, layout.tsx, sitemap.ts, robots.ts
+app/                  Seiten (Next.js App Router); app/admin/ = Admin-Bereich mit Server Actions
 components/ui/        typisierte Bausteine: PageHero, Section, Split, Tile, Faq, Timeline, Stack, Cta …
-components/layout/    Header, Footer, Navigation, Theme-Umschalter
+components/admin/     Formulare und Rahmen des Admin-Bereichs
+components/status/    Live-Status-Anzeige
 components/sections/  seitenspezifische Bausteine
 content/              typisierte Inhalte und Stammdaten (content/site.ts)
-lib/metadata.ts       einheitliche Meta-Daten je Seite
+lib/server/           Passwörter, TOTP, Sitzungen, Ratenbegrenzung, Protokoll, Status-Speicher
 public/               Schriften, Logo, Favicon
-Dockerfile            baut die Seite (Node) und liefert sie mit nginx aus
-compose.yaml          nginx + Cloudflare Tunnel, keine veröffentlichten Ports
-docker/               nginx-Konfiguration und Sicherheits-Header
-install.sh            Installer und Verwaltung (Tunnel, DNS, Start, Status)
+Dockerfile            baut die Seite (Node) und startet den Standalone-Server
+compose.yaml          Next.js-Server + Cloudflare Tunnel, keine veröffentlichten Ports
+install.sh            Installer und Verwaltung (Tunnel, DNS, Start, Update, Admin)
 ```
 
 Eine neue Seite: Ordner unter `app/<name>/` mit `page.tsx` anlegen, Bausteine aus `@/components/ui`
 verwenden, Meta-Daten mit `pageMetadata(...)` setzen und die Seite in `content/site.ts` (`nav`) eintragen.
-Danach auf dem Server `./install.sh deploy`.
+Danach auf dem Server `./install.sh update`.

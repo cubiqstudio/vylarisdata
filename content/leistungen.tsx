@@ -1,278 +1,447 @@
-import type { FactItem, FaqItem, IconName, TimelineItem } from "@/components/ui";
-import { A } from "@/components/ui";
+import type { FactItem, FaqItem, TimelineItem } from "@/components/ui";
+import { A, Gradient } from "@/components/ui";
 import type { AudienceItem } from "@/components/sections/leistungen/AudienceCards";
+import type { BlockItem } from "@/components/sections/leistungen/BlockCards";
 import type { FieldContent } from "@/components/sections/leistungen/FieldSection";
 import type { OverviewRow } from "@/components/sections/leistungen/OverviewTable";
-import type { StrongPoint } from "@/components/sections/leistungen/StrongChecks";
+import type { SoftwareTile } from "@/components/sections/leistungen/SoftwareTiles";
 import { site } from "@/content/site";
 
 /** Daten der Seite "Leistungen". Markup liegt in den Komponenten, hier nur Inhalt. */
 
+/* ------------------------------------------------------------ Hardware-Eckdaten */
+
+/** Die Eckdaten der Hardware, einmal geführt und überall abgeleitet. */
+const hw = {
+  servers: "10 Server",
+  ssd: "4 × 120 TB SSD",
+  ssdTotal: "480 TB SSD",
+  hdd: "knapp 500 TB HDD",
+  total: "fast 1 Petabyte",
+  totalShort: "fast 1 PB",
+} as const;
+
 export const meta = {
   title: "Leistungen",
-  description:
-    "Softwareentwicklung, Plattform, Sicherheit und Hosting im Aufbau: Auftrag und Zielbild von VylarisData für die VylarisGroup.",
+  description: `Software und eigene Infrastruktur: ${hw.servers}, ${hw.totalShort} Rohkapazität, eigenes Netzwerk, PBS-Backup-System und Sicherheitssystem. Der DNS-Server ist aktuell in Wartung.`,
   path: "/leistungen/",
 } as const;
+
+/* ---------------------------------------------------------------------- Seitentexte */
+
+export const hero = {
+  title: `${hw.servers}, ${hw.total}, eigenes Netzwerk: Software und Infrastruktur von VylarisData`,
+  lead: `Wir entwickeln Software und betreiben eigene Hardware: ${hw.servers} insgesamt, ${hw.total} Rohkapazität, ein eigenes Netzwerk, ein PBS-Backup-System und ein Sicherheitssystem. Nur der DNS-Server ist aktuell in Wartung.`,
+  primary: "Unsere Hardware im Überblick",
+  secondary: "Alle Bereiche",
+} as const;
+
+export const sections = {
+  kennzahlen: {
+    eyebrow: "In Zahlen",
+    title: "Zahlen unserer Infrastruktur",
+    lead: "Die Eckdaten unserer Infrastruktur, so wie sie heute laufen.",
+  },
+  bausteine: {
+    eyebrow: "Bausteine",
+    title: "Acht Bausteine unserer Infrastruktur",
+    lead: "Server, Speicher, Backup, Netzwerk und Sicherheit: So setzt sich unsere Infrastruktur zusammen, mit Status je Baustein.",
+    callout: "Der DNS-Server ist aktuell in Wartung. Den Stand aller Systeme findest du live auf der",
+    calloutLink: "Infrastruktur-Seite",
+  },
+  software: {
+    eyebrow: "Leistungsfeld 04",
+    title: "Software bauen und die Hardware dafür selbst betreiben",
+    lead: "Unser Geschäftsbereich ist Software Development & Technology. VylarisData ist eine Marke von CircleUpWilms und gehört zur VylarisGroup.",
+    text: "Eigenentwicklung heißt: Wir kennen den Code, den wir schreiben, und passen ihn an, wenn sich Anforderungen ändern. Software und Hardware liegen bei uns in einer Hand.",
+  },
+  uebersicht: {
+    eyebrow: "Überblick",
+    title: "Acht Bereiche auf einen Blick",
+    lead: "Im Betrieb sind Server, Speicher, Datensicherung, Netzwerk und Sicherheit. Der DNS-Server ist in Wartung, der Ausbau des Ökosystems ist geplant.",
+  },
+  stand: {
+    eyebrow: "Stand und Ausblick",
+    title: "Was läuft, was in Wartung ist, was wir planen",
+    lead: "Drei Zustände, klar getrennt: im Betrieb, in Wartung und geplant.",
+  },
+  arbeitsweise: {
+    eyebrow: "Ablauf",
+    title: "Vier Schritte von der Anforderung bis zum Betrieb",
+    lead: "So gliedert sich ein Vorhaben, für Software und Infrastruktur gleichermaßen.",
+  },
+  zielgruppen: {
+    eyebrow: "Einordnung",
+    title: "Unser Platz in der VylarisGroup",
+    lead: "VylarisData gehört zur VylarisGroup, zu der auch VylarisGroupEurope und VylarisGroup Schweiz zählen. Anfragen laufen über den Kontaktweg der VylarisGroup.",
+  },
+  faq: {
+    eyebrow: "Häufige Fragen",
+    title: "Was du vor einer Anfrage wissen solltest",
+    lead: "Kurze Antworten zu Hardware, Stand, Standort, Daten und Kontakt.",
+  },
+} as const;
+
+/* ------------------------------------------------------------------ Kennzahlen */
+
+export const keyFacts: readonly FactItem[] = [
+  { icon: "server", value: hw.servers, label: "Server insgesamt, intern KVM-Server" },
+  { icon: "db", value: "Fast 1 PB", label: `Rohkapazität: ${hw.ssd} und ${hw.hdd}` },
+  { icon: "life", value: "PBS-Backup-System", label: "Unser eigenes System für Backups" },
+  { icon: "network", value: "Eigenes IP-Subnetz", label: "Mit eigenem Network-Server" },
+];
 
 /* ----------------------------------------------------------------- Überblick */
 
 export const overview: readonly OverviewRow[] = [
   {
     name: "Softwareentwicklung",
-    tone: "info",
-    status: "Geschäftsbereich",
-    text: "Marken, Dienste und Projekte der VylarisGroup.",
+    text: "Unser Geschäftsbereich Software Development & Technology: Anwendungen, Schnittstellen und Werkzeuge.",
   },
   {
-    name: "Hosting & Betrieb",
-    tone: "warn",
-    status: "Im Aufbau",
-    text: "Dienste der gesamten VylarisGroup, sobald die Infrastruktur steht.",
+    name: "Eigene Server & Betrieb",
+    status: { tone: "ok", label: "Hardware im Betrieb" },
+    text: `${hw.servers} insgesamt, intern als KVM-Server, extern als normale Server. Anfragen laufen über den Kontaktweg der VylarisGroup.`,
   },
   {
-    name: "Plattform & Automatisierung",
-    tone: "warn",
-    status: "Geplant",
-    text: "Alle Dienste, die auf der gemeinsamen Basis laufen sollen.",
+    name: "Speicher & Datensicherung",
+    status: { tone: "ok", label: "Im Betrieb" },
+    text: `Fünf Storage-Server mit ${hw.totalShort} Rohkapazität und ein PBS-Backup-System.`,
+  },
+  {
+    name: "Netzwerk",
+    status: { tone: "ok", label: "Im Betrieb" },
+    text: "Eigenes IP-Subnetz und ein Network-Server, der unsere Internetanbindung regelt.",
+  },
+  {
+    name: "DNS-Server",
+    status: { tone: "info", label: "In Wartung" },
+    text: "Aktuell in Wartung. Den Live-Stand zeigt die Infrastruktur-Seite.",
   },
   {
     name: "Sicherheit & Datenschutz",
-    tone: "info",
-    status: "Grundsatz",
-    text: "Alle Leistungsfelder. Diese Website setzt keine Cookies und kein Tracking ein.",
+    status: { tone: "ok", label: "Im Betrieb" },
+    text: "Sicherheitssystem mit internem Netzwerk-Setup. Für Besucher setzt diese Website keine Cookies und kein Tracking ein.",
   },
   {
-    name: "Technologie-Partnerschaft",
-    tone: "info",
-    status: "Zielbild",
-    text: "VylarisGroupEurope und VylarisGroup Schweiz.",
+    name: "Ausbau des Ökosystems",
+    status: { tone: "warn", label: "Geplant" },
+    text: "Wir planen, das Vylaris-Ökosystem weiter auszubauen. Termine nennen wir, sobald sie feststehen.",
   },
-];
-
-/* ----------------------------------------------------------------- Einleitung */
-
-export const introDetail: string =
-  "Dazu gehören zwei Dinge. Erstens die Software selbst: Anwendungen, Schnittstellen und Werkzeuge für die Gruppe. Zweitens der Ort, an dem diese Software laufen soll. VylarisData übernimmt künftig das Hosting der VylarisGroup. Die Infrastruktur dafür ist im Aufbau. Deshalb trennen wir auf dieser Seite klar zwischen Ziel und aktuellem Stand.";
-
-export const principles: readonly StrongPoint[] = [
-  { lead: "Eigene Hardware in Europa", text: "als Ziel für die Infrastruktur." },
-  { lead: "Kein Tracking", text: "und keine unnötige Datenhaltung." },
-  { lead: "Verständliche Technik,", text: "die auch andere nach uns noch nachvollziehen können." },
+  {
+    name: "Zusammenarbeit",
+    text: "Teil der VylarisGroup, mit Bezug zu VylarisGroupEurope und VylarisGroup Schweiz („Allianz CH & EU“).",
+  },
 ];
 
 export const facts: readonly FactItem[] = [
   { value: "Marke von CircleUpWilms", label: "Teil der VylarisGroup" },
   { value: "Software & Technology", label: "Unser Geschäftsbereich" },
-  { value: "Hosting im Aufbau", label: "Künftig das Hosting der VylarisGroup" },
-  { value: "Kein Tracking", label: "Keine Cookies auf dieser Website" },
+  { value: "Eigene Infrastruktur", label: "Server, Speicher, Backup, Netzwerk, Sicherheit" },
+  { value: "Kein Tracking", label: "Keine Cookies für Besucher" },
 ];
 
-/* ------------------------------------------------------------ Leistungsfeld 01 */
-
-export type SoftwareTile = { icon: IconName; title: string; text: string };
+/* ------------------------------------------------------------ Leistungsfeld 04 */
 
 export const softwareTiles: readonly SoftwareTile[] = [
   {
     icon: "code",
     title: "Anwendungen",
-    text: "Ziel: Dienste und Oberflächen für die Marken und Projekte der VylarisGroup.",
+    text: "Dienste und Oberflächen aus unserem Geschäftsbereich Software Development & Technology.",
   },
   {
     icon: "link",
     title: "Schnittstellen",
-    text: "Schnittstellen, die Dienste klar definiert miteinander verbinden.",
+    text: "Schnittstellen, die Dienste miteinander verbinden.",
   },
   {
     icon: "wrench",
     title: "Werkzeuge",
-    text: "Interne Werkzeuge, die wiederkehrende Arbeit einfacher und weniger fehleranfällig machen sollen.",
+    text: "Interne Werkzeuge für wiederkehrende Aufgaben. Ein Beispiel ist die Live-Statusübersicht auf der Infrastruktur-Seite.",
   },
   {
-    icon: "git",
-    title: "Wartbarer Code",
-    text: "Grundsatz: lesbar, getestet, dokumentiert und mit nachvollziehbarer Versionsgeschichte.",
+    icon: "globe",
+    title: "Diese Website",
+    text: "Von uns gebaut: erreichbar über einen ausgehenden Tunnel ohne offene Ports, in gehärteten Containern, ohne Tracking.",
   },
 ];
 
-/* ----------------------------------------------- Leistungsfelder 02 bis 05 */
+/* ------------------------------------------------- Bausteine der Infrastruktur */
 
-export const fields: readonly FieldContent[] = [
+export const blocks: readonly BlockItem[] = [
   {
-    id: "hosting",
-    band: true,
-    reverse: true,
-    eyebrow: "Leistungsfeld 02",
-    title: "Hosting & Betrieb: Ziel ist eigene Hardware in Europa",
-    status: { tone: "warn", label: "Im Aufbau" },
-    lead: "VylarisData übernimmt künftig das Hosting der VylarisGroup. Die Infrastruktur dafür bauen wir gerade auf; für Kunden ist sie noch nicht verfügbar.",
-    paragraphs: [
-      "Unser Ziel ist ein Betrieb, den wir selbst kontrollieren: Hardware, Netzwerk und Betriebsabläufe sollen in unserer Hand liegen, die Server in Europa stehen.",
-    ],
-    points: [
-      { lead: "Ziel:", text: "Hosting für Websites und Anwendungen der VylarisGroup auf eigener Hardware in Europa." },
-      { lead: "Ziel:", text: "hohe Verfügbarkeit durch Redundanz und planbare Wartung." },
-      { lead: "Grundsatz:", text: "Überwachung und Statusinformationen gehören von Anfang an dazu." },
-      { lead: "Ziel:", text: "Dienste der Gruppe schrittweise statt in einem Schritt auf die Infrastruktur zu bringen." },
-    ],
-    link: { href: "/infrastruktur/", label: "Mehr zur Infrastruktur" },
-    visual: {
-      eyebrow: "Zielbild",
-      layers: [
-        { icon: "cloud", name: "Dienste", description: "Websites, Anwendungen und Dienste der VylarisGroup." },
-        { icon: "layers", name: "Plattform", description: "Gemeinsame Bausteine für Auslieferung und Betrieb." },
-        { icon: "server", name: "Server", description: "Eigene Hardware, im Aufbau.", highlight: true },
-        { icon: "globe", name: "Europa", description: "Standort der Infrastruktur laut Zielbild." },
-      ],
-    },
+    icon: "server",
+    title: "KVM-Server",
+    status: { tone: "ok", label: "Im Betrieb" },
+    figure: "Intern",
+    text: "Unsere internen Server sind KVM-Server.",
   },
   {
-    id: "plattform",
-    eyebrow: "Leistungsfeld 03",
-    title: "Plattform & Automatisierung",
+    icon: "cloud",
+    title: "Externe Server",
+    status: { tone: "ok", label: "Im Betrieb" },
+    figure: "Extern",
+    text: "Die externen Server sind ganz normale Server.",
+  },
+  {
+    icon: "db",
+    title: "Storage SSD",
+    status: { tone: "ok", label: "Im Betrieb" },
+    figure: hw.ssd,
+    text: `Vier Storage-Server mit zusammen ${hw.ssdTotal}.`,
+  },
+  {
+    icon: "hdd",
+    title: "Storage HDD",
+    status: { tone: "ok", label: "Im Betrieb" },
+    figure: "Knapp 500 TB HDD",
+    text: "Ein Storage-Server mit knapp 500 TB auf Festplatten (HDD).",
+  },
+  {
+    icon: "life",
+    title: "PBS-Backup-System",
+    status: { tone: "ok", label: "Im Betrieb" },
+    figure: "Eigenes System",
+    text: "Unser eigenes System für Backups.",
+  },
+  {
+    icon: "network",
+    title: "Eigenes Netzwerk",
+    status: { tone: "ok", label: "Im Betrieb" },
+    figure: "Eigenes IP-Subnetz",
+    text: "Ein Network-Server regelt unsere Internetanbindung.",
+  },
+  {
+    icon: "globe",
+    title: "DNS-Server",
+    status: { tone: "info", label: "In Wartung" },
+    figure: "Aktuell in Wartung",
+    text: "Der Server für die Namensauflösung ist aktuell in Wartung.",
+  },
+  {
+    icon: "shield",
+    title: "Sicherheitssystem",
+    status: { tone: "ok", label: "Im Betrieb" },
+    figure: "Mit internem Netzwerk-Setup",
+    text: "Ein eigenes Sicherheitssystem, eingebunden in unser internes Netzwerk-Setup.",
+  },
+];
+
+/* ----------------------------------------------- Leistungsfelder 01 bis 05 */
+
+export const hostingField: FieldContent = {
+  id: "hosting",
+  eyebrow: "Leistungsfeld 01",
+  title: "Eigene Server & Betrieb",
+  status: { tone: "ok", label: "Hardware im Betrieb" },
+  lead: `Wir betreiben ${hw.servers}, Speicher, Datensicherung, Netzwerk und ein Sicherheitssystem selbst.`,
+  paragraphs: [
+    "Hardware, Netzwerk und Betrieb liegen in unserer Hand. Das gibt uns Kontrolle darüber, was auf unserer Technik läuft, und die Möglichkeit, sie selbst zu gestalten.",
+    "Anfragen zu unserer Technik laufen über den Kontaktweg der VylarisGroup auf vylaris.eu.",
+  ],
+  points: [
+    { lead: "10 Server insgesamt:", text: "intern als KVM-Server, extern als normale Server." },
+    { lead: "Eigener Speicher", text: "auf fünf Storage-Servern mit SSD und HDD." },
+    { lead: "Eigenes PBS-Backup-System", text: "für Backups." },
+    { lead: "Eigenes Netzwerk:", text: "eigenes IP-Subnetz und ein Network-Server für die Internetanbindung." },
+    { lead: "Live-Status:", text: "Den Stand unserer Systeme zeigt die Live-Statusübersicht auf der Infrastruktur-Seite." },
+  ],
+  link: { href: "/infrastruktur/", label: "Infrastruktur und Live-Status ansehen" },
+  visual: {
+    eyebrow: "Unsere Hardware",
+    arrows: false,
+    layers: [
+      { icon: "server", name: "Server", description: "Interne KVM-Server und externe Server.", highlight: true },
+      { icon: "db", name: "Speicher & Backup", description: "Storage-Server mit SSD und HDD, PBS-Backup-System." },
+      { icon: "network", name: "Netzwerk & Sicherheit", description: "Eigenes IP-Subnetz, Network-Server, Sicherheitssystem." },
+    ],
+  },
+};
+
+export const speicherField: FieldContent = {
+  id: "speicher",
+  band: true,
+  reverse: true,
+  eyebrow: "Leistungsfeld 02",
+  title: `Speicher und Datensicherung: ${hw.total} Rohkapazität`,
+  status: { tone: "ok", label: "Im Betrieb" },
+  lead: `Vier Storage-Server mit je 120 TB SSD und ein Storage-Server mit knapp 500 TB HDD. Zusammen sind das ${hw.total}.`,
+  paragraphs: [
+    `Wir nennen hier bewusst die Rohkapazität: ${hw.ssd} ergeben 480 TB, dazu kommen knapp 500 TB HDD. Das ist die Summe der verbauten Speicher, bevor Redundanz abgezogen wird.`,
+    "SSD und HDD sind zwei Speicherarten: Flash-Speicher auf der einen, Festplatten mit großer Kapazität auf der anderen Seite. Beides betreiben wir selbst. Für Backups betreiben wir zusätzlich ein eigenes PBS-Backup-System.",
+  ],
+  points: [
+    { lead: "4 Storage-Server", text: "mit je 120 TB SSD, zusammen 480 TB SSD." },
+    { lead: "1 Storage-Server", text: "mit knapp 500 TB HDD." },
+    { lead: "Rohkapazität", text: "heißt: Summe der verbauten Speicher, vor Redundanz." },
+    { lead: "PBS-Backup-System:", text: "unser eigenes System für Backups und Datensicherung." },
+  ],
+  visual: {
+    eyebrow: "Rohkapazität und Backup",
+    arrows: false,
+    layers: [
+      { icon: "db", name: hw.ssd, description: `Vier Storage-Server, zusammen ${hw.ssdTotal}.` },
+      { icon: "hdd", name: "Knapp 500 TB HDD", description: "Ein Storage-Server mit großer Festplattenkapazität." },
+      { icon: "layers", name: "Fast 1 PB gesamt", description: "Rohkapazität vor Redundanz.", highlight: true },
+      { icon: "life", name: "PBS-Backup-System", description: "Unser eigenes System für Backups." },
+    ],
+  },
+};
+
+export const netzField: FieldContent = {
+  id: "netz",
+  eyebrow: "Leistungsfeld 03",
+  title: "Eigenes Netzwerk mit eigenem IP-Subnetz",
+  status: { tone: "ok", label: "Im Betrieb" },
+  lead: "Wir betreiben ein eigenes Netzwerk: ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
+  paragraphs: [
+    "Das Netzwerk gehört uns, vom IP-Subnetz bis zum Network-Server, der die Verbindung ins Internet regelt.",
+    "Der DNS-Server ist aktuell in Wartung; seinen Stand siehst du live auf der Infrastruktur-Seite.",
+  ],
+  points: [
+    { lead: "Eigenes IP-Subnetz:", text: "unser eigener Adressbereich." },
+    { lead: "Network-Server:", text: "regelt unsere Internetanbindung." },
+    { lead: "DNS-Server:", text: "aktuell in Wartung." },
+    { lead: "Sicherheitssystem:", text: "mit internem Netzwerk-Setup." },
+  ],
+  link: { href: "/infrastruktur/", label: "Zum Live-Status" },
+  visual: {
+    eyebrow: "Unser Netzwerk",
+    arrows: false,
+    layers: [
+      { icon: "link", name: "Eigenes IP-Subnetz", description: "Unser eigener Adressbereich." },
+      { icon: "network", name: "Network-Server", description: "Regelt unsere Internetanbindung.", highlight: true },
+      { icon: "globe", name: "DNS-Server", description: "Aktuell in Wartung." },
+    ],
+  },
+};
+
+export const sicherheitField: FieldContent = {
+  id: "sicherheit",
+  reverse: true,
+  eyebrow: "Leistungsfeld 05",
+  title: "Sicherheit & Datenschutz",
+  status: { tone: "ok", label: "Im Betrieb" },
+  lead: "Wir betreiben ein Sicherheitssystem mit internem Netzwerk-Setup. Diese Website zeigt im Kleinen, wie wir Sicherheit und Datenschutz verstehen.",
+  paragraphs: [
+    "Die Website ist über einen ausgehenden Tunnel erreichbar, ohne offene Ports auf dem Server. Die Verbindung besteht ausschließlich von innen nach außen, die Website läuft in gehärteten Containern. Für Besucher setzt sie weder Cookies noch Tracking ein.",
+  ],
+  points: [
+    { lead: "Sicherheitssystem", text: "mit internem Netzwerk-Setup, im Betrieb." },
+    { lead: "Keine offenen Ports:", text: "Diese Website ist über einen ausgehenden Tunnel erreichbar, nicht über offene Server-Ports." },
+    { lead: "Gehärtete Container:", text: "Die Website läuft in gehärteten Containern." },
+    { lead: "Kein Tracking:", text: "Für Besucher gibt es weder Cookies noch Analysedienste." },
+  ],
+  visual: {
+    arrows: false,
+    layers: [
+      { icon: "shield", name: "Sicherheitssystem", description: "Mit internem Netzwerk-Setup, im Betrieb.", highlight: true },
+      { icon: "lock", name: "Keine offenen Ports", description: "Ausgehende Tunnelverbindung statt offener Server-Ports." },
+      { icon: "box", name: "Gehärtete Container", description: "Die Website läuft in gehärteten Containern." },
+      { icon: "eye", name: "Kein Tracking", description: "Keine Cookies und keine Analysedienste für Besucher." },
+    ],
+  },
+};
+
+export const partnerField: FieldContent = {
+  id: "partner",
+  band: true,
+  eyebrow: "Zusammenarbeit",
+  title: "Teil der VylarisGroup",
+  lead: "VylarisData ist eine Marke von CircleUpWilms und gehört zur VylarisGroup. Unser Leitsatz: „Powering the Vylaris Ecosystem.“",
+  paragraphs: [
+    "Die beiden Seiten der Gruppe arbeiten als „Allianz CH & EU“ zusammen: VylarisGroup Schweiz, der Ursprungsverein, trägt die Idee. VylarisGroupEurope bildet die europäische Rechtsstruktur und stellt Hosting und Server-Infrastruktur für ihre Dienste bereit.",
+    "VylarisGroupEurope kündigt mit VylarisSpace ein Hosting-Panel für Websites, E-Mail und Datenbanken an, derzeit mit dem Hinweis „Coming Soon“.",
+  ],
+  points: [
+    { lead: "Marke von CircleUpWilms,", text: "Teil der VylarisGroup." },
+    { lead: "Geschäftsbereich:", text: "Software Development & Technology." },
+    { lead: "Allianz CH & EU:", text: "VylarisGroup Schweiz und VylarisGroupEurope arbeiten Hand in Hand." },
+  ],
+  link: { href: "/oekosystem/", label: "Mehr zum Ökosystem" },
+  visual: {
+    layers: [
+      {
+        icon: "users",
+        name: "vylaris.ch",
+        description: "VylarisGroup Schweiz: der Ursprungsverein, entstanden aus einem Homelab und einem Podcast.",
+      },
+      {
+        icon: "building",
+        iconTone: "indigo",
+        arrowBefore: "link",
+        name: "vylaris.eu",
+        description: "VylarisGroupEurope: europäische Rechtsstruktur sowie Hosting und Server-Infrastruktur.",
+      },
+      {
+        icon: "cpu",
+        name: "VylarisData",
+        description: "Marke von CircleUpWilms im Geschäftsbereich Software Development & Technology.",
+        highlight: true,
+      },
+    ],
+  },
+};
+
+/* ------------------------------------------------------------- Stand & Ausblick */
+
+export const standSteps: readonly TimelineItem[] = [
+  {
+    title: "Server, Speicher, Netzwerk und Sicherheit",
+    status: { tone: "ok", label: "Im Betrieb" },
+    text: `Unsere ${hw.servers} insgesamt, fünf Storage-Server mit ${hw.totalShort} Rohkapazität, das PBS-Backup-System, der Network-Server mit eigenem IP-Subnetz und das Sicherheitssystem mit internem Netzwerk-Setup.`,
+  },
+  {
+    title: "DNS-Server",
+    status: { tone: "info", label: "In Wartung" },
+    text: "Der DNS-Server ist aktuell in Wartung. Den Live-Stand zeigt die Infrastruktur-Seite.",
+  },
+  {
+    title: "Ausbau des Ökosystems",
     status: { tone: "warn", label: "Geplant" },
-    lead: "Zielbild: Neue Dienste sollen schnell und zuverlässig in Betrieb gehen, ohne dass jedes Mal bei null begonnen wird.",
-    paragraphs: [
-      "Dafür wollen wir gemeinsame Bausteine schaffen, die jeder Dienst nutzen kann. Das Prinzip dahinter: Alles, was sich wiederholt, soll automatisiert werden. Alles, was automatisiert ist, soll beschrieben und versioniert sein.",
-    ],
-    points: [
-      { lead: "Wiederverwendbare Bausteine", text: "für Auslieferung (Deployment), Konfiguration und Betrieb sind das Ziel." },
-      {
-        lead: "Automatisierte Auslieferung:",
-        text: "Zielbild ist der Weg vom geprüften Code bis zum laufenden Dienst, ohne Handarbeit auf dem Server.",
-      },
-      {
-        lead: "Konfiguration als Code:",
-        text: "Grundsatz ist, dass Änderungen nachvollziehbar sind und sich rückgängig machen lassen.",
-      },
-      { lead: "Beobachtbarkeit:", text: "Logs und Kennzahlen sollen zeigen, wie es einem Dienst wirklich geht." },
-    ],
-    visual: {
-      eyebrow: "Zielbild",
-      layers: [
-        { icon: "git", name: "Code", description: "Änderungen sollen versioniert entstehen und geprüft werden." },
-        { icon: "box", name: "Build", description: "Reproduzierbar bauen und automatisiert testen." },
-        { icon: "rocket", name: "Auslieferung", description: "Kontrollierte Auslieferung auf die Plattform.", highlight: true },
-        { icon: "activity", name: "Betrieb", description: "Überwachung und Rückmeldung in die Entwicklung." },
-      ],
-    },
-  },
-  {
-    id: "sicherheit",
-    band: true,
-    reverse: true,
-    eyebrow: "Leistungsfeld 04",
-    title: "Sicherheit & Datenschutz von Anfang an",
-    lead: "Wir bedenken Sicherheit und Datenschutz schon beim Entwurf, nicht erst am Ende.",
-    paragraphs: [
-      "Dazu gehört auch, so wenige Daten wie möglich zu erheben. Diese Website zeigt es im Kleinen: Sie setzt keine Cookies und kein Tracking ein und lädt Schriften und Skripte nur von der eigenen Domain.",
-    ],
-    points: [
-      { lead: "Datensparsamkeit", text: "als Grundsatz: Was wir nicht erheben, müssen wir nicht schützen." },
-      {
-        lead: "Sichere Konfiguration:",
-        text: "Grundsatz sind geringste Rechte, getrennte Zugänge und nachvollziehbare Änderungen.",
-      },
-      {
-        lead: "Gepflegte Systeme:",
-        text: "Updates und Korrekturen sollen fester Teil des Betriebs sein, nicht ein Sonderfall.",
-      },
-      {
-        lead: "Datenschutzrecht:",
-        text: "Der Betrieb soll von Anfang an die Datenschutz-Grundverordnung (DSGVO) erfüllen.",
-      },
-    ],
-    visual: {
-      arrows: false,
-      layers: [
-        { icon: "eye", name: "Kein Tracking", description: "Keine Cookies, keine Analysedienste auf dieser Website.", highlight: true },
-        { icon: "lock", name: "Zugriff", description: "Grundsatz: geringste Rechte und klar getrennte Zugänge." },
-        { icon: "key", name: "Zugangsdaten", description: "Grundsatz: Passwörter und Schlüssel gehören nicht in Code oder Chat." },
-        { icon: "refresh", name: "Pflege", description: "Ziel: regelmäßige Updates als fester Teil des Betriebs." },
-      ],
-    },
-  },
-  {
-    id: "partner",
-    eyebrow: "Leistungsfeld 05",
-    title: "Technologie-Partnerschaft für die VylarisGroup",
-    lead: "VylarisData ist die technische Seite des Ökosystems. Ziel ist eine enge Zusammenarbeit mit VylarisGroup Schweiz und VylarisGroupEurope.",
-    paragraphs: [
-      "Die beiden Seiten arbeiten Hand in Hand („Allianz CH & EU“): VylarisGroup Schweiz, der Ursprungsverein, trägt die Idee. VylarisGroupEurope bildet die rechtliche Struktur und hat die Aufgabe, hochverfügbares Hosting und Server-Infrastruktur für alle Dienste bereitzustellen. VylarisData soll künftig die technische Grundlage dafür liefern: Software, Plattform und, sobald sie steht, den Betrieb.",
-      "VylarisGroupEurope kündigt mit VylarisSpace ein Hosting-Panel für Websites, E-Mail und Datenbanken auf eigener Hardware in Europa an, derzeit mit dem Hinweis „Coming Soon“ (bald verfügbar). Die Infrastruktur im Aufbau soll künftig solche Dienste der Gruppe tragen können.",
-    ],
-    points: [
-      {
-        lead: "Abgestimmte Planung:",
-        text: "Ziel ist es, die technische Planung mit VylarisGroupEurope und VylarisGroup Schweiz abzustimmen.",
-      },
-      { lead: "Gemeinsame Bausteine", text: "als Grundsatz statt paralleler Insellösungen in jeder Marke." },
-    ],
-    link: { href: "/oekosystem/", label: "Mehr zum Ökosystem" },
-    visual: {
-      layers: [
-        {
-          icon: "users",
-          name: "vylaris.ch",
-          description: "VylarisGroup Schweiz: der Ursprungsverein, der die Idee trägt.",
-        },
-        {
-          icon: "building",
-          iconTone: "indigo",
-          arrowBefore: "link",
-          name: "vylaris.eu",
-          description: "VylarisGroupEurope: rechtliche Struktur und Hosting-Ziel.",
-        },
-        {
-          icon: "cpu",
-          name: "VylarisData",
-          description: "Software, Plattform und künftig das Hosting.",
-          highlight: true,
-        },
-      ],
-    },
+    text: "Wir planen, das Vylaris-Ökosystem weiter auszubauen. Termine nennen wir, sobald sie feststehen.",
   },
 ];
 
-/* ---------------------------------------------------------------- Arbeitsweise */
+/* ---------------------------------------------------------------- Ablauf */
 
 export const workSteps: readonly TimelineItem[] = [
   {
     title: "Schritt 1: Anforderung klären",
-    text: "Wir fragen nach, bevor wir bauen: Was soll der Dienst leisten, wer nutzt ihn und was darf er nicht tun?",
+    text: "Am Anfang steht die Frage, was entstehen soll: Was soll der Dienst leisten und wer nutzt ihn?",
   },
   {
     title: "Schritt 2: Konzept & Architektur",
-    text: "Wir skizzieren die Lösung, wägen Alternativen ab und halten fest, warum wir uns für welche entschieden haben.",
+    text: "Die Lösung wird skizziert und die Entscheidung festgehalten.",
   },
   {
     title: "Schritt 3: Umsetzung",
-    text: "Wir bauen in kleinen, prüfbaren Schritten und liefern erst aus, wenn der Code gelesen, getestet und versioniert ist.",
+    text: "Die Lösung wird gebaut, in Software wie in Infrastruktur.",
   },
   {
     title: "Schritt 4: Betrieb & Weiterentwicklung",
-    text: "Wir beobachten den Betrieb, pflegen die Dienste und entwickeln sie mit den Anforderungen weiter.",
+    text: "Der Dienst geht in den Betrieb und wird mit den Anforderungen weiterentwickelt.",
   },
 ];
 
-/* ------------------------------------------------------------------ Zielgruppen */
+/* ------------------------------------------------------------------ Einordnung */
 
 export const audiences: readonly AudienceItem[] = [
   {
     icon: "building",
     iconTone: "indigo",
     title: "VylarisGroupEurope",
-    text: "Der europäische Zweig der Gruppe bringt die rechtliche Struktur und die Vorgabe mit, hochverfügbares Hosting anzubieten. VylarisData soll künftig die technische Grundlage dafür liefern.",
+    text: "Der europäische Zweig der Gruppe (vylaris.eu) bildet die rechtliche Struktur und stellt Hosting und Server-Infrastruktur für seine Dienste bereit: freie Open-Source-SaaS-Dienste, DSGVO-konform und ohne Tracking.",
   },
   {
     icon: "users",
     title: "VylarisGroup Schweiz",
-    text: "Der Ursprungsverein trägt die Idee, die aus einem Homelab und einem Podcast entstanden ist. VylarisData soll ihn künftig mit Software und, sobald sie steht, Infrastruktur unterstützen.",
+    text: "Der Ursprungsverein (vylaris.ch) hat fünf Mitglieder, davon drei im Vorstand. Er ist aus einem Homelab und einem Podcast entstanden.",
   },
   {
     icon: "link",
     title: "Weitere Vorhaben",
-    text: "Du hast ein Vorhaben, das zur Gruppe passt? Anfragen laufen über Kontakt & Tickets der VylarisGroup. Ob und wie VylarisData dabei beteiligt sein kann, steht nicht fest.",
+    text: "Du hast ein Vorhaben, das zur Gruppe passt? Anfragen laufen über Kontakt & Tickets der VylarisGroup auf vylaris.eu.",
   },
 ];
 
@@ -280,20 +449,28 @@ export const audiences: readonly AudienceItem[] = [
 
 export const faq: readonly FaqItem[] = [
   {
-    q: "Ist das Hosting schon verfügbar oder buchbar?",
-    a: "Nein. VylarisData übernimmt künftig das Hosting der VylarisGroup, die Infrastruktur dafür ist aber noch im Aufbau. Es gibt noch kein buchbares Angebot und deshalb auch keine Preise. Termine nennen wir erst, wenn sie feststehen.",
+    q: "Betreibt VylarisData wirklich eigene Hardware?",
+    a: `Ja. Wir betreiben ${hw.servers} insgesamt, intern sind es KVM-Server. Zur Infrastruktur gehören außerdem vier Storage-Server mit je 120 TB SSD, ein Storage-Server mit knapp 500 TB HDD, ein PBS-Backup-System, ein eigenes IP-Subnetz mit Network-Server und ein Sicherheitssystem. Die Gesamtmenge von ${hw.total} ist Rohkapazität, also vor Redundanz.`,
   },
   {
-    q: "Wo soll die Infrastruktur betrieben werden?",
-    a: "Das Ziel ist ein Betrieb auf eigener Hardware in Europa. Konkrete Standorte nennen wir nicht, solange die Infrastruktur im Aufbau ist.",
+    q: "Ist alles im Normalbetrieb?",
+    a: "Fast alles. Nur der DNS-Server ist aktuell in Wartung. Den Live-Stand aller Systeme zeigt die Infrastruktur-Seite.",
+  },
+  {
+    q: "Wo steht die Hardware?",
+    a: "Konkrete Standorte geben wir nicht öffentlich an.",
   },
   {
     q: "Wie geht VylarisData mit Daten und Tracking um?",
-    a: "Datensparsamkeit ist ein Grundsatz. Diese Website setzt keine Cookies und kein Tracking ein und lädt Schriften und Skripte von der eigenen Domain. Deine Wahl zwischen „Hell“, „Dunkel“ und „System“ speichert nur dein Browser lokal auf deinem Gerät.",
+    a: "Besucher bekommen von dieser Website keine Cookies und kein Tracking. Technisch notwendige Sitzungs-Cookies gibt es nur für angemeldete Betreiber, nicht für Besucher.",
   },
   {
-    q: "Für wen arbeitet VylarisData?",
-    a: "In erster Linie für die VylarisGroup, also für VylarisGroupEurope und VylarisGroup Schweiz. Ob und wie wir darüber hinaus Dritte unterstützen, steht nicht fest.",
+    q: "Wie ist diese Website abgesichert?",
+    a: "Sie ist nur über eine ausgehende, gesicherte Verbindung erreichbar; auf dem Server sind keine Ports offen. Die Website läuft in gehärteten Containern.",
+  },
+  {
+    q: "Zu welcher Gruppe gehört VylarisData?",
+    a: "VylarisData ist eine Marke von CircleUpWilms und Teil der VylarisGroup, im Geschäftsbereich Software Development & Technology. Zur Gruppe gehören VylarisGroupEurope und VylarisGroup Schweiz.",
   },
   {
     q: "Wie erreiche ich VylarisData?",
@@ -303,8 +480,8 @@ export const faq: readonly FaqItem[] = [
         <A href={site.links.contact} className="link">
           vylaris.eu/contact
         </A>
-        , dort unter „Kontakt & Tickets“. Eine eigene E-Mail-Adresse, Telefonnummer oder Postanschrift für VylarisData gibt
-        es nicht. Mehr dazu auf der{" "}
+        , dort unter „Kontakt & Tickets“. Eine eigene E-Mail-Adresse, Telefonnummer oder
+        Postanschrift für VylarisData gibt es nicht. Mehr dazu auf der{" "}
         <A href="/kontakt/" className="link">
           Kontaktseite
         </A>
@@ -313,3 +490,16 @@ export const faq: readonly FaqItem[] = [
     ),
   },
 ];
+
+/* ---------------------------------------------------------------------- Abschluss */
+
+export const cta = {
+  title: (
+    <>
+      Du planst ein <Gradient>Projekt</Gradient>?
+    </>
+  ),
+  text: "Schildere dein Vorhaben über den Kontaktweg der VylarisGroup. Anfragen laufen über „Kontakt & Tickets“ auf vylaris.eu.",
+  primary: { href: site.links.contact, label: "Kontakt aufnehmen", icon: "mail" },
+  secondary: { href: "/infrastruktur/", label: "Zur Infrastruktur" },
+} as const;

@@ -1,232 +1,125 @@
 import { FactList } from "@/components/sections/infrastruktur/FactList";
 import { InlineCta } from "@/components/sections/infrastruktur/InlineCta";
-import { IntroHead } from "@/components/sections/infrastruktur/IntroHead";
 import { LayerStack } from "@/components/sections/infrastruktur/LayerStack";
-import { NoteCallout } from "@/components/sections/infrastruktur/NoteCallout";
-import { ServiceTile } from "@/components/sections/infrastruktur/ServiceTile";
 import { SplitPlain } from "@/components/sections/infrastruktur/SplitPlain";
 import { TopicSection } from "@/components/sections/infrastruktur/TopicSection";
 import { TopicVisual } from "@/components/sections/infrastruktur/TopicVisual";
+import { LiveStatus } from "@/components/status/LiveStatus";
+import { Button, Cards, Faq, Gradient, PageHero, Section, SectionHead, Tile, Timeline } from "@/components/ui";
 import {
-  A,
-  Button,
-  Cards,
-  Dots,
-  Faq,
-  Gradient,
-  PageHero,
-  Section,
-  SectionHead,
-  SpecTable,
-  Tile,
-  Timeline,
-  Visual,
-} from "@/components/ui";
-import {
-  architectureLayers,
-  computeTiles,
-  crossCuttingLayers,
-  datenschutz,
+  datensicherung,
   faq,
+  faqLinks,
   facts,
-  groupLinks,
-  guardrails,
   meta,
-  monitoring,
   netzwerk,
-  plattform,
-  principles,
-  publishRows,
-  securityTiles,
-  services,
+  overviewLayers,
+  pageText,
+  rawCapacityNote,
+  rechenleistung,
+  roadmap,
+  roadmapNotes,
+  sicherheit,
   speicher,
-  stages,
-  standort,
-  stateNote,
+  whyTiles,
 } from "@/content/infrastruktur";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata(meta);
 
+/**
+ * Die Seite zeigt den Live-Status und muss bei jedem Aufruf neu gerendert werden. Ein Teilbereich (Suspense/PPR)
+ * ist mit dem aktuellen Setup (kein cacheComponents) nicht möglich: Eine dynamische Komponente macht die Route ohnehin dynamisch.
+ */
+export const dynamic = "force-dynamic";
+
 export default function InfrastrukturPage() {
+  const t = pageText;
   return (
     <>
       <PageHero
         crumbs={[{ label: "Start", href: "/" }, { label: "Infrastruktur" }]}
-        eyebrow="Hosting-Infrastruktur im Aufbau"
-        title="Die technische Basis des Ökosystems der VylarisGroup."
-        lead="VylarisData wird künftig das Hosting der VylarisGroup übernehmen. Auf dieser Seite zeigen wir, wie wir die Infrastruktur dafür aufbauen: Architektur, Grundsätze und die einzelnen Schichten, vom Standort bis zum laufenden Dienst."
+        eyebrow={t.hero.eyebrow}
+        title={t.hero.title}
+        lead={t.hero.lead}
         actions={
           <>
-            <Button href="#architektur" size="lg" icon="arrow">
-              Architektur ansehen
+            <Button href="#live-status" size="lg" icon="arrow">
+              {t.hero.primary}
             </Button>
-            <Button href="#ausbaustufen" variant="secondary" size="lg">
-              Ausbaustufen
+            <Button href="#zahlen" variant="secondary" size="lg">
+              {t.hero.secondary}
             </Button>
           </>
         }
       />
 
-      <Section id="stand" labelledBy={stateNote.headingId}>
-        <NoteCallout headingId={stateNote.headingId} title={stateNote.title} text={stateNote.text} />
-        <FactList items={facts} ariaLabel="Gesicherte Eckdaten" />
+      <Section id="zahlen" labelledBy="zahlen-h">
+        <SectionHead eyebrow={t.zahlen.eyebrow} id="zahlen-h" title={t.zahlen.title} lead={t.zahlen.lead} />
+        <FactList items={facts} ariaLabel={t.zahlen.ariaLabel} />
+        <p className="muted mt-6">{rawCapacityNote}</p>
       </Section>
 
-      <Section id="architektur" labelledBy="architektur-h" band>
-        <SectionHead
-          eyebrow="Architektur im Überblick · Zielbild"
-          id="architektur-h"
-          title="Sechs Schichten und zwei, die quer durch alles laufen."
-          lead="Wir denken die Infrastruktur von oben nach unten. Oben stehen die Dienste, die Nutzerinnen und Nutzer sehen. Sie sollen auf einer Plattform und einer Rechenschicht laufen, darunter liegen Speicher und Netzwerk. Das Fundament soll eigene Hardware in Europa bilden."
-        />
-        <div className="cards">
-          <LayerStack layers={architectureLayers} arrows />
-          <p className="rule">Querschnittsthemen</p>
-          <LayerStack layers={crossCuttingLayers} />
-        </div>
+      <Section id="ueberblick" labelledBy="ueberblick-h" band>
+        <SectionHead eyebrow={t.ueberblick.eyebrow} id="ueberblick-h" title={t.ueberblick.title} lead={t.ueberblick.lead} />
+        <LayerStack layers={overviewLayers} spaced />
       </Section>
 
-      <Section id="grundsaetze" labelledBy="grundsaetze-h">
-        <SectionHead
-          eyebrow="Grundsätze"
-          id="grundsaetze-h"
-          title="Sechs Grundsätze, nach denen wir bauen."
-          lead="Bevor eine einzelne Technik gewählt wird, stehen Grundsätze fest. Sie geben vor, wie wir entscheiden, wenn es mehrere Wege gibt."
-        />
-        <Cards cols={3}>
-          {principles.map((t) => (
-            <Tile key={t.title} icon={t.icon} title={t.title}>
-              {t.text}
-            </Tile>
-          ))}
-        </Cards>
+      <Section id="live-status" labelledBy="live-h">
+        <SectionHead eyebrow={t.live.eyebrow} id="live-h" title={t.live.title} lead={t.live.lead} />
+        <LiveStatus />
       </Section>
 
-      <TopicSection topic={standort} />
-      <TopicSection topic={netzwerk} />
-
-      <Section id="rechenschicht" labelledBy="rechen-h" band>
-        <IntroHead
-          eyebrow="Rechenschicht"
-          id="rechen-h"
-          title="Dienste voneinander getrennt."
-          leads={[
-            "Auf der Hardware soll eine Rechenschicht aus Virtualisierung und Containern liegen. Sie soll verhindern, dass ein Dienst andere Dienste stört, und Ressourcen dorthin lenken, wo sie gebraucht werden.",
-            "Unser Zielbild: Jeder Dienst bekommt seine eigene, klar begrenzte Umgebung. Fällt ein Rechenknoten aus, sollen andere übernehmen. Wartung an einer Maschine soll nicht bedeuten, dass ein Dienst offline geht.",
-          ]}
-        />
-        <Cards cols={3}>
-          {computeTiles.map((t) => (
-            <Tile key={t.title} icon={t.icon} title={t.title}>
-              {t.text}
-            </Tile>
-          ))}
-        </Cards>
-      </Section>
-
+      <TopicSection topic={rechenleistung} />
       <TopicSection topic={speicher} />
-      <TopicSection topic={plattform} />
-      <TopicSection topic={monitoring} />
+      <TopicSection topic={datensicherung} />
+      <TopicSection topic={netzwerk} />
+      <TopicSection topic={sicherheit} />
 
-      <Section id="sicherheit" labelledBy="sicherheit-h" band>
-        <SectionHead
-          eyebrow="Sicherheit"
-          id="sicherheit-h"
-          title="Mehrere Schichten, kein einzelnes Schloss."
-          lead="Wir folgen dem Grundsatz Defense in Depth, also gestaffelter Verteidigung: Fällt eine Schutzmaßnahme aus, soll die nächste den Fehler auffangen. Sicherheit soll deshalb in jeder Schicht gelten, vom Rack bis zur Anwendung."
-        />
-        <Cards cols={4}>
-          {securityTiles.map((t) => (
-            <Tile key={t.title} icon={t.icon} title={t.title}>
-              {t.text}
+      <Section id="eigene-hardware" labelledBy="hardware-h" band>
+        <SectionHead eyebrow={t.warum.eyebrow} id="hardware-h" title={t.warum.title} lead={t.warum.lead} />
+        <Cards cols={3}>
+          {whyTiles.map((tile) => (
+            <Tile key={tile.title} icon={tile.icon} title={tile.title}>
+              {tile.text}
             </Tile>
           ))}
         </Cards>
       </Section>
 
-      <TopicSection topic={datenschutz} />
-
-      <Section id="dienste" labelledBy="dienste-h" band>
-        <SectionHead
-          eyebrow="Ökosystem"
-          id="dienste-h"
-          title="Dienste der VylarisGroup."
-          lead="Diese Dienste gehören zum Ökosystem, in dem VylarisData künftig das Hosting übernehmen soll. Sie sind hier als Kontext aufgeführt. Eine Zusage, dass sie auf die Infrastruktur von VylarisData wechseln, ist damit nicht verbunden."
-        />
-        <Cards cols={3}>
-          {services.map((s) => (
-            <ServiceTile key={s.title} item={s} />
-          ))}
-        </Cards>
-      </Section>
-
-      <Section id="ausbaustufen" labelledBy="ausbau-h">
+      <Section id="naechstes" labelledBy="naechstes-h">
         <SplitPlain
-          main={
-            <>
-              <p className="eyebrow">Ausbaustufen</p>
-              <h2 className="h2" id="ausbau-h">
-                In drei Stufen zum Betrieb.
-              </h2>
-              <p className="lead">
-                Wir bauen nicht alles auf einmal. Die Stufen zeigen eine mögliche Reihenfolge als Zielbild: Jede Stufe soll tragen,
-                bevor die nächste beginnt.
-              </p>
-              <Timeline items={stages} />
-            </>
-          }
-          aside={<TopicVisual visual={guardrails} />}
-        />
+          eyebrow={t.naechstes.eyebrow}
+          title={t.naechstes.title}
+          headingId="naechstes-h"
+          lead={t.naechstes.lead}
+          aside={<TopicVisual visual={roadmapNotes} />}
+        >
+          <Timeline items={roadmap} />
+        </SplitPlain>
       </Section>
 
-      <Section id="veroeffentlichung" labelledBy="veroeff-h" band>
-        <SectionHead
-          eyebrow="Angekündigte Angaben"
-          id="veroeff-h"
-          title="Das möchten wir mit dem Start veröffentlichen."
-          lead="Wir nennen nur Zahlen, die wir belegen können. Alle Angaben in der Tabelle sind geplant und folgen, sobald die Systeme produktiv sind und gemessen werden."
-        />
-        <SpecTable head={["Kategorie", "Was dort stehen soll"]} rows={publishRows} />
+      <Section id="faq" labelledBy="faq-h" band>
+        <SplitPlain eyebrow={t.faq.eyebrow} title={t.faq.title} headingId="faq-h" aside={<TopicVisual visual={faqLinks} />}>
+          <Faq items={faq} />
+        </SplitPlain>
       </Section>
 
-      <Section id="faq" labelledBy="faq-h">
-        <SplitPlain
-          main={
-            <>
-              <p className="eyebrow">Häufige Fragen</p>
-              <h2 className="h2" id="faq-h">
-                Antworten, auch wenn sie „noch nicht“ lauten.
-              </h2>
-              <Faq items={faq} />
-            </>
-          }
-          aside={
-            <Visual>
-              <p className="h4">Direkt zu den Seiten der VylarisGroup</p>
-              <Dots
-                items={groupLinks.map((l) => (
-                  <A key={l.href} href={l.href} className="link">
-                    {l.label}
-                  </A>
-                ))}
-              />
-            </Visual>
-          }
-        />
-
+      <Section id="kontakt" labelledBy="cta-h">
         <InlineCta
-          id="kontakt"
+          id="kontakt-cta"
           headingId="cta-h"
           title={
             <>
-              Fragen zur <Gradient>Infrastruktur</Gradient>?
+              {t.cta.titleBefore}
+              <Gradient>{t.cta.titleAccent}</Gradient>
+              {t.cta.titleAfter}
             </>
           }
-          text="Du möchtest wissen, wie weit wir sind, oder hast ein Vorhaben, das später auf unserer Infrastruktur laufen könnte? Melde dich über die Kontaktseite der VylarisGroup (Kontakt & Tickets)."
-          primary={{ href: site.links.contact, label: "Kontakt aufnehmen", icon: "ext" }}
-          secondary={{ href: "/oekosystem/", label: "Zum Ökosystem" }}
+          text={t.cta.text}
+          primary={{ href: site.links.contact, label: t.cta.primary, icon: "ext" }}
+          secondary={{ href: "/oekosystem/", label: t.cta.secondary }}
         />
       </Section>
     </>

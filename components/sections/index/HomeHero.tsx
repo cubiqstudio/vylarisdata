@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Button, type IconName } from "@/components/ui";
+import { Button, Chips, type IconName } from "@/components/ui";
 
 export type HeroAction = {
   href: string;
@@ -14,6 +14,8 @@ export type HeroContent = {
   tagline: string;
   tri: string;
   sub: string;
+  /** Kurze Kennzahlen unter den Buttons */
+  stats?: readonly string[];
   actions: readonly HeroAction[];
 };
 
@@ -23,7 +25,7 @@ type HomeHeroProps = HeroContent & {
 };
 
 /** Startseiten-Hero mit eigener h1 und animierter Grafik. */
-export function HomeHero({ pill, title, tagline, tri, sub, actions, art }: HomeHeroProps) {
+export function HomeHero({ pill, title, tagline, tri, sub, stats, actions, art }: HomeHeroProps) {
   return (
     <section className="hero" id="start">
       <div className="wrap">
@@ -47,6 +49,11 @@ export function HomeHero({ pill, title, tagline, tri, sub, actions, art }: HomeH
               </Button>
             ))}
           </div>
+          {stats && stats.length > 0 && (
+            <div className="mt-6">
+              <Chips items={stats} blue />
+            </div>
+          )}
         </div>
         <div className="hero-art">{art}</div>
       </div>

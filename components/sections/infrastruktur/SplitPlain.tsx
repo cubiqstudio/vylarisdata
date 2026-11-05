@@ -1,10 +1,28 @@
 import type { ReactNode } from "react";
 
-/** Zweispaltig ohne `.copy`-Klasse (Textspalte ist ein einfaches div). */
-export function SplitPlain({ main, aside }: { main: ReactNode; aside: ReactNode }) {
+type SplitPlainProps = {
+  eyebrow: string;
+  title: string;
+  /** id der Überschrift (passend zu Section.labelledBy) */
+  headingId: string;
+  lead?: string;
+  /** Inhalt unter dem Kopf */
+  children: ReactNode;
+  aside: ReactNode;
+};
+
+/** Zweispaltig: links Kopf (Eyebrow, H2, optional Lead) mit Inhalt, rechts eine Begleitspalte. */
+export function SplitPlain({ eyebrow, title, headingId, lead, children, aside }: SplitPlainProps) {
   return (
     <div className="split">
-      <div>{main}</div>
+      <div>
+        <p className="eyebrow">{eyebrow}</p>
+        <h2 className="h2" id={headingId}>
+          {title}
+        </h2>
+        {lead && <p className="lead">{lead}</p>}
+        {children}
+      </div>
       {aside}
     </div>
   );

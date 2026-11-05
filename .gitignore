@@ -1,8 +1,7 @@
-# Zugangsdaten – niemals committen
-.env.local
-.env.tunnel
+# Zugangsdaten und lokale Daten – niemals committen
 .env
-.env.*.local
+.env.*
+.data/
 
 # Build und Abhängigkeiten
 node_modules/

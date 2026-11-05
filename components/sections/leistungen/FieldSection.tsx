@@ -1,14 +1,15 @@
-import { A, Section, Split, Visual, type Tone } from "@/components/ui";
+import { A, Section, Split, Visual } from "@/components/ui";
 import { FieldCopy } from "./FieldCopy";
 import { FlowStack, type FlowLayer } from "./FlowStack";
 import { StrongChecks, type StrongPoint } from "./StrongChecks";
+import type { StatusInfo } from "./types";
 
 /** Ein Leistungsfeld: Text links, Schichtenbild rechts (oder umgekehrt). */
 export type FieldContent = {
   id: string;
   eyebrow: string;
   title: string;
-  status?: { tone: Tone; label: string };
+  status?: StatusInfo;
   lead?: string;
   paragraphs: readonly string[];
   points: readonly StrongPoint[];

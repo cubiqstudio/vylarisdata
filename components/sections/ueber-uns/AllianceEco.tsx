@@ -1,10 +1,11 @@
 import { A, Icon, type IconName } from "@/components/ui";
 import type { ReactNode } from "react";
+import { iconClass, type IconTone } from "./types";
 
 export type AlliancePanelRow = { term: string; text: ReactNode };
 
 export type AlliancePanelData = {
-  tone: "indigo" | "blue";
+  tone: IconTone | "blue";
   icon: IconName;
   name: string;
   domain: string;
@@ -25,7 +26,7 @@ function Panel({ panel }: { panel: AlliancePanelData }) {
   return (
     <div className={`panel ${panel.tone}`}>
       <div className="panel-head">
-        <span className={panel.tone === "indigo" ? "icon indigo" : "icon"}>
+        <span className={iconClass(panel.tone === "indigo" ? "indigo" : undefined)}>
           <Icon name={panel.icon} />
         </span>
         <div>

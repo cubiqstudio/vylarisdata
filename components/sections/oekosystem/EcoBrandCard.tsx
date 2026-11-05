@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import { Button, Icon, Status, type IconName } from "@/components/ui";
 import { iconClass, type EcoAction, type IconTone, type StatusTag } from "./types";
 
@@ -9,12 +8,10 @@ export type EcoBrand = {
   iconTone?: IconTone;
   status: StatusTag;
   text: string;
-  /** Karte der aktuellen Marke ("Du bist hier") */
+  /** Karte der aktuellen Marke (Zusatz "du bist hier" an der Unterzeile) */
   current?: boolean;
   action: EcoAction;
 };
-
-const textStyle: CSSProperties = { marginBottom: "1.5rem" };
 
 /** Markenkarte (li) mit Status oben rechts und Button am Fuß. */
 export function EcoBrandCard({ brand }: { brand: EcoBrand }) {
@@ -29,8 +26,8 @@ export function EcoBrandCard({ brand }: { brand: EcoBrand }) {
           <Status tone={status.tone}>{status.label}</Status>
         </div>
         <h3>{name}</h3>
-        <p className="sub">{sub}</p>
-        <p style={textStyle}>{text}</p>
+        <p className="sub">{current ? `${sub} · du bist hier` : sub}</p>
+        <p>{text}</p>
         <Button href={action.href} variant="secondary" size="sm" icon={action.icon}>
           {action.label}
         </Button>

@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { NetworkGraphic } from "@/components/graphics/NetworkGraphic";
 import { ChipGroup } from "@/components/sections/index/ChipGroup";
 import { ContactCta } from "@/components/sections/index/ContactCta";
-import { CopyAction, CopyHead, EcoCta, NoteBox } from "@/components/sections/index/CopyParts";
+import { CopyAction, CopyHead, CtaRow, NoteBox } from "@/components/sections/index/CopyParts";
 import { EcoBrandCard } from "@/components/sections/index/EcoBrandCard";
 import { HomeHero } from "@/components/sections/index/HomeHero";
-import { InfraLayers } from "@/components/sections/index/InfraLayers";
 import { SoftGrid } from "@/components/sections/index/SoftGrid";
 import {
   Button,
   Callout,
   Cards,
   Checks,
+  Chips,
   Dots,
   Facts,
   Faq,
@@ -19,13 +19,17 @@ import {
   Section,
   SectionHead,
   Split,
+  SpecTable,
+  Status,
   Steps,
   Tile,
   Visual,
 } from "@/components/ui";
 import {
+  accessChecks,
   areas,
   brands,
+  buildingBlocks,
   chipGroups,
   contactCta,
   facts,
@@ -33,10 +37,13 @@ import {
   focus,
   hero,
   homeMeta,
-  infraChecks,
-  layers,
+  leadItems,
   principles,
   roadmap,
+  sections,
+  storageChips,
+  storageRows,
+  transparencyPoints,
   workPrinciples,
 } from "@/content";
 import { pageMetadata } from "@/lib/metadata";
@@ -56,35 +63,56 @@ export default function HomePage() {
       <HomeHero {...hero} art={<NetworkGraphic />} />
 
       <Section id="eckdaten" labelledBy="eckdaten-h" large>
-        <SectionHead
-          center
-          eyebrow="Auf einen Blick"
-          id="eckdaten-h"
-          title="Wer wir sind und wo wir stehen."
-          lead="Vier Eckdaten zum Einstieg. Alles Weitere steht auf den folgenden Seiten."
-        />
+        <SectionHead center {...sections.eckdaten} id="eckdaten-h" />
         <Facts items={facts} />
       </Section>
 
       <Section id="fokus" labelledBy="fokus-h" large band>
-        <SectionHead
-          center
-          eyebrow="Unser Fokus"
-          id="fokus-h"
-          title="Drei Dinge, auf denen das Vylaris-Ökosystem aufbaut."
-          lead="Technology, Infrastructure und Innovation beschreiben unsere Rolle in der Gruppe: Wir entwickeln Software, bauen die Infrastruktur auf und denken beides weiter."
-        />
+        <SectionHead center {...sections.fokus} id="fokus-h" />
         <SoftGrid items={focus} />
       </Section>
 
-      <Section id="leistungen" labelledBy="leistungen-h" large>
-        <SectionHead
-          center
-          eyebrow="Software Development & Technology"
-          id="leistungen-h"
-          title="Unsere Aufgabenfelder."
-          lead="Von der Entwicklung bis zum geplanten Betrieb: Das ist unser Beitrag zur Technik der VylarisGroup. Vieles davon ist Zielbild und noch im Aufbau."
+      <Section id="infrastruktur" labelledBy="infrastruktur-h" large>
+        <SectionHead center {...sections.infrastruktur} id="infrastruktur-h" />
+        <Cards cols={3}>
+          {buildingBlocks.map((b) => (
+            <Tile key={b.title} icon={b.icon} title={b.title} href="/infrastruktur/" more="Zur Infrastruktur">
+              {b.text}
+            </Tile>
+          ))}
+        </Cards>
+        <CtaRow>
+          <Button href="/infrastruktur/" icon="arrow">
+            Zur Infrastruktur und zum Live-Status
+          </Button>
+        </CtaRow>
+      </Section>
+
+      <Section id="speicher" labelledBy="speicher-h" large band>
+        <Split
+          reverse
+          copy={
+            <>
+              <CopyHead {...sections.speicher} id="speicher-h" />
+              <p>
+                Vier Storage-Server mit je 120 TB SSD und ein Storage-Server mit knapp 500 TB HDD: Zusammen sind das fast 1
+                Petabyte Rohkapazität.
+              </p>
+              <p>Es ist die Rohkapazität vor Redundanz; die nutzbare Menge nennen wir hier nicht.</p>
+              <Chips items={storageChips} blue />
+            </>
+          }
+          visual={
+            <Visual soft>
+              <p className="h4">Speicher im Detail</p>
+              <SpecTable head={["Speicherklasse", "Umfang"]} rows={storageRows} />
+            </Visual>
+          }
         />
+      </Section>
+
+      <Section id="leistungen" labelledBy="leistungen-h" large>
+        <SectionHead center {...sections.leistungen} id="leistungen-h" />
         <Cards cols={4}>
           {areas.map((a) => (
             <Tile key={a.title} icon={a.icon} title={a.title} href="/leistungen/" more="Mehr dazu">
@@ -94,48 +122,29 @@ export default function HomePage() {
         </Cards>
       </Section>
 
-      <Section id="infrastruktur" labelledBy="infra-h" large band>
+      <Section id="zugang" labelledBy="zugang-h" large band>
         <Split
           copy={
             <>
-              <CopyHead eyebrow="Infrastruktur im Überblick" id="infra-h" title="Die künftige Infrastruktur für die Dienste der VylarisGroup." />
+              <CopyHead {...sections.zugang} id="zugang-h" />
               <p>
-                VylarisData wird zukünftig das Hosting der VylarisGroup. Die Infrastruktur dafür ist im Aufbau; wir beschreiben
-                deshalb Zielbild und Grundsätze, keinen fertigen Betrieb.
+                Auch unsere eigene Website läuft hinter einem Cloudflare Tunnel: Der Server hat keine offenen Ports und baut die
+                Verbindung ausschließlich nach außen auf.
               </p>
-              <p>
-                Wir denken von oben nach unten: Dienste laufen auf einer Plattform, diese auf Rechen-, Speicher- und
-                Netzwerkschicht, und das Ganze soll auf eigener Hardware in Europa stehen.
-              </p>
-              <Checks
-                items={infraChecks.map((c) => (
-                  <>
-                    <strong>{c.lead}</strong> {c.text}
-                  </>
-                ))}
-              />
-              <CopyAction href="/infrastruktur/" label="Zur Infrastruktur" />
+              <Checks items={leadItems(accessChecks)} />
             </>
           }
           visual={
-            <InfraLayers
-              statusLabel="Zielbild"
-              label="Die Schichten der Infrastruktur"
-              ariaLabel="Zielbild der Schichten"
-              layers={layers}
-            />
+            <Visual soft>
+              <p className="h4">Transparent im Betrieb</p>
+              <Dots items={transparencyPoints} />
+            </Visual>
           }
         />
       </Section>
 
-      <Section id="prinzipien" labelledBy="warum-h" large>
-        <SectionHead
-          center
-          eyebrow="Warum VylarisData"
-          id="warum-h"
-          title="Sechs Grundsätze, nach denen wir arbeiten."
-          lead="Bevor wir eine Technik wählen, stehen Grundsätze fest. Sie entscheiden, wenn es mehrere Wege gibt."
-        />
+      <Section id="prinzipien" labelledBy="prinzipien-h" large>
+        <SectionHead center {...sections.prinzipien} id="prinzipien-h" />
         <Cards cols={3}>
           {principles.map((p) => (
             <Tile key={p.title} icon={p.icon} title={p.title}>
@@ -145,14 +154,8 @@ export default function HomePage() {
         </Cards>
       </Section>
 
-      <Section id="oekosystem" labelledBy="eco-h" large band>
-        <SectionHead
-          center
-          eyebrow="Das Vylaris-Ökosystem"
-          id="eco-h"
-          title="Ein Ökosystem, mehrere Partner."
-          lead="VylarisData gehört zur VylarisGroup und ist eine Marke von CircleUpWilms. Die Gruppe arbeitet in der Schweiz und in Europa zusammen."
-        />
+      <Section id="oekosystem" labelledBy="oekosystem-h" large band>
+        <SectionHead center {...sections.oekosystem} id="oekosystem-h" />
         <Cards cols={2}>
           {brands.map((b) => (
             <EcoBrandCard key={b.name} brand={b} />
@@ -162,54 +165,54 @@ export default function HomePage() {
           <Callout icon="link">
             <p>
               <strong>Schweiz und Europa.</strong> Der Schweizer Verein und der europäische Zweig arbeiten Hand in Hand: Die
-              Schweiz trägt die Idee, Europa stellt Rechtsstruktur und Infrastruktur. VylarisData wird zukünftig das Hosting
-              der VylarisGroup.
+              Schweiz trägt die Idee, Europa die Rechtsstruktur.
             </p>
           </Callout>
         </NoteBox>
-        <EcoCta>
+        <NoteBox>
+          <Callout icon="rocket">
+            <p>
+              <Status tone="info">Geplant</Status> <strong>Das Ökosystem weiter ausbauen.</strong> Das ist unser Plan für die Zukunft.
+            </p>
+          </Callout>
+        </NoteBox>
+        <CtaRow>
           <Button href="/oekosystem/" icon="arrow">
             Mehr zum Ökosystem
           </Button>
-        </EcoCta>
+        </CtaRow>
       </Section>
 
       <Section id="roadmap" labelledBy="roadmap-h" large>
-        <SectionHead
-          center
-          eyebrow="Zielbild"
-          id="roadmap-h"
-          title="Die geplante Reihenfolge."
-          lead="Unverbindliches Zielbild: Wir wollen der Reihe nach vorgehen – zuerst ein tragfähiges Fundament, dann die Übernahme der Dienste, dann der dauerhafte Betrieb. Termine nennen wir bewusst nicht."
-        />
+        <SectionHead center {...sections.roadmap} id="roadmap-h" />
         <Steps items={roadmap} />
-        <EcoCta>
+        <CtaRow>
           <Button href="/infrastruktur/" variant="secondary" icon="arrow">
             Details zur Infrastruktur
           </Button>
-        </EcoCta>
+        </CtaRow>
       </Section>
 
-      <Section id="technologie" labelledBy="tech-h" large band>
+      <Section id="technologie" labelledBy="technologie-h" large band>
         <Split
           reverse
           copy={
             <>
-              <CopyHead eyebrow="Technologie" id="tech-h" title="Open Source und Eigenentwicklung." />
+              <CopyHead {...sections.technologie} id="technologie-h" />
               <p>
-                Open Source und Eigenentwicklung gehören zu den Werten der VylarisGroup. Wir verstehen unsere Rolle darin als
-                technischen Unterbau: Wir entwickeln Software für die Dienste der Gruppe und wollen sie wartbar halten.
+                Die Dienste von VylarisGroupEurope sind kostenlose Open-Source-SaaS-Dienste. VylarisData ist der Geschäftsbereich
+                Software Development & Technology der VylarisGroup und betreibt eigene Hardware.
               </p>
               <p>
-                Auf der Technologie-Seite beschreiben wir unsere Arbeitsweise: wie wir Code verwalten und Änderungen prüfen
-                und wie wir Systeme künftig automatisiert ausrollen wollen.
+                Auf der Technologie-Seite beschreiben wir unsere Arbeitsweise. Diese Website selbst ist ein Beispiel: hinter einem
+                Tunnel, ohne offene Ports, ohne Tracking.
               </p>
               <CopyAction href="/technologie/" label="Zur Technologie" />
             </>
           }
           visual={
             <Visual soft>
-              <p className="h4">Grundsätze der Arbeitsweise</p>
+              <p className="h4">So arbeiten wir</p>
               <Dots items={workPrinciples} />
               {chipGroups.map((g) => (
                 <ChipGroup key={g.caption} caption={g.caption} items={g.items} />
@@ -220,13 +223,13 @@ export default function HomePage() {
       </Section>
 
       <Section id="faq" labelledBy="faq-h" large>
-        <SectionHead center eyebrow="Häufige Fragen" id="faq-h" title="Kurze Antworten zu VylarisData." />
+        <SectionHead center {...sections.faq} id="faq-h" />
         <Faq items={faq} />
       </Section>
 
       <ContactCta
         id="kontakt"
-        headingId="cta-h"
+        headingId="kontakt-h"
         title={
           <>
             Fragen zu <Gradient>VylarisData</Gradient>?

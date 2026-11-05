@@ -1,10 +1,11 @@
 import { Fragment } from "react";
 import { Icon, type IconName } from "@/components/ui";
+import type { IconTone } from "./types";
 
 export type FlowLayer = {
   icon: IconName;
   /** Farbton des Icon-Kastens (Standard: Marken-Blau) */
-  iconTone?: "indigo";
+  iconTone?: IconTone;
   name: string;
   description: string;
   highlight?: boolean;

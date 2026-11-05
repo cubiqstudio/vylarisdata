@@ -1,4 +1,4 @@
-# VylarisData: nginx (statische Seite) + Cloudflare Tunnel.
+# VylarisData: Next.js-Server (Seite + Admin-Bereich) + Cloudflare Tunnel.
 # KEINE Ports werden auf dem Host veröffentlicht – der Tunnel baut nur ausgehende
 # Verbindungen zu Cloudflare auf. Eingehend muss nichts erreichbar sein.
 name: vylarisdata
@@ -8,29 +8,39 @@ services:
     build: .
     image: vylarisdata-web:latest
     restart: unless-stopped
+    init: true              # sauberes Beenden von Prozessen
+    mem_limit: 512m
+    pids_limit: 256
     read_only: true
     tmpfs:
       - /tmp
-      - /var/cache/nginx
+      - /app/.next/cache
     cap_drop: [ALL]
     security_opt:
       - no-new-privileges:true
+    env_file:
+      - path: .env.app      # enthält ggf. ADMIN_SETUP_TOKEN (wird von ./install.sh admin angelegt)
+        required: false
+    volumes:
+      - vd-data:/data       # Admin-Zugang, Sitzungen, Status, Protokoll – bleibt bei Updates erhalten
     expose:
       - "8080"
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz"]
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz/"]
       interval: 15s
       timeout: 3s
       retries: 5
     networks:
-      - internal          # kein Internetzugang (internal: true)
+      - internal            # kein Internetzugang (internal: true)
 
   tunnel:
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
     command: tunnel --no-autoupdate run
     env_file:
-      - .env.tunnel       # enthält nur TUNNEL_TOKEN (nicht den API-Token)
+      - .env.tunnel         # enthält nur TUNNEL_TOKEN (nicht den API-Token)
+    mem_limit: 256m
+    pids_limit: 128
     read_only: true
     cap_drop: [ALL]
     security_opt:
@@ -39,8 +49,11 @@ services:
       web:
         condition: service_healthy
     networks:
-      - internal          # erreicht die Seite
-      - egress            # ausgehende Verbindung zu Cloudflare
+      - internal            # erreicht die Seite
+      - egress              # ausgehende Verbindung zu Cloudflare
+
+volumes:
+  vd-data:
 
 networks:
   internal:

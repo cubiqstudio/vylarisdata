@@ -1,21 +1,7 @@
-import type { ReactNode } from "react";
-import { A, Icon, type IconName } from "@/components/ui";
-import { iconClass, type IconTone } from "./types";
+import { A, Icon } from "@/components/ui";
+import { iconClass, type KontaktTileData } from "./types";
 
-export type KontaktTileData = {
-  icon: IconName;
-  iconTone?: IconTone;
-  title: string;
-  text: ReactNode;
-  /** macht die Karte klickbar */
-  href?: string;
-  /** Text des Links am Fuß (nur mit href) */
-  more?: string;
-  /** Icon des Links am Fuß (Standard: Pfeil) */
-  moreIcon?: IconName;
-};
-
-/** Feature-Karte (li) mit Icon, Text und optionalem Link am Fuß. */
+/** Feature-Karte (li) mit Icon, Text und optionalem Link am Fuß. Unterstützt Icon-Ton und Icon am Link-Fuß. */
 export function KontaktTile({ tile }: { tile: KontaktTileData }) {
   const { icon, iconTone, title, text, href, more, moreIcon = "arrow" } = tile;
   const body = (

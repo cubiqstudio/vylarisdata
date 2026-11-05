@@ -1,54 +1,176 @@
-import type { FaqItem, StepItem, TimelineItem } from "@/components/ui";
-import { A } from "@/components/ui";
+import type { ReactNode } from "react";
+import type { FactItem, FaqItem, StepItem, TimelineItem } from "@/components/ui";
+import { A, Gradient, Status } from "@/components/ui";
 import type { TechBrand } from "@/components/sections/technologie/TechBrandCard";
 import type { TechHeadData } from "@/components/sections/technologie/TechHead";
 import type { TechTileData } from "@/components/sections/technologie/TechTile";
-import type { StackLayer } from "@/components/sections/technologie/LayerStack";
 import { site } from "@/content/site";
 
 /** Daten der Seite "Technologie". Markup liegt in den Komponenten, hier nur Inhalt. */
 
 export const meta = {
-  title: "Technologie",
+  title: "Technologie und Infrastruktur",
   description:
-    "So baut VylarisData Software: Open Source und Eigenentwicklung, Security by Design, Datensparsamkeit und ein fester Ablauf von der Idee bis zum Betrieb.",
+    "10 Server, knapp 1 PB Rohkapazität aus SSD und HDD, eigenes IP-Subnetz und PBS-Backup-System: die Infrastruktur und die Grundsätze von VylarisData.",
   path: "/technologie/",
+} as const;
+
+/* ------------------------------------------------------------------- Hero */
+
+export const hero = {
+  crumb: "Technologie",
+  eyebrow: "Software Development & Technology",
+  title: (
+    <>
+      <Gradient>Eigene Hardware</Gradient>, eigene Technik.
+    </>
+  ),
+  lead: "10 Server, knapp 1 PB Rohkapazität, ein eigenes IP-Subnetz und ein PBS-Backup-System: Die Infrastruktur von VylarisData läuft. Wir entwickeln Technik für das Vylaris-Ökosystem und betreiben eigene Hardware, nach klaren Grundsätzen und mit transparentem Stand.",
+  primaryAction: { href: "#hardware", label: "Unsere Hardware" },
+  secondaryAction: { href: "/infrastruktur/", label: "Live-Status ansehen" },
 } as const;
 
 /* ------------------------------------------------------------ Sektionsköpfe */
 
 export const heads = {
+  hardware: {
+    id: "hardware-h",
+    eyebrow: "Eigene Infrastruktur",
+    title: "5 Storage-Server, ein PBS-Backup-System, ein eigenes IP-Subnetz: Das ist unsere Infrastruktur.",
+    lead: "Wir entwickeln Software und betreiben eigene Hardware. Hier siehst du, woraus sie besteht: Server, Speicher, Backup, Netz und Sicherheit.",
+  },
+  inventory: {
+    id: "bestand-h",
+    eyebrow: "Bestand im Überblick",
+    title: "Jede Komponente mit ihrem Stand.",
+    lead: "Hier siehst du jede Komponente mit ihrem aktuellen Stand: Im Betrieb ist, was läuft. In Wartung ist, was gerade gepflegt wird. Geplant ist, was noch kommt.",
+  },
+  website: {
+    id: "website-h",
+    eyebrow: "Diese Website als Beispiel",
+    title: "Ohne offene Ports erreichbar, ohne Tracking gebaut.",
+    lead: "Die Seite, die du gerade liest, zeigt im Kleinen, wie wir Grundsätze in Technik übersetzen. Du kannst sie als Beispiel für unsere Arbeitsweise nehmen.",
+  },
+  status: {
+    id: "stand-h",
+    eyebrow: "Stand heute",
+    title: "Was läuft, was in Wartung ist und was geplant ist.",
+    lead: "Wir trennen offen zwischen dem, was im Betrieb ist, dem, was gerade gewartet wird, und dem, was wir planen.",
+  },
   principles: {
     id: "grundsaetze-h",
     eyebrow: "Wie wir Software bauen",
-    title: "Sechs Grundsätze, an denen sich jede Entscheidung messen lässt.",
-    lead: "Das sind keine Werbeversprechen, sondern die Maßstäbe, die wir an unsere eigene Arbeit anlegen. Widerspricht ein Vorschlag einem dieser Grundsätze, muss er gute Gründe mitbringen.",
+    title: "Sechs Grundsätze. Jede Entscheidung muss sich daran messen lassen.",
+    lead: "So arbeiten wir, und daran wollen wir uns messen lassen. Eine Zertifizierung ist das nicht. Widerspricht ein Vorschlag einem dieser Grundsätze, muss er gute Gründe mitbringen.",
   },
   process: {
     id: "prozess-h",
     eyebrow: "Entwicklungsprozess",
     title: "Von der Idee bis zum Betrieb in sechs Schritten.",
-    lead: "Jedes Vorhaben soll denselben Weg durchlaufen. Der Umfang unterscheidet sich, die Reihenfolge nicht. Die Schritte beschreiben unser Zielbild, kein bereits erreichtes Verfahren.",
+    lead: "Jedes Vorhaben durchläuft denselben Weg. Der Umfang unterscheidet sich, die Reihenfolge nicht. Das ist unser Anspruch an jedes Projekt.",
   },
   areas: {
     id: "arbeitsbereiche-h",
     eyebrow: "Arbeitsbereiche",
     title: "Vier Felder, in denen wir Technik für die VylarisGroup entwickeln.",
-    lead: "Die Bereiche greifen ineinander: Eine Anwendung braucht Schnittstellen, Schnittstellen brauchen Werkzeuge zum Testen, und alles zusammen braucht eine Infrastruktur, auf der es läuft.",
-  },
-  status: {
-    id: "zielbild-h",
-    eyebrow: "Stand und Zielbild",
-    title: "Was schon sichtbar ist und was noch entsteht.",
-    lead: "Wir trennen offen zwischen dem, was du heute sehen kannst, und dem, was wir uns vornehmen.",
+    lead: "Die Bereiche greifen ineinander: Eine Anwendung braucht Schnittstellen, Schnittstellen brauchen Werkzeuge zum Testen, und alles zusammen braucht Infrastruktur. Auch die betreiben wir selbst.",
   },
   group: {
     id: "gruppe-h",
     eyebrow: "Zusammenarbeit mit der VylarisGroup",
     title: "Technik im Verbund: Schweiz, Europa und VylarisData.",
-    lead: "Wir bauen nicht für uns allein. Die Technologie von VylarisData soll die Dienste der Gruppe tragen. Vorgestellt werden diese auf den Seiten der jeweiligen Marken.",
+    lead: "Wir bauen nicht für uns allein: VylarisData ist der Bereich Software Development & Technology der VylarisGroup. Die Dienste der Gruppe stellen die jeweiligen Marken auf ihren eigenen Seiten vor.",
   },
 } as const satisfies Record<string, TechHeadData>;
+
+/* ----------------------------------------------------- Fakten & Hardware */
+
+export const hardwareFacts: readonly FactItem[] = [
+  { value: "10", label: "Server in Betrieb" },
+  { value: "4 × 120 TB", label: "SSD-Storage in 4 Storage-Servern" },
+  { value: "knapp 500 TB", label: "HDD-Storage in 1 Storage-Server" },
+  { value: "knapp 1 PB", label: "Rohkapazität aus SSD und HDD, vor Redundanz" },
+];
+
+export const hardwareTiles: readonly TechTileData[] = [
+  {
+    icon: "server",
+    title: "Intern: KVM-Server",
+    text: "Unsere internen Server sind KVM-Server. Sie gehören zu den 10 Servern von VylarisData.",
+    chips: [{ label: "Intern" }, { label: "KVM" }],
+  },
+  {
+    icon: "cloud",
+    iconTone: "indigo",
+    title: "Extern: eigene Server",
+    text: "Die externen Server sind reguläre Server. Ob KVM oder etwas anderes, geben wir bewusst nicht an.",
+    chips: [{ label: "Extern" }],
+  },
+  {
+    icon: "hdd",
+    title: "5 Storage-Server",
+    text: "4 Storage-Server mit je 120 TB SSD und 1 Storage-Server mit knapp 500 TB HDD. Zusammen sind das knapp 1 PB Rohkapazität.",
+    chips: [{ label: "4 × 120 TB SSD" }, { label: "knapp 500 TB HDD" }],
+  },
+  {
+    icon: "life",
+    iconTone: "indigo",
+    title: "PBS-Backup-System",
+    text: "Datensicherung ist bei uns keine Nebensache, sondern ein eigenes System: Wir betreiben ein eigenes PBS-System für Backups.",
+    chips: [{ label: "Datensicherung" }],
+  },
+  {
+    icon: "network",
+    title: "Eigenes Netz",
+    text: "Wir betreiben ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
+    chips: [{ label: "Eigenes IP-Subnetz" }, { label: "Network-Server" }],
+  },
+  {
+    icon: "shield",
+    iconTone: "indigo",
+    title: "Sicherheitssystem",
+    text: "Ein Sicherheitssystem mit internem Netzwerk-Setup gehört zu unserer Infrastruktur und ist im Betrieb.",
+    chips: [{ label: "Internes Netzwerk-Setup" }],
+  },
+];
+
+export const inventoryHead = ["Komponente", "Stand"] as const;
+
+export const inventoryRows: readonly (readonly [string, ReactNode])[] = [
+  ["Server insgesamt", "10"],
+  ["KVM-Server (intern)", <Status key="kvm" tone="ok">Im Betrieb</Status>],
+  ["Server (extern)", <Status key="ext" tone="ok">Im Betrieb</Status>],
+  ["4 Storage-Server, je 120 TB SSD", <Status key="ssd" tone="ok">Im Betrieb</Status>],
+  ["1 Storage-Server, knapp 500 TB HDD", <Status key="hdd" tone="ok">Im Betrieb</Status>],
+  ["PBS-Backup-System", <Status key="pbs" tone="ok">Im Betrieb</Status>],
+  ["Eigenes IP-Subnetz und Network-Server", <Status key="net" tone="ok">Im Betrieb</Status>],
+  ["Sicherheitssystem mit internem Netzwerk-Setup", <Status key="sec" tone="ok">Im Betrieb</Status>],
+  ["DNS-Server", <Status key="dns" tone="warn">In Wartung</Status>],
+  ["Ökosystem weiter ausbauen", <Status key="eco" tone="info">Geplant</Status>],
+];
+
+export const hardwareChecks = [
+  <>
+    <strong>Eigene Hardware:</strong> Server, Speicher, Backup und Netz betreiben wir selbst.
+  </>,
+  <>
+    <strong>Nachvollziehbare Kapazität:</strong> 4 × 120 TB SSD und knapp 500 TB HDD sind knapp 1 PB Rohkapazität. Das ist die Zahl
+    vor Redundanz, nicht die nutzbare Menge.
+  </>,
+  <>
+    <strong>Eigene Netzbasis:</strong> Mit eigenem IP-Subnetz und eigenem Network-Server regeln wir unsere Internetanbindung selbst.
+  </>,
+];
+
+export const hardwareCallout = (
+  <>
+    <strong>Der Stand ist live einsehbar.</strong> Den aktuellen Stand aller Komponenten findest du auf der Seite{" "}
+    <A className="link" href="/infrastruktur/">
+      Infrastruktur
+    </A>
+    . Wir pflegen ihn selbst in einem geschützten Admin-Bereich.
+  </>
+);
 
 /* ---------------------------------------------------------------- Grundsätze */
 
@@ -56,40 +178,38 @@ export const principles: readonly TechTileData[] = [
   {
     icon: "git",
     title: "Open Source & Eigenentwicklung",
-    text: "Wir wollen verstehen, was unsere Software tut. Deshalb entwickeln wir Kernbausteine selbst und setzen auf offene Software, wenn sie unsere Anforderungen erfüllt und wir sie prüfen können.",
+    text: "Wir wollen verstehen, was unsere Software tut. Deshalb wollen wir Kernbausteine selbst entwickeln und offene Software nutzen, wenn sie unsere Anforderungen erfüllt und wir sie prüfen können.",
   },
   {
     icon: "shield",
-    title: "Security by Design",
-    text: "Sicherheit ist Teil des Entwurfs und kein Anstrich am Ende. Wir fragen früh, was schiefgehen kann, und bauen so, dass ein Fehler nicht gleich alles öffnet.",
+    title: "Sicherheit von Anfang an",
+    text: "Sicherheit ist Teil des Entwurfs und kein Anstrich am Ende. Jede fremde Komponente ist zusätzliche Angriffsfläche und Wartungslast, deshalb nehmen wir sie nur, wenn sie ihren Platz verdient. Bekannte Lücken beheben wir, Updates planen wir ein, statt sie aufzuschieben.",
   },
   {
     icon: "bulb",
     iconTone: "indigo",
-    title: "Einfach statt clever",
-    text: "Die einfachere Lösung gewinnt, solange sie die Aufgabe erfüllt. Code und Aufbau sollen auch in einem Jahr noch lesbar sein, und zwar auch für andere als die Person, die ihn geschrieben hat.",
+    title: "Einfach schlägt clever",
+    text: "Die einfachere Lösung gewinnt, solange sie die Aufgabe erfüllt. Code und Aufbau bleiben auch in einem Jahr lesbar, auch für alle, die sie nicht selbst geschrieben haben.",
   },
   {
     icon: "refresh",
     iconTone: "indigo",
-    title: "Automatisierung",
+    title: "Automatisiert statt von Hand",
     text: "Was sich wiederholt, gehört in ein Skript oder eine Pipeline. Das spart Zeit und verhindert die Fehler, die bei Handarbeit zuverlässig irgendwann passieren.",
   },
   {
     icon: "book",
-    title: "Dokumentation",
+    title: "Dokumentiert statt vergessen",
     text: "Eine Entscheidung, die nirgends steht, ist bald vergessen. Wir halten fest, was gebaut wurde, warum es so gebaut wurde und wie man es betreibt.",
   },
   {
     icon: "eye",
-    title: "Datensparsamkeit",
-    text: "Was wir nicht erheben, müssen wir nicht schützen, und es kann auch nicht abfließen. Daten fallen nur an, wenn ein Dienst sie wirklich braucht.",
+    title: "Nur Daten, die nötig sind",
+    text: "Was wir nicht erheben, müssen wir nicht schützen, und es kann auch nicht abfließen. Daten fallen nur an, wenn ein Dienst sie braucht.",
   },
 ];
 
 /* ------------------------------------------------------------------ Prozess */
-
-export const flow: readonly string[] = ["Idee", "Entwurf", "Review", "Test", "Auslieferung", "Betrieb"];
 
 export const processSteps: readonly StepItem[] = [
   {
@@ -101,22 +221,25 @@ export const processSteps: readonly StepItem[] = [
     text: "Wir skizzieren Aufbau, Schnittstellen und Datenfluss und halten fest, welche Daten überhaupt nötig sind.",
   },
   {
-    title: "Umsetzung mit Review",
-    text: "Änderungen sollen in kleinen Schritten mit nachvollziehbarer Versionsgeschichte entstehen. Unser Grundsatz: Eine zweite Person liest sie gegen.",
+    title: "Umsetzung & Review",
+    text: "Änderungen entstehen in kleinen Schritten mit nachvollziehbarer Versionsgeschichte. Eine zweite Person liest sie gegen.",
   },
   {
     title: "Test & Prüfung",
-    text: "Ziel ist, dass automatisierte Tests und eine Prüfung der Sicherheitsaspekte vor jeder Auslieferung stehen, nicht erst danach.",
+    text: "Automatisierte Tests und eine Prüfung der Sicherheitsaspekte stehen vor jeder Auslieferung, nicht erst danach.",
   },
   {
     title: "Auslieferung",
-    text: "Ausgeliefert werden soll über einen wiederholbaren Ablauf. Das Ziel ist, dass jede Version aus dem Quellcode reproduzierbar entsteht.",
+    text: "Ausgeliefert wird über einen wiederholbaren Ablauf, sodass jede Version aus dem Quellcode reproduzierbar entsteht.",
   },
   {
     title: "Betrieb",
-    text: "Im Betrieb wollen wir beobachten, Updates einspielen, aus Störungen lernen und das Gelernte in den Entwurf zurücktragen.",
+    text: "Im Betrieb beobachten wir, spielen Updates ein, lernen aus Störungen und tragen das Gelernte in den Entwurf zurück.",
   },
 ];
+
+/** Dekorative Ablaufkette, direkt aus den Schritttiteln abgeleitet. */
+export const flow: readonly string[] = processSteps.map((step) => step.title);
 
 /* ------------------------------------------------------------ Arbeitsbereiche */
 
@@ -124,8 +247,8 @@ export const areas: readonly TechTileData[] = [
   {
     icon: "code",
     title: "Webanwendungen",
-    text: "Oberflächen und Dienste für die Marken und Projekte der VylarisGroup sind unser Arbeitsfeld. Wir wollen schlanke Seiten bauen, die schnell laden, ohne Skript-Ballast auskommen und sich auch mit Tastatur und Screenreader bedienen lassen.",
-    chips: [{ label: "Ziel: zugänglich" }, { label: "Schlank" }, { label: "Datensparsam" }],
+    text: "Oberflächen und Dienste für die Marken und Projekte der VylarisGroup sind unser Arbeitsfeld. Unser Anspruch sind schlanke Seiten, die schnell laden, ohne Skript-Ballast auskommen und sich auch mit Tastatur und Screenreader bedienen lassen.",
+    chips: [{ label: "Zugänglich" }, { label: "Schlank" }, { label: "Datensparsam" }],
   },
   {
     icon: "link",
@@ -137,99 +260,61 @@ export const areas: readonly TechTileData[] = [
     icon: "terminal",
     iconTone: "indigo",
     title: "Automatisierung & Werkzeuge",
-    text: "Interne Helfer für Entwicklung und Betrieb sind ein Ziel: Skripte, Prüfungen und Abläufe, die wiederkehrende Arbeit übernehmen. Gute Werkzeuge machen den richtigen Weg zum einfachsten.",
+    text: "Interne Helfer für Entwicklung und Betrieb: Skripte, Prüfungen und Abläufe, die wiederkehrende Arbeit übernehmen. Gute Werkzeuge machen den richtigen Weg zum einfachsten.",
     chips: [{ label: "Wiederholbar" }, { label: "Nachvollziehbar" }, { label: "Dokumentiert" }],
   },
   {
     icon: "layers",
     iconTone: "indigo",
     title: "Plattform-Bausteine",
-    text: "Gemeinsame Grundlagen, damit nicht jedes Projekt bei null beginnt. Sie gehören zum Zielbild des künftigen Hostings der VylarisGroup und sind noch im Aufbau.",
-    chips: [{ label: "Im Aufbau", blue: true }, { label: "Wiederverwendbar" }],
-  },
-];
-
-/* ------------------------------------------------------- Qualität & Sicherheit */
-
-export const quality = {
-  eyebrow: "Qualität & Sicherheit",
-  id: "qualitaet-h",
-  title: "Feste Gewohnheiten tragen die Qualität.",
-  lead: "Wir legen fest, wie wir arbeiten wollen, und wollen uns daran messen. Die folgenden Punkte sind unser Anspruch an jedes Vorhaben, keine Zertifizierung und keine bereits geprüfte Praxis. Review, Tests und Builds aus den Prozessschritten fasst die Grafik als Zielablauf zusammen.",
-} as const;
-
-export const qualityChecks = [
-  <>
-    <strong>Abhängigkeitsarme Bauweise:</strong> Jede fremde Komponente ist zusätzliche Angriffsfläche und Wartungslast.
-    Wir wollen sie nur nehmen, wenn sie ihren Platz verdient.
-  </>,
-  <>
-    <strong>Sicherheitsupdates:</strong> Unser Grundsatz: Bekannte Lücken in eingesetzten Komponenten werden behoben,
-    Updates werden eingeplant, statt sie aufzuschieben.
-  </>,
-  <>
-    <strong>Gewohnheit statt Einzelaktion:</strong> Review, Tests und reproduzierbare Builds sollen bei jeder Änderung
-    dazugehören und nicht von einzelnen Personen oder guten Tagen abhängen.
-  </>,
-];
-
-export const qualityLayers: readonly StackLayer[] = [
-  { icon: "users", name: "Review", description: "Ziel: Jede Änderung wird gegengelesen." },
-  { icon: "check", name: "Tests", description: "Ziel: Automatische Prüfung bei jeder Änderung." },
-  { icon: "box", name: "Build", description: "Ziel: Reproduzierbar aus dem Quellcode." },
-  {
-    icon: "shield",
-    name: "Betrieb",
-    description: "Ziel: Updates einplanen, Störungen auswerten, Wissen zurückspielen.",
-    highlight: true,
+    text: "Gemeinsame Grundlagen, damit nicht jedes Projekt bei null beginnt: Das ist unser Ziel für diesen Bereich. Unabhängig davon betreiben wir eigene Server, Speicher, ein PBS-Backup-System und ein eigenes Netz.",
+    chips: [{ label: "Wiederverwendbar" }, { label: "Gemeinsame Grundlagen" }],
   },
 ];
 
 /* ------------------------------------------------------------ Diese Website */
 
 export const website = {
-  eyebrow: "Diese Website als Beispiel",
-  id: "website-h",
-  title: "Wie wir bauen, kannst du hier selbst nachsehen.",
-  lead: "Die Seite, die du gerade liest, ist klein und überschaubar. Gerade deshalb zeigt sie gut, wie wir Grundsätze in Technik übersetzen.",
   paragraphs: [
-    "Es gibt keine Cookies und kein Tracking. Schriften und Skripte liefern wir von derselben Domain aus. Es werden also keine fremden Server kontaktiert, nur um die Seite darzustellen.",
-    "Du kannst zwischen heller, dunkler und der Darstellung deines Systems wählen. Deine Wahl wird nur lokal in deinem Browser gespeichert.",
-    "Zugänglichkeit ist uns ein Ziel: sinnvolle Überschriften, ausreichende Kontraste und Bedienung per Tastatur.",
+    "Die Website läuft hinter einem Cloudflare Tunnel: Die Verbindung baut der Server selbst nach außen auf. Der Betrieb läuft in gehärteten Containern.",
+    "Dazu kommt ein Live-Statusboard für unsere Infrastruktur. Wir pflegen es in einem geschützten Admin-Bereich, sichtbar ist es auf der Seite Infrastruktur.",
   ],
+  button: { href: "/infrastruktur/", label: "Live-Status ansehen" },
 } as const;
 
+export const websiteSpecHead = ["Merkmal", "Umsetzung"] as const;
+
 export const websiteSpecs: readonly (readonly [string, string])[] = [
+  ["Erreichbarkeit", "Per Cloudflare Tunnel, keine offenen Ports auf dem Server"],
+  ["Verbindung", "Nur ausgehend vom Server aufgebaut"],
+  ["Betrieb", "In gehärteten Containern"],
   ["Cookies", "Keine"],
   ["Tracking", "Keines"],
-  ["Schriften & Skripte", "Von derselben Domain"],
   ["Darstellung", "Hell, dunkel oder Systemvorgabe; nur im Browser gespeichert"],
-  ["Zugänglichkeit", "Ziel: zugängliche Bedienung"],
+  ["Statusboard", "Live, gepflegt in einem geschützten Admin-Bereich"],
 ];
 
-/* ------------------------------------------------------------ Stand & Zielbild */
+export const websiteChecks = [
+  <>
+    <strong>Keine offenen Ports:</strong> Auf dem Server ist kein Port offen, eingehende Verbindungen sind nicht freigegeben.
+  </>,
+  <>
+    <strong>Gehärtete Container:</strong> Die Website läuft in gehärteten Containern.
+  </>,
+  <>
+    <strong>Keine Cookies, kein Tracking:</strong> Für Besucher setzen wir keine Cookies ein und verfolgen nichts.
+  </>,
+];
+
+/* ------------------------------------------------------------ Stand heute */
 
 export const statusItems: readonly TimelineItem[] = [
   {
-    status: { tone: "ok", label: "Sichtbar" },
-    title: "Diese Website",
+    status: { tone: "ok", label: "Im Betrieb" },
+    title: "Eigene Infrastruktur",
     text: (
       <>
-        Sie zeigt unsere Arbeitsweise im Kleinen. Die Einzelheiten stehen oben im Abschnitt{" "}
-        <A className="link" href="#website">
-          Diese Website als Beispiel
-        </A>
-        .
-      </>
-    ),
-  },
-  {
-    status: { tone: "warn", label: "Im Aufbau" },
-    title: "Infrastruktur für das Hosting der VylarisGroup",
-    text: (
-      <>
-        VylarisData soll künftig das Hosting der VylarisGroup übernehmen. Die technische Grundlage wird aufgebaut,
-        Kunden hostet VylarisData damit noch nicht. Details zum Stand findest du auf der Seite{" "}
+        Die Infrastruktur ist im Betrieb, mit Ausnahme des DNS-Servers. Den Live-Stand zeigt die Seite{" "}
         <A className="link" href="/infrastruktur/">
           Infrastruktur
         </A>
@@ -238,9 +323,14 @@ export const statusItems: readonly TimelineItem[] = [
     ),
   },
   {
-    status: { tone: "info", label: "Zielbild" },
-    title: "Gemeinsame Plattform-Bausteine",
-    text: "Deployments, Automatisierung und wiederverwendbare Grundlagen, damit neue Dienste der Gruppe nicht bei null anfangen. Das ist unser Ziel, keine fertige Funktion.",
+    status: { tone: "warn", label: "In Wartung" },
+    title: "DNS-Server",
+    text: "Der DNS-Server wird derzeit gewartet. Den Live-Stand zeigt die Seite Infrastruktur.",
+  },
+  {
+    status: { tone: "info", label: "Geplant" },
+    title: "Das Ökosystem weiter ausbauen",
+    text: "Geplant ist, das Vylaris-Ökosystem weiter auszubauen. Das ist der einzige Punkt in dieser Liste, der noch vor uns liegt.",
   },
 ];
 
@@ -253,7 +343,7 @@ export const brands: readonly TechBrand[] = [
     icon: "cpu",
     tag: "Diese Seite",
     current: true,
-    text: "Software Development & Technology. Wir entwickeln Software und bauen die Hosting-Infrastruktur auf, die künftig die Dienste der VylarisGroup tragen soll.",
+    text: "Software Development & Technology. Wir entwickeln Software und betreiben eigene Infrastruktur: 10 Server, eigenes IP-Subnetz, PBS-Backup-System.",
     action: { href: "/infrastruktur/", label: "Zur Infrastruktur" },
   },
   {
@@ -261,8 +351,8 @@ export const brands: readonly TechBrand[] = [
     sub: "vylaris.eu",
     icon: "globe",
     iconTone: "indigo",
-    tag: "Europäischer Standort",
-    text: "Die offizielle zweite Website der Gruppe für Europa. Sie bietet kostenlose Open-Source-SaaS-Dienste an. Außerdem verantwortet sie die europäische Rechts- und Unternehmensstruktur.",
+    tag: "Europäische Website",
+    text: "Die offizielle zweite Website der Gruppe für Europa. Sie bietet kostenlose Open-Source-SaaS-Dienste an. Außerdem verantwortet sie die europäische Rechts- und Unternehmensstruktur sowie Hosting und Server-Infrastruktur für ihre Dienste.",
     action: { href: site.links.eu, label: "vylaris.eu besuchen", icon: "ext" },
   },
   {
@@ -277,9 +367,8 @@ export const brands: readonly TechBrand[] = [
 
 export const allianceCallout = (
   <>
-    <strong>Allianz Schweiz &amp; Europa.</strong> Die Schweizer Seite trägt die Idee, die europäische Seite die
-    rechtliche Struktur. VylarisData liefert Software und technische Basis, einschließlich der künftigen
-    Hosting-Infrastruktur. Mehr dazu findest du unter{" "}
+    <strong>Allianz Schweiz &amp; Europa.</strong> Die Schweizer Seite trägt die Idee, die europäische Seite liefert die
+    rechtliche Struktur und die Infrastruktur. VylarisData liefert Software und Technologie. Mehr dazu findest du unter{" "}
     <A className="link" href="/oekosystem/">
       Ökosystem
     </A>
@@ -293,64 +382,83 @@ export const faqSide = {
   eyebrow: "FAQ",
   id: "faq-h",
   title: "Häufige Fragen zur Technologie.",
-  lead: "Kurze Antworten zum Stand des Hostings, zu Open Source, zur Sicherheit und zum Kontakt.",
+  lead: "Kurze Antworten zu Infrastruktur, Open Source, Sicherheit und Kontakt.",
   action: { href: "/kontakt/", label: "Zur Kontaktseite" },
 } as const;
 
 export const faq: readonly FaqItem[] = [
   {
-    q: "Hostet VylarisData schon Dienste oder Websites?",
+    q: "Welche Infrastruktur betreibt VylarisData?",
     a: (
       <p>
-        Nein, nicht für Kunden. Wie weit der Aufbau ist, wollen wir auf der Seite{" "}
+        10 Server, 5 Storage-Server mit knapp 1 PB Rohkapazität, ein PBS-Backup-System, ein eigenes IP-Subnetz mit
+        Network-Server und ein Sicherheitssystem mit internem Netzwerk-Setup. Die Details stehen oben, den Live-Stand zeigt die
+        Seite{" "}
         <A className="link" href="/infrastruktur/">
           Infrastruktur
-        </A>{" "}
-        nachführen.
+        </A>
+        .
       </p>
     ),
   },
   {
-    q: "Ist eure Software Open Source?",
-    a: "Open Source und Eigenentwicklung sind unser Grundsatz, eine Zusage für einzelne Projekte ist das noch nicht. Wir wollen offene Software nutzen und selbst entwickeln, was wir verstehen und anpassen müssen. Veröffentlichen wir ein Projekt, sagen wir das ausdrücklich dazu.",
+    q: "Was bedeutet Rohkapazität?",
+    a: "Rohkapazität ist die Summe aller Speicherplatten, bevor Redundanz abgezogen wird. Die nutzbare Menge hängt von der Redundanz ab.",
   },
   {
-    q: "Wie geht ihr mit Sicherheitslücken um?",
-    a: (
-      <p>
-        Unser Grundsatz ist, Updates einzuplanen und bekannte Lücken zu beheben. Wenn du eine Sicherheitslücke gefunden
-        hast, wende dich über die{" "}
-        <A className="link" href={site.links.contact}>
-          Kontaktseite der VylarisGroup
-        </A>{" "}
-        an uns und gib an, dass es um eine Sicherheitslücke geht. Auf dieser Website selbst setzen wir weder Cookies
-        noch Tracking ein.
-      </p>
-    ),
+    q: "Was bedeutet „In Wartung“ im Statusboard?",
+    a: "Die Komponente wird gerade gewartet und ist nicht im Normalbetrieb. Welche das ist, zeigt das Statusboard auf der Seite Infrastruktur.",
   },
   {
-    q: "Wo laufen eure Dienste?",
-    a: "Unser Ziel ist eigene Hardware in Europa. Konkrete Standorte oder technische Daten wollen wir nennen, sobald die Infrastruktur steht und wir sie belegen können. Bis dahin beschreiben wir lieber Grundsätze als Zahlen.",
-  },
-  {
-    q: "Warum verzichtet ihr auf Cookies und Tracking?",
-    a: "Weil wir sie nicht brauchen. Datensparsamkeit ist einer unserer Grundsätze, und eine Website, die nichts über dich speichert, muss auch nichts erklären oder absichern. Nur deine Wahl für hell, dunkel oder Systemvorgabe merkt sich dein Browser lokal.",
-  },
-  {
-    q: "Wie erreiche ich euch?",
+    q: "Wie nehme ich Kontakt auf?",
     a: (
       <p>
         Über die Kontaktseite der VylarisGroup unter{" "}
         <A className="link" href={site.links.contact}>
           vylaris.eu/contact
         </A>
-        . Dort kannst du auch Tickets eröffnen. Darüber hinaus hat VylarisData keine eigenen Kontaktwege; auch unsere
-        Seite{" "}
+        . Dort kannst du auch ein Ticket eröffnen. Unsere Seite{" "}
         <A className="link" href="/kontakt/">
           Kontakt
         </A>{" "}
-        verweist dorthin.
+        führt dich ebenfalls dorthin.
       </p>
     ),
   },
+  {
+    q: "Ist eure Software Open Source?",
+    a: "Die kostenlosen Open-Source-SaaS-Dienste der VylarisGroup bietet VylarisGroupEurope an. Für Projekte von VylarisData ist Open Source ein Grundsatz, aber keine Zusage: Wir wollen offene Software nutzen und selbst entwickeln, was wir verstehen und anpassen müssen. Veröffentlichen wir ein Projekt, sagen wir das ausdrücklich dazu.",
+  },
+  {
+    q: "Wie geht ihr mit Sicherheitslücken um?",
+    a: (
+      <p>
+        Melde sie über die{" "}
+        <A className="link" href={site.links.contact}>
+          Kontaktseite der VylarisGroup
+        </A>{" "}
+        und gib an, dass es um eine Sicherheitslücke geht. Details zur Absicherung dieser Website findest du oben im Abschnitt
+        zur Website.
+      </p>
+    ),
+  },
+  {
+    q: "Warum verzichtet ihr auf Cookies und Tracking?",
+    a: "Weil wir sie nicht brauchen. Datensparsamkeit ist einer unserer Grundsätze, und eine Website, die nichts über dich speichert, muss auch nichts erklären oder absichern.",
+  },
 ];
+
+/* ---------------------------------------------------------------------- CTA */
+
+export const cta = {
+  id: "anfrage",
+  headingId: "cta-h",
+  title: (
+    <>
+      Fragen zu unserer Technik? <Gradient>Sprich mit uns</Gradient>.
+    </>
+  ),
+  text: "Du willst wissen, wie wir arbeiten oder wie unsere Infrastruktur aufgebaut ist? Über die Kontaktseite der VylarisGroup erreichst du uns.",
+  primary: { href: site.links.contact, label: "Kontakt aufnehmen", icon: "mail" },
+  secondary: { href: "/infrastruktur/", label: "Zur Infrastruktur" },
+} as const;

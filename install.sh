@@ -2,7 +2,7 @@
 # =============================================================================
 #  VylarisData – Installer: Website über einen Cloudflare Tunnel, ohne offene Ports
 # =============================================================================
-#  Die Seite läuft in Docker (nginx, ohne veröffentlichte Ports). Ein Cloudflare
+#  Die Seite läuft in Docker (Next.js-Server mit Admin-Bereich, ohne veröffentlichte Ports). Ein Cloudflare
 #  Tunnel (cloudflared) baut nur AUSGEHENDE Verbindungen zu Cloudflare auf –
 #  eingehend muss auf dem Server nichts erreichbar sein.
 #
@@ -13,7 +13,7 @@
 #    4. Zugangsdaten sicher lokal speichern (.env.local, nur für dich lesbar)
 #    5. Tunnel anlegen und konfigurieren (Domain -> nginx im Container)
 #    6. DNS-Eintrag setzen (CNAME auf den Tunnel)
-#    7. Container bauen und starten, Erreichbarkeit prüfen
+#    7. Container bauen und starten, Erreichbarkeit prüfen, Admin-Zugang einrichten
 #
 #  Aufruf:
 #    ./install.sh              geführte Einrichtung (empfohlen)
@@ -23,6 +23,8 @@
 #    ./install.sh status       Tunnel, Container und Erreichbarkeit anzeigen
 #    ./install.sh logs         Logs ansehen (Strg+C beendet)
 #    ./install.sh stop         Container stoppen
+#    ./install.sh admin        Admin-Zugang für den Admin-Bereich einrichten (zeigt den Einrichtungs-Schlüssel)
+#    ./install.sh admin-reset  Admin-Zugang zurücksetzen (Passwort vergessen)
 #    ./install.sh verify       gespeicherten Token prüfen
 #    ./install.sh domain       DNS-Eintrag und Tunnel-Route (neu) setzen
 #    ./install.sh forget       gespeicherte Zugangsdaten löschen
@@ -43,6 +45,7 @@ set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENV_FILE="$ROOT/.env.local"          # API-Token & Einstellungen (nur für dieses Skript)
 TUNNEL_ENV="$ROOT/.env.tunnel"       # nur der Tunnel-Token (wird vom cloudflared-Container gelesen)
+APP_ENV="$ROOT/.env.app"             # Einrichtungs-Schlüssel für den Admin-Zugang (nur bis zur Einrichtung)
 API="${CF_API_BASE:-https://api.cloudflare.com/client/v4}"
 API="${API%/}"
 DEFAULT_DOMAIN="vylarisdata.com"
@@ -139,7 +142,7 @@ save_tunnel_env() {   # nur der Tunnel-Token – der cloudflared-Container bekom
 ensure_gitignore() {
   local gi="$ROOT/.gitignore" added="" w
   touch "$gi"
-  for w in ".env.local" ".env.tunnel" ".env" "out/" ".next/" "node_modules/"; do
+  for w in ".env.local" ".env.tunnel" ".env.app" ".env" "out/" ".next/" "node_modules/" ".data/"; do
     grep -qxF "$w" "$gi" || { printf '%s\n' "$w" >> "$gi"; added="$added $w"; }
   done
   [ -n "$added" ] && ok ".gitignore ergänzt:$added"
@@ -573,6 +576,11 @@ cmd_setup() {
   step 7 $total "Starten und prüfen"
   start_stack || exit 1
   if [ "$DRY" != 1 ]; then wait_for_tunnel || true; check_live || true; firewall_note; fi
+  if [ "$DRY" != 1 ] && [ "$YES" != 1 ]; then
+    if confirm "Admin-Zugang für den Admin-Bereich jetzt einrichten?" j; then
+      issue_setup_token && show_setup_token
+    else info "  Später einrichten mit:  ./install.sh admin"; fi
+  fi
 
   cat <<EOF
 
@@ -584,6 +592,7 @@ ${B}${G}Fertig.${Z}
    • Status anzeigen:                        ${B}./install.sh status${Z}
    • Logs ansehen:                           ${B}./install.sh logs${Z}
    • Stoppen:                                ${B}./install.sh stop${Z}
+   • Admin-Zugang einrichten/zurücksetzen:   ${B}./install.sh admin${Z} / ${B}admin-reset${Z}
 EOF
 }
 
@@ -692,6 +701,80 @@ cmd_update() {
   printf '\n%s%sUpdate abgeschlossen.%s  Version: %s%s%s\n' "$B" "$G" "$Z" "$B" "$(git rev-parse --short HEAD)" "$Z"
 }
 
+# ---------------------------------------------------------------- Admin ------
+SETUP_TOKEN=""
+gen_token() {
+  if command -v openssl >/dev/null 2>&1; then openssl rand -hex 24
+  else head -c 24 /dev/urandom | od -An -tx1 | tr -d ' \n'; fi
+}
+web_running() { [ -n "$( cd "$ROOT" && dc ps -q web 2>/dev/null | head -n1 )" ]; }
+admin_exists() { ( cd "$ROOT" && dc exec -T web test -f /data/admin.json ) >/dev/null 2>&1; }
+
+# Erzeugt einen frischen Einrichtungs-Schlüssel und startet die Seite neu, damit er greift
+issue_setup_token() {
+  SETUP_TOKEN="$(gen_token)"
+  # Der Schlüssel gilt nur eine Stunde (Unix-Zeit); danach ignoriert ihn die Seite
+  ( umask 077; printf 'ADMIN_SETUP_TOKEN=%s\nADMIN_SETUP_EXPIRES=%s\n' "$SETUP_TOKEN" "$(( $(date +%s) + 3600 ))" > "$APP_ENV" ); chmod 600 "$APP_ENV" 2>/dev/null || true
+  ( cd "$ROOT" && dc up -d --force-recreate web ) >/dev/null 2>&1 || { bad "Die Seite konnte nicht neu gestartet werden."; return 1; }
+  wait_web_healthy || { bad "Die Seite wird nach dem Neustart nicht gesund. Logs:  ./install.sh logs"; return 1; }
+}
+
+# Entfernt einen übrig gebliebenen Einrichtungs-Schlüssel (nach erfolgter Einrichtung)
+clear_setup_token() {
+  [ -f "$APP_ENV" ] || return 0
+  rm -f "$APP_ENV"
+  ( cd "$ROOT" && dc up -d --force-recreate web ) >/dev/null 2>&1 || true
+  wait_web_healthy || true
+  ok "Der Einrichtungs-Schlüssel wurde entfernt."
+}
+
+show_setup_token() {
+  cat <<EOF
+
+  ${B}Admin-Zugang einrichten${Z}
+   1. Öffne:  ${B}https://$SITE_DOMAIN/admin/setup/${Z}
+   2. Einrichtungs-Schlüssel (gilt 1 Stunde, nur jetzt sichtbar, nicht weitergeben):
+
+        ${B}$SETUP_TOKEN${Z}
+
+   3. Benutzername und ein langes Passwort wählen. Danach ist die Einrichtungsseite dauerhaft gesperrt.
+   4. Im Admin-Bereich unter „Sicherheit“ die Zwei-Faktor-Anmeldung aktivieren (dringend empfohlen).
+
+   Der Schlüssel liegt nur in ${B}.env.app${Z} (Rechte 600), läuft nach einer Stunde ab und wird nach der
+   Einrichtung beim nächsten ${B}./install.sh admin${Z} automatisch entfernt.
+EOF
+}
+
+cmd_admin() {
+  load_env; apply_defaults; printf '\n%sAdmin-Zugang%s\n' "$B" "$Z"
+  ensure_tools
+  web_running || die "Die Seite läuft nicht. Bitte zuerst ./install.sh ausführen."
+  if admin_exists; then
+    ok "Der Admin-Zugang ist bereits eingerichtet:  https://$SITE_DOMAIN/admin/login/"
+    clear_setup_token
+    info "  Passwort vergessen oder Zugang verloren?  ./install.sh admin-reset"
+    return 0
+  fi
+  if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde einen Einrichtungs-Schlüssel erzeugen und die Seite neu starten."; return 0; fi
+  issue_setup_token || return 1
+  show_setup_token
+}
+
+cmd_admin_reset() {
+  load_env; apply_defaults; printf '\n%sAdmin-Zugang zurücksetzen%s\n' "$B" "$Z"
+  ensure_tools
+  web_running || die "Die Seite läuft nicht. Bitte zuerst ./install.sh ausführen."
+  warn "Der bestehende Admin-Zugang (Passwort, Zwei-Faktor, alle Sitzungen) wird gelöscht. Das Protokoll und der Live-Status bleiben erhalten."
+  confirm "Wirklich zurücksetzen?" n || die "Abgebrochen."
+  [ "$DRY" = 1 ] && { warn "Trockenlauf: nichts verändert."; return 0; }
+  # Reihenfolge ist wichtig: Zuerst einen NEUEN Schlüssel setzen und neu starten (der alte wird sofort ungültig,
+  # solange der Admin-Zugang noch besteht) – erst danach den Zugang löschen.
+  issue_setup_token || return 1
+  ( cd "$ROOT" && dc exec -T web sh -c 'rm -f /data/admin.json /data/sessions.json' ) || die "Zurücksetzen fehlgeschlagen."
+  ok "Admin-Zugang gelöscht"
+  show_setup_token
+}
+
 need_config() {
   load_env; apply_defaults
   ensure_tools
@@ -731,6 +814,7 @@ cmd_forget() {
     if confirm ".env.local und .env.tunnel wirklich löschen?" n; then
       rm -f "$ENV_FILE" "$TUNNEL_ENV"; ok "Zugangsdaten gelöscht"
       warn "Den API-Token in Cloudflare selbst widerrufen: dash.cloudflare.com/profile/api-tokens → Token → „Roll“/„Delete“."
+      warn "Der Admin-Zugang und der Live-Status liegen im Docker-Volume und bleiben erhalten."
       warn "Ohne .env.tunnel kann der Tunnel-Container nicht mehr starten. Den Tunnel selbst löschst du im Zero-Trust-Dashboard (Networks → Tunnels)."
     fi
   else info "  Keine Zugangsdaten vorhanden."; fi
@@ -740,7 +824,7 @@ usage() { awk 'NR==1{next} /^# =+$/{n++; next} n==2{sub(/^# ?/,""); print} n>=3{
 # ---------------------------------------------------------------- Start -------
 while [ $# -gt 0 ]; do
   case "$1" in
-    setup|deploy|update|verify|status|logs|stop|domain|forget) CMD="$1" ;;
+    setup|deploy|update|verify|status|logs|stop|domain|admin|admin-reset|forget) CMD="$1" ;;
     help|-h|--help) CMD="help" ;;
     --yes|-y) YES=1 ;;
     --dry-run) DRY=1 ;;
@@ -755,5 +839,6 @@ done
 
 case "$CMD" in
   setup) cmd_setup ;; deploy) cmd_deploy ;; update) cmd_update ;; verify) cmd_verify ;; status) cmd_status ;;
-  logs) cmd_logs ;; stop) cmd_stop ;; domain) cmd_domain ;; forget) cmd_forget ;; help) usage ;;
+  logs) cmd_logs ;; stop) cmd_stop ;; domain) cmd_domain ;; admin) cmd_admin ;; admin-reset) cmd_admin_reset ;;
+  forget) cmd_forget ;; help) usage ;;
 esac

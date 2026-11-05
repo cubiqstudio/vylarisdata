@@ -57,6 +57,7 @@ export const footerColumns = [
       { href: "/kontakt/", label: "Kontakt" },
       { href: "/impressum/", label: "Impressum" },
       { href: "/datenschutz/", label: "Datenschutz" },
+      { href: "/admin/login/", label: "Anmelden" },
     ],
   },
 ] as const;

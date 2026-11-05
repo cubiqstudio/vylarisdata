@@ -1,154 +1,276 @@
-import { A, type FactItem, type FaqItem, type IconName, type LayerItem, type StepItem } from "@/components/ui";
+import type { ReactNode } from "react";
+import { A, type FactItem, type FaqItem, type StepItem } from "@/components/ui";
 import type { ChipItem } from "@/components/sections/index/ChipGroup";
+import type { ContactCtaContent } from "@/components/sections/index/ContactCta";
 import type { EcoBrand } from "@/components/sections/index/EcoBrandCard";
 import type { HeroContent } from "@/components/sections/index/HomeHero";
-import type { SoftItem } from "@/components/sections/index/SoftGrid";
+import type { IconCardItem } from "@/components/sections/index/SoftGrid";
 import { site } from "@/content/site";
 
 /* Typen für Inhalte, die nur die Startseite braucht */
 
-export type AreaItem = { icon: IconName; title: string; text: string };
-export type PrincipleItem = { icon: IconName; title: string; text: string };
 export type CheckItem = { lead: string; text: string };
 export type ChipGroupData = { caption: string; items: readonly ChipItem[] };
+export type SectionIntro = { eyebrow: string; title: string; lead?: string };
+
+/** Bereitet "Lead: Text"-Paare als Listeneinträge auf (für Checks). */
+export function leadItems(items: readonly CheckItem[]): ReactNode[] {
+  return items.map((c) => (
+    <>
+      <strong>{c.lead}</strong> {c.text}
+    </>
+  ));
+}
 
 export const homeMeta = {
-  title: "VylarisData – Technologie und künftiges Hosting für das Vylaris-Ökosystem",
+  title: "VylarisData – eigene Server-Infrastruktur",
   description:
-    "VylarisData ist die Technologie-Marke der VylarisGroup und übernimmt künftig das Hosting der Gruppe. Eine Marke von CircleUpWilms.",
+    "10 Server, fast 1 PB Speicher, eigenes Netzwerk und PBS-Backup: die eigene Infrastruktur von VylarisData, einer Marke von CircleUpWilms.",
   path: "/",
 } as const;
 
 /* Hero */
 
 export const hero: HeroContent = {
-  pill: "Teil der VylarisGroup",
-  title: "VylarisData – Technologie und künftiges Hosting für die VylarisGroup",
+  pill: "Teil der VylarisGroup · Bestehende Infrastruktur",
+  title: "VylarisData – eigene Server-Infrastruktur",
   tagline: site.tagline,
   tri: site.tri,
-  sub: "Wir entwickeln Software und bauen die technische Basis auf, auf der die Dienste der VylarisGroup laufen sollen – künftig als zentrales Hosting für das gesamte Vylaris-Ökosystem.",
+  sub: "10 Server, fast 1 Petabyte Rohkapazität, ein eigenes IP-Subnetz mit eigenem Netzwerk-Server, ein PBS-Backup-System und ein Sicherheitssystem: Das ist die eigene Infrastruktur von VylarisData. Wir betreiben sie selbst.",
+  stats: ["10 Server", "Fast 1 PB Speicher", "Eigenes Subnetz"],
   actions: [
-    { href: "/leistungen/", label: "Unsere Aufgabenfelder", variant: "primary", icon: "arrow" },
-    { href: "/infrastruktur/", label: "Die Infrastruktur", variant: "secondary" },
+    { href: "/infrastruktur/", label: "Die Infrastruktur ansehen", variant: "primary", icon: "arrow" },
+    { href: "/leistungen/", label: "Unsere Aufgabenfelder", variant: "secondary" },
   ],
 };
+
+/* Überschriften und Einleitungen der Abschnitte */
+
+export const sections = {
+  eckdaten: {
+    eyebrow: "Auf einen Blick",
+    title: "Unsere Infrastruktur auf einen Blick.",
+    lead: "Keine Pläne, sondern Hardware im Betrieb.",
+  },
+  fokus: {
+    eyebrow: "Unser Fokus",
+    title: "Drei Dinge, für die VylarisData steht.",
+    lead: "Technology, Infrastructure und Innovation beschreiben unsere Rolle in der VylarisGroup.",
+  },
+  infrastruktur: {
+    eyebrow: "Was wir betreiben",
+    title: "Eigene Hardware. Eigenes Netzwerk. Im Betrieb.",
+    lead: "Server, Speicher, Netzwerk, Datensicherung und Sicherheit: Diese Bausteine gehören zu unserer Infrastruktur.",
+  },
+  speicher: {
+    eyebrow: "Speicher",
+    title: "Fast ein Petabyte Rohkapazität.",
+  },
+  leistungen: {
+    eyebrow: "Software Development & Technology",
+    title: "Von der Software bis zum Server.",
+    lead: "Entwickeln und Betreiben der eigenen Hardware: Das ist unser Bereich in der VylarisGroup.",
+  },
+  zugang: {
+    eyebrow: "Sicherheit",
+    title: "Sicherheit gehört in die Architektur.",
+  },
+  prinzipien: {
+    eyebrow: "Wie wir arbeiten",
+    title: "Eigene Hardware, klare Regeln.",
+    lead: "Bevor wir eine Technik wählen, stehen Grundsätze fest. Sie entscheiden, wenn es mehrere Wege gibt.",
+  },
+  oekosystem: {
+    eyebrow: "Das Vylaris-Ökosystem",
+    title: "VylarisData im Verbund der VylarisGroup.",
+    lead: "VylarisData gehört zur VylarisGroup und ist eine Marke von CircleUpWilms. Die Gruppe arbeitet in der Schweiz und in Europa zusammen.",
+  },
+  roadmap: {
+    eyebrow: "Stand und Ausblick",
+    title: "Was läuft, was gewartet wird, was kommt.",
+    lead: "Drei Punkte im Überblick. Termine nennen wir bewusst nicht.",
+  },
+  technologie: {
+    eyebrow: "Technologie",
+    title: "Technik, die wir selbst betreiben.",
+  },
+  faq: {
+    eyebrow: "Häufige Fragen",
+    title: "Was du über unsere Infrastruktur wissen willst.",
+  },
+} satisfies Record<string, SectionIntro>;
 
 /* Eckdaten */
 
 export const facts: readonly FactItem[] = [
   {
-    icon: "layers",
-    value: "VylarisGroup",
-    label: "Wir gehören zur VylarisGroup. Unser Geschäftsbereich ist Software Development & Technology.",
-  },
-  { icon: "building", value: "CircleUpWilms", label: "CircleUpWilms ist Inhaber der Marke VylarisData." },
-  {
     icon: "server",
-    value: "Im Aufbau",
-    label: "Die Infrastruktur, auf der künftig das Hosting der VylarisGroup laufen soll, wird gerade aufgebaut.",
+    value: "10 Server",
+    label: "Insgesamt zehn Server im Betrieb.",
   },
+  {
+    icon: "db",
+    value: "Fast 1 PB",
+    label: "Rohkapazität im Speicher: 4 × 120 TB SSD (480 TB) plus ein Storage-Server mit knapp 500 TB HDD.",
+  },
+  {
+    icon: "network",
+    value: "Eigenes Subnetz",
+    label: "Ein eigener IP-Subnetzbereich und ein Netzwerk-Server, der unsere Internetanbindung regelt.",
+  },
+  { icon: "refresh", value: "PBS-Backup", label: "Ein PBS-Backup-System für die Datensicherung." },
+  { icon: "shield", value: "Sicherheitssystem", label: "Ein Sicherheitssystem gehört zur Infrastruktur." },
   {
     icon: "eye",
-    value: "Kein Tracking",
-    label: "Diese Website setzt keine Cookies. Schriften und Skripte kommen von der eigenen Domain.",
+    value: "Keine offenen Ports",
+    label: "Diese Website läuft hinter einem Cloudflare Tunnel, ohne offene Ports. Besucher werden nicht getrackt und bekommen keine Cookies.",
   },
 ];
 
 /* Fokus */
 
-export const focus: readonly SoftItem[] = [
+export const focus: readonly IconCardItem[] = [
   {
     icon: "cpu",
     title: "Technology",
-    text: "Softwareentwicklung für die Dienste der VylarisGroup. Unser Geschäftsbereich ist Software Development & Technology.",
+    text: "Wir sind der Geschäftsbereich Software Development & Technology der VylarisGroup.",
   },
   {
     icon: "server",
     title: "Infrastructure",
-    text: "Ziel: eigenes, kontrolliertes Hosting als technische Grundlage für die Dienste der Gruppe. Die Infrastruktur ist im Aufbau.",
+    text: "Wir betreiben eigene Hardware. Die Eckdaten findest du auf der Infrastruktur-Seite.",
   },
   {
     icon: "bulb",
     title: "Innovation",
-    text: "Ziel: Neues zunächst in kleinem Rahmen erproben und erst dann in den Betrieb übernehmen, wenn es sich bewährt hat.",
+    text: "Geplant: Wir wollen das Ökosystem weiter ausbauen.",
   },
+];
+
+/* Bausteine der Infrastruktur */
+
+export const buildingBlocks: readonly IconCardItem[] = [
+  {
+    icon: "server",
+    title: "10 Server",
+    text: "Intern laufen die Server als KVM-Server. Bei den externen Servern geben wir den Typ nicht an.",
+  },
+  {
+    icon: "db",
+    title: "Storage-Server",
+    text: "Vier Storage-Server mit je 120 TB SSD und ein Storage-Server mit knapp 500 TB HDD.",
+  },
+  {
+    icon: "network",
+    title: "Eigenes Netzwerk",
+    text: "Ein eigener IP-Subnetzbereich und ein Netzwerk-Server, der unsere Internetanbindung regelt.",
+  },
+  {
+    icon: "refresh",
+    title: "PBS-Backup-System",
+    text: "Unser System für die Datensicherung.",
+  },
+  {
+    icon: "shield",
+    title: "Sicherheitssystem",
+    text: "Ein Sicherheitssystem mit internem Netzwerk-Setup gehört zu unserer Infrastruktur.",
+  },
+  {
+    icon: "globe",
+    title: "DNS-Server",
+    text: "Derzeit in Wartung.",
+  },
+];
+
+/* Speicher */
+
+export const storageChips: readonly string[] = ["4 × 120 TB SSD", "Knapp 500 TB HDD", "Fast 1 PB Rohkapazität"];
+
+export const storageRows: readonly (readonly [string, string])[] = [
+  ["SSD-Storage", "4 Storage-Server mit je 120 TB SSD, zusammen 480 TB"],
+  ["HDD-Storage", "1 Storage-Server mit knapp 500 TB HDD"],
+  ["Rohkapazität gesamt", "Fast 1 PB"],
+  ["Datensicherung", "PBS-Backup-System"],
 ];
 
 /* Aufgabenfelder */
 
-export const areas: readonly AreaItem[] = [
+export const areas: readonly IconCardItem[] = [
   {
     icon: "code",
     title: "Softwareentwicklung",
-    text: "Softwareentwicklung für die Dienste der VylarisGroup, unser Geschäftsbereich Software Development & Technology.",
-  },
-  { icon: "server", title: "Hosting", text: "Geplantes Hosting für die Dienste der Gruppe. Noch im Aufbau." },
-  {
-    icon: "git",
-    title: "Plattform & Automatisierung",
-    text: "Ziel: gemeinsame Bausteine und automatisierte Abläufe, damit neue Dienste reproduzierbar in den Betrieb gehen.",
+    text: "Unser Geschäftsbereich Software Development & Technology in der VylarisGroup.",
   },
   {
-    icon: "shield",
-    title: "Sicherheit & Datenschutz",
-    text: "Ziel: sichere Konfiguration, geordnete Datenhaltung und datensparsamer Betrieb.",
+    icon: "server",
+    title: "Server & Speicher",
+    text: "Betrieb der eigenen Server und Storage-Server. Zahlen und Details stehen auf der Infrastruktur-Seite.",
   },
-];
-
-/* Infrastruktur */
-
-export const infraChecks: readonly CheckItem[] = [
-  { lead: "Eigene Hardware in Europa als Ziel:", text: "Wir wollen wissen, wo unsere Systeme stehen." },
-  { lead: "Automatisiert und reproduzierbar:", text: "Umgebungen sollen sich aus ihrer Beschreibung neu aufbauen lassen." },
-  { lead: "Redundanz als Ziel:", text: "Kritische Komponenten sollen redundant ausgelegt werden." },
-  { lead: "Sichtbar im Betrieb:", text: "Messwerte und Alarme gehören zum Zielbild." },
-];
-
-export const layers: readonly LayerItem[] = [
-  { icon: "box", name: "Dienste", description: "Ziel: die Dienste der VylarisGroup.", highlight: true },
-  { icon: "git", name: "Plattform", description: "Geplant: ein fester, automatisierter Weg vom Code in den Betrieb." },
-  { icon: "cpu", name: "Rechenschicht", description: "Ziel: Dienste voneinander getrennt, Leistung flexibel verteilbar." },
-  { icon: "hdd", name: "Speicherschicht", description: "Ziel: redundante Datenhaltung mit regelmäßigen Sicherungen." },
   {
     icon: "network",
-    name: "Netzwerk",
-    description: "Ziel: getrennte, abgesicherte Wege für internen und öffentlichen Datenverkehr.",
+    title: "Netzwerk & Sicherheit",
+    text: "Eigenes IP-Subnetz, ein Netzwerk-Server für die Internetanbindung und ein Sicherheitssystem.",
   },
-  { icon: "pin", name: "Standort", description: "Ziel: eigene Hardware in Europa.", highlight: true },
+  {
+    icon: "refresh",
+    title: "Datensicherung",
+    text: "Ein PBS-Backup-System dient der Datensicherung.",
+  },
+];
+
+/* Sicherheit und Transparenz */
+
+export const accessChecks: readonly CheckItem[] = [
+  { lead: "Keine offenen Ports:", text: "Der Server nimmt keine eingehenden Verbindungen an, die Verbindung baut er selbst nach außen auf." },
+  { lead: "Cloudflare Tunnel:", text: "Diese Website wird über einen ausgehenden Tunnel erreichbar gemacht." },
+  { lead: "Gehärtete Container:", text: "Die Website läuft in gehärteten Containern." },
+  { lead: "Kein Tracking:", text: "Besucher werden nicht getrackt und bekommen keine Cookies." },
+];
+
+export const transparencyPoints: readonly ReactNode[] = [
+  "Ein Live-Statusboard auf der Infrastruktur-Seite zeigt den aktuellen Stand der Infrastruktur",
+  <>
+    Den Systemstatus von VylarisGroupEurope findest du unter{" "}
+    <A className="link" href={site.links.status}>
+      vylaris.eu/status
+    </A>
+  </>,
+  "Keine Tracker und keine Werbenetzwerke",
+  "Schriften und Skripte kommen von derselben Domain",
 ];
 
 /* Grundsätze */
 
-export const principles: readonly PrincipleItem[] = [
+export const principles: readonly IconCardItem[] = [
   {
-    icon: "pin",
-    title: "Europäisch gedacht",
-    text: "Unsere Systeme sollen in Europa stehen und unter europäischem Recht laufen. Das schafft Klarheit über Zuständigkeiten.",
+    icon: "server",
+    title: "Eigene Hardware",
+    text: "Wir betreiben unsere Server selbst. So wissen wir, was läuft, und haben die Technik in der eigenen Hand.",
   },
   {
     icon: "lock",
-    title: "Datenschutz als Anforderung",
-    text: "Wir erheben nur, was ein Dienst für seine Aufgabe braucht. Datenschutz gehört in die Architektur, nicht ans Ende des Projekts.",
+    title: "Schutz im Design",
+    text: "Ein Sicherheitssystem gehört zu unserer Infrastruktur. Bei der eigenen Website setzen wir von Anfang an auf einen Tunnel statt offener Ports.",
   },
   {
     icon: "eye",
     title: "Kein Tracking",
-    text: "Keine Tracker, keine Werbenetzwerke. Diese Website zeigt es: keine Cookies, alles von der eigenen Domain.",
+    text: "Keine Tracker, keine Werbenetzwerke. Besucher werden nicht getrackt und bekommen keine Cookies.",
   },
   {
     icon: "refresh",
-    title: "Reproduzierbar statt Handarbeit",
-    text: "Was sich beschreiben lässt, beschreiben wir als Code. Das macht Änderungen nachvollziehbar und Fehlerbehebungen reproduzierbar.",
+    title: "Eigene Datensicherung",
+    text: "Ein PBS-Backup-System gehört zu unserer Infrastruktur.",
   },
   {
-    icon: "layers",
-    title: "Ausfälle einplanen",
-    text: "Kritische Komponenten sollen redundant ausgelegt werden. Wir rechnen mit dem Ausfall eines Bauteils, statt darauf zu hoffen, dass er nie eintritt.",
+    icon: "network",
+    title: "Eigenes Netzwerk",
+    text: "Mit eigenem IP-Subnetz und eigenem Netzwerk-Server haben wir unsere Internetanbindung selbst in der Hand.",
   },
   {
-    icon: "book",
-    title: "Ehrlich kommunizieren",
-    text: "Wir schreiben nur, was stimmt. Was noch im Aufbau ist, nennen wir so und stellen es nicht als fertiges Angebot dar.",
+    icon: "activity",
+    title: "Transparent im Betrieb",
+    text: "Ein Live-Statusboard auf der Infrastruktur-Seite zeigt den aktuellen Stand der Infrastruktur.",
   },
 ];
 
@@ -160,14 +282,14 @@ export const brands: readonly EcoBrand[] = [
     sub: "vylarisdata.com",
     icon: "server",
     current: { statusLabel: "Du bist hier" },
-    text: "Software Development & Technology. Wir bauen die technische Basis auf – VylarisData wird zukünftig das Hosting der VylarisGroup.",
+    text: "Software Development & Technology. Wir betreiben eigene Hardware; die Eckdaten findest du auf der Infrastruktur-Seite.",
     action: { href: "/ueber-uns/", label: "Über VylarisData", icon: "arrow" },
   },
   {
     name: "VylarisGroupEurope",
     sub: "vylaris.eu",
     icon: "globe",
-    text: "Der offizielle europäische Zweig der Gruppe, geleitet von Lucas Wilms. Er stellt die europäische Rechts- und Unternehmensstruktur und bietet kostenlose Open-Source-Dienste auf eigener, DSGVO-konformer Infrastruktur in Europa an.",
+    text: "Der offizielle europäische Zweig der Gruppe. Er bringt die europäische Rechts- und Unternehmensstruktur mit und bietet kostenlose Open-Source-SaaS-Dienste an.",
     action: { href: site.links.eu, label: "vylaris.eu besuchen", icon: "ext" },
   },
   {
@@ -181,7 +303,7 @@ export const brands: readonly EcoBrand[] = [
     name: "CircleUpWilms",
     sub: "Markeninhaber",
     icon: "building",
-    text: "CircleUpWilms ist Inhaber der Marke VylarisData. Lucas Wilms, der auch den europäischen Zweig leitet, arbeitet dort im Bereich Webhosting und IT-Services.",
+    text: "CircleUpWilms ist Inhaber der Marke VylarisData. Lucas Wilms leitet den europäischen Zweig VylarisGroupEurope.",
     action: { href: "/impressum/", label: "Impressum", icon: "arrow" },
   },
 ];
@@ -190,58 +312,61 @@ export const brands: readonly EcoBrand[] = [
 
 export const roadmap: readonly StepItem[] = [
   {
-    title: "Fundament",
-    text: "Ziel: Architektur, Infrastruktur und Betriebsprozesse aufbauen und absichern.",
-    status: { tone: "info", label: "Im Aufbau" },
+    title: "Eigene Infrastruktur",
+    text: "Server, Speicher, Netzwerk, PBS-Backup-System und Sicherheitssystem sind in Betrieb.",
+    status: { tone: "ok", label: "Im Betrieb" },
   },
   {
-    title: "Übernahme der Dienste",
-    text: "Ziel: Dienste der VylarisGroup schrittweise auf die neue Infrastruktur bringen.",
-    status: { tone: "warn", label: "Geplant" },
+    title: "DNS-Server",
+    text: "DNS-Server: derzeit in Wartung.",
+    status: { tone: "info", label: "In Wartung" },
   },
   {
-    title: "Betrieb & Ausbau",
-    text: "Ziel: laufender Betrieb, Überwachung und Weiterentwicklung der Plattform.",
-    status: { tone: "warn", label: "Geplant" },
+    title: "Ökosystem weiter ausbauen",
+    text: "Das Ökosystem weiter auszubauen ist geplant.",
+    status: { tone: "info", label: "Geplant" },
   },
 ];
 
 /* Technologie */
 
 export const workPrinciples: readonly string[] = [
-  "Ziel: Quellcode unter Versionskontrolle, damit jede Änderung nachvollziehbar bleibt",
-  "Ziel: automatisierte Abläufe statt manueller Schritte",
-  "Ziel: Konfiguration als Code, damit Umgebungen reproduzierbar bleiben",
-  "Grundsatz: Sicherheit und Datenschutz von Beginn an mitdenken",
+  "Wir betreiben unsere Hardware selbst",
+  "Der Stand der Infrastruktur ist im Live-Statusboard sichtbar",
+  "Besucher werden nicht getrackt und bekommen keine Cookies",
 ];
 
 export const chipGroups: readonly ChipGroupData[] = [
-  { caption: "Werte der VylarisGroup", items: [{ label: "Open Source", blue: true }, { label: "Eigenentwicklung" }] },
-  { caption: "Unsere Ziele", items: [{ label: "Automatisierung" }, { label: "Reproduzierbar" }] },
+  { caption: "Dienste von VylarisGroupEurope", items: [{ label: "Open Source", blue: true }, { label: "Kostenlos" }, { label: "SaaS" }] },
+  { caption: "So läuft diese Website", items: [{ label: "Cloudflare Tunnel" }, { label: "Keine offenen Ports" }, { label: "Kein Tracking" }] },
 ];
 
 /* FAQ */
 
 export const faq: readonly FaqItem[] = [
   {
-    q: "Kann ich bei VylarisData schon Hosting buchen?",
-    a: "Nein. Die Infrastruktur ist im Aufbau, und VylarisData wird erst zukünftig das Hosting der VylarisGroup übernehmen. Ein fertiges Angebot für Kunden gibt es derzeit nicht.",
+    q: "Was betreibt VylarisData an Infrastruktur?",
+    a: "10 Server (intern als KVM-Server), vier Storage-Server mit je 120 TB SSD und einen Storage-Server mit knapp 500 TB HDD, ein PBS-Backup-System, ein eigenes IP-Subnetz mit einem Netzwerk-Server für die Internetanbindung und ein Sicherheitssystem mit internem Netzwerk-Setup.",
+  },
+  {
+    q: "Wie viel Speicher habt ihr?",
+    a: "Zusammen fast 1 Petabyte Rohkapazität: 4 × 120 TB SSD (480 TB) plus knapp 500 TB HDD.",
+  },
+  {
+    q: "Wo stehen die Server?",
+    a: "Zu Standorten machen wir hier keine Angaben.",
   },
   {
     q: "Wer steckt hinter VylarisData?",
     a: "VylarisData ist eine Marke von CircleUpWilms und gehört zur VylarisGroup. Unser Geschäftsbereich ist Software Development & Technology.",
   },
   {
-    q: "Wo sollen die Systeme stehen?",
-    a: "Wir wollen eigene Systeme in Europa betreiben. Konkrete Standorte nennen wir hier noch nicht. Wir wollen nichts versprechen, was wir noch nicht belegen können.",
-  },
-  {
     q: "Was ist der Unterschied zu VylarisGroupEurope?",
-    a: "VylarisGroupEurope (vylaris.eu) ist der offizielle europäische Zweig der Gruppe. Er bringt die europäische Rechts- und Unternehmensstruktur mit und hat die Aufgabe, hochverfügbares Hosting und Server-Infrastruktur für die Dienste bereitzustellen. VylarisData ist die Marke für Software Development & Technology und wird zukünftig das Hosting der VylarisGroup.",
+    a: "VylarisGroupEurope (vylaris.eu) ist der offizielle europäische Zweig der Gruppe. Er bringt die europäische Rechts- und Unternehmensstruktur mit und bietet kostenlose Open-Source-SaaS-Dienste an. VylarisData ist die Marke für Software Development & Technology und betreibt eigene Hardware.",
   },
   {
     q: "Setzt diese Website Cookies oder Tracker ein?",
-    a: "Nein. Wir setzen keine Cookies und nutzen kein Tracking. Schriften und Skripte kommen von derselben Domain. Nur deine Wahl zwischen hellem, dunklem oder dem Systemdesign speichert dein Browser lokal.",
+    a: "Nein, nicht für Besucher. Wir setzen kein Tracking ein und speichern nichts, was dich wiedererkennt. Ein Cookie gibt es nur, wenn sich ein Admin im geschützten Bereich anmeldet. Deine Wahl zwischen hellem, dunklem oder dem Systemdesign speichert dein Browser lokal. Schriften und Skripte kommen von derselben Domain.",
   },
   {
     q: "Wie erreiche ich VylarisData?",
@@ -251,7 +376,7 @@ export const faq: readonly FaqItem[] = [
         <A className="link" href={site.links.contact}>
           vylaris.eu/contact
         </A>
-        . Dort kannst du Anfragen stellen oder Tickets eröffnen. Eine eigene Kontaktadresse für VylarisData gibt es nicht.
+        . Dort kannst du Anfragen stellen oder Tickets eröffnen, auch zum Thema Hosting. Eine eigene Kontaktadresse für VylarisData gibt es nicht.
       </p>
     ),
   },
@@ -259,8 +384,8 @@ export const faq: readonly FaqItem[] = [
 
 /* Abschluss-CTA */
 
-export const contactCta = {
-  text: "Du hast eine Frage zu VylarisData oder zur Technik der VylarisGroup? Du erreichst uns über die Kontaktseite der VylarisGroup (vylaris.eu/contact). Wie das genau geht, steht auf unserer Seite „Kontakt“.",
+export const contactCta: ContactCtaContent = {
+  text: "Fragen zu unserer Infrastruktur oder zu VylarisData? Du erreichst uns über die Kontaktseite der VylarisGroup, wie genau, steht auf unserer Seite „Kontakt“.",
   primary: { href: "/kontakt/", label: "So erreichst du uns", icon: "mail" },
-  secondary: { href: "/oekosystem/", label: "Zum Ökosystem" },
-} as const;
+  secondary: { href: "/infrastruktur/", label: "Zur Infrastruktur" },
+};

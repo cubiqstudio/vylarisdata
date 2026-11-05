@@ -16,11 +16,13 @@ type LayerStackProps = {
   arrows?: boolean;
   /** Überschrift (.h4) als erstes Element im Stapel */
   heading?: string;
+  /** Abstand nach oben wie bei einer Kartenreihe (für den Einsatz direkt unter einem Abschnittskopf) */
+  spaced?: boolean;
 };
 
 /** Schichtenbild mit flacher Struktur (Pfeile als direkte Geschwister der Ebenen). */
-export function LayerStack({ layers, arrows = false, heading }: LayerStackProps) {
-  return (
+export function LayerStack({ layers, arrows = false, heading, spaced = false }: LayerStackProps) {
+  const stack = (
     <div className="stack">
       {heading && <p className="h4">{heading}</p>}
       {layers.map((layer, i) => (
@@ -43,4 +45,5 @@ export function LayerStack({ layers, arrows = false, heading }: LayerStackProps)
       ))}
     </div>
   );
+  return spaced ? <div className="cards">{stack}</div> : stack;
 }

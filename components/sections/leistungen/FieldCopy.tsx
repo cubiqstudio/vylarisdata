@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
-import { Status, type Tone } from "@/components/ui";
+import { Status } from "@/components/ui";
+import type { StatusInfo } from "./types";
 
 type FieldCopyProps = {
   eyebrow: string;
   title: ReactNode;
   /** id der Überschrift (für aria-labelledby der Section) */
   id: string;
-  status?: { tone: Tone; label: string };
+  status?: StatusInfo;
   lead?: ReactNode;
   children?: ReactNode;
 };

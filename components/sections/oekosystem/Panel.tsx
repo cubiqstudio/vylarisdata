@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Icon, type IconName } from "@/components/ui";
 import { iconClass, type IconTone } from "./types";
 
@@ -13,12 +13,10 @@ type PanelProps = {
   children: ReactNode;
 };
 
-const centeredStyle: CSSProperties = { maxWidth: "40rem", marginLeft: "auto", marginRight: "auto" };
-
 /** Panel mit Kopf (Icon, Titel, Untertitel) und frei wählbarem Inhalt. */
 export function Panel({ tone, icon, iconTone, title, subtitle, centered, children }: PanelProps) {
   return (
-    <div className={`panel ${tone}${centered ? " mt-12" : ""}`} style={centered ? centeredStyle : undefined}>
+    <div className={`panel ${tone}${centered ? " mt-12 max-2xl mx-auto" : ""}`}>
       <div className="panel-head">
         <span className={iconClass(iconTone)}>
           <Icon name={icon} />

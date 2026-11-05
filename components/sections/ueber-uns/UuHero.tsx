@@ -1,14 +1,16 @@
 import type { ReactNode } from "react";
 import { Logo } from "@/components/layout/Logo";
-import { A, Status, type Crumb } from "@/components/ui";
+import { A, Status, type Crumb, type Tone } from "@/components/ui";
+
+export type UuStatusItem = { tone: Tone; label: string };
 
 type UuHeroProps = {
   crumbs: readonly Crumb[];
   eyebrow: string;
   title: ReactNode;
   lead: ReactNode;
-  /** Statushinweis zwischen Lead und Buttons */
-  status: string;
+  /** Statushinweise zwischen Lead und Buttons */
+  status: readonly UuStatusItem[];
   actions: ReactNode;
 };
 
@@ -31,18 +33,22 @@ export function UuHero({ crumbs, eyebrow, title, lead, status, actions }: UuHero
         <p className="eyebrow">{eyebrow}</p>
         <h1>{title}</h1>
         <p className="lead">{lead}</p>
-        <UuStatus label={status} />
+        <UuStatus items={status} />
         <div className="hero-cta">{actions}</div>
       </div>
     </section>
   );
 }
 
-/** Statuszeile "im Aufbau" (Hero und FAQ). */
-export function UuStatus({ label }: { label: string }) {
+/** Statuszeile mit einem oder mehreren Hinweisen (Hero und FAQ). */
+export function UuStatus({ items }: { items: readonly UuStatusItem[] }) {
   return (
-    <p className="uu-status">
-      <Status tone="warn">{label}</Status>
+    <p className="uu-status" style={{ display: "flex", flexWrap: "wrap", gap: ".5rem" }}>
+      {items.map((s) => (
+        <Status key={s.label} tone={s.tone}>
+          {s.label}
+        </Status>
+      ))}
     </p>
   );
 }

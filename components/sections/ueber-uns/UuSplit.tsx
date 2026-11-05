@@ -6,13 +6,13 @@ type UuSplitProps = {
   /** schmale linke Spalte, oben ausgerichtet (Geschichte, FAQ) */
   narrow?: boolean;
   reverse?: boolean;
-  /** gleich hohe Spalten (Sektion "Das ist uns wichtig") */
-  wichtig?: boolean;
+  /** gleich hohe Spalten (z. B. Text neben Faktenliste) */
+  equalHeight?: boolean;
 };
 
 /** Zweispaltiges Layout; die zweite Spalte ist direktes Kind des Grids. */
-export function UuSplit({ copy, visual, narrow, reverse, wichtig }: UuSplitProps) {
-  const cls = ["split", reverse ? "reverse" : "", narrow ? "uu-narrow uu-top" : "", wichtig ? "uu-wichtig" : ""]
+export function UuSplit({ copy, visual, narrow, reverse, equalHeight }: UuSplitProps) {
+  const cls = ["split", reverse ? "reverse" : "", narrow ? "uu-narrow uu-top" : "", equalHeight ? "uu-wichtig" : ""]
     .filter(Boolean)
     .join(" ");
   return (

@@ -4,8 +4,8 @@ import type { FactItem } from "@/components/ui";
 export function UuFacts({ items }: { items: readonly FactItem[] }) {
   return (
     <ul className="facts uu-facts">
-      {items.map((f) => (
-        <li className="fact" key={f.value}>
+      {items.map((f, i) => (
+        <li className="fact" key={`${i}-${f.value}`}>
           <b>{f.value}</b>
           <span>{f.label}</span>
         </li>

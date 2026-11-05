@@ -1,17 +1,28 @@
-import type { Crumb, FaqItem, StepItem } from "@/components/ui";
-import { A } from "@/components/ui";
-import type { KontaktBrand } from "@/components/sections/kontakt/KontaktBrandCard";
-import type { FaqAside } from "@/components/sections/kontakt/FaqSplit";
-import type { KontaktTileData } from "@/components/sections/kontakt/KontaktTile";
-import type { RuleTileData } from "@/components/sections/kontakt/RuleTile";
+import type { Crumb, FactItem, FaqItem, StepItem } from "@/components/ui";
+import { A, Gradient } from "@/components/ui";
+import type {
+  FaqAside,
+  KontaktBrand,
+  KontaktTileData,
+  LinkAction,
+  RequestPoint,
+  RuleTileData,
+} from "@/components/sections/kontakt/types";
 import { site } from "@/content/site";
 
 /** Daten der Seite "Kontakt". Markup liegt in den Komponenten, hier nur Inhalt. */
 
+/** Verlinkte Kurzform des Kontaktwegs für Fließtexte. */
+const contactLink = (
+  <A className="link" href={site.links.contact}>
+    vylaris.eu/contact
+  </A>
+);
+
 export const meta = {
   title: "Kontakt",
   description:
-    "So erreichst du VylarisData: Fragen, Hosting-Anfragen, Sicherheitslücken und Partnerschaften laufen über das Ticketsystem von VylarisGroupEurope.",
+    "Kontakt zu VylarisData: zehn Server, eigene Hardware, Ticketsystem. Fragen, Infrastruktur, Sicherheitsmeldungen und Partnerschaften über VylarisGroupEurope.",
   path: "/kontakt/",
 } as const;
 
@@ -21,9 +32,49 @@ export const crumbs: readonly Crumb[] = [{ label: "Start", href: "/" }, { label:
 
 export const hero = {
   eyebrow: "Offizieller Kontaktweg",
-  title: "Kontakt zu VylarisData",
-  lead: "Anfragen an VylarisData laufen über das Kontakt- und Ticketsystem von VylarisGroupEurope unter vylaris.eu/contact – für Fragen, Hosting-Anfragen, Sicherheitsmeldungen und Partnerschaften.",
+  title: "Sprich mit der Infrastruktur hinter dem Vylaris-Ökosystem",
+  lead: "Zehn Server, knapp 1 PB Rohkapazität, eigenes Netz und eigenes Backup: VylarisData läuft auf eigener Hardware. Du erreichst uns über das Kontakt- und Ticketsystem der VylarisGroupEurope.",
 } as const;
+
+export const heroActions: { primary: LinkAction; secondary: LinkAction } = {
+  primary: { href: site.links.contact, label: "Kontakt & Tickets öffnen", icon: "ext" },
+  secondary: { href: "#anliegen", label: "Thema wählen" },
+};
+
+/* ------------------------------------------------------------ Hinter dem Ticket */
+
+export const behindHead = {
+  id: "dahinter-h",
+  eyebrow: "Hinter dem Ticket",
+  title: "Zehn Server, knapp 1 PB, ein eigenes Netz",
+  lead: "Wer uns schreibt, erreicht bestehende Hardware im Betrieb: eigene Server, ein eigenes Backup-System, ein eigenes IP-Subnetz und knapp ein Petabyte Rohkapazität.",
+} as const;
+
+/** Erste Reihe: die Eckdaten. Zahlen wie auf der Seite Infrastruktur. */
+export const behindFacts: readonly FactItem[] = [
+  { value: "10 Server", label: "insgesamt im Betrieb: intern KVM-Server, extern normale Server.", icon: "server" },
+  { value: "Knapp 1 PB", label: "Rohkapazität vor Redundanz: 4 × 120 TB SSD plus knapp 500 TB HDD.", icon: "hdd" },
+  { value: "Eigenes Netz", label: "Eigenes IP-Subnetz und ein Network-Server, der unsere Internetanbindung regelt.", icon: "network" },
+  { value: "PBS-System", label: "Eigenes PBS-Backup-System für die Datensicherung.", icon: "refresh" },
+];
+
+/** Zweite Reihe: Speicher, Sicherheit, DNS und Ausblick. Den Live-Zustand zeigt nur das Status-Board. */
+export const behindMoreFacts: readonly FactItem[] = [
+  { value: "5 Storage-Server", label: "Vier mit je 120 TB SSD (zusammen 480 TB) und einer mit knapp 500 TB HDD.", icon: "db" },
+  { value: "Sicherheitssystem", label: "Mit internem Netzwerk-Setup.", icon: "shield" },
+  { value: "DNS-Server", label: "Aktuell in Wartung. Den Stand zeigt das Status-Board.", icon: "globe" },
+  { value: "Ausbau geplant", label: "Wir planen, das Vylaris-Ökosystem weiter auszubauen.", icon: "layers" },
+];
+
+export const behindCallout = (
+  <>
+    <strong>Offen gezeigt:</strong> Den aktuellen Zustand unserer Systeme zeigt das Live-Status-Board auf der Seite{" "}
+    <A className="link" href="/infrastruktur/">
+      Infrastruktur
+    </A>{" "}
+    – auch dann, wenn etwas gerade gewartet wird. Das Live-Status-Board pflegen wir selbst.
+  </>
+);
 
 /* ------------------------------------------------------------------ Themen */
 
@@ -31,26 +82,26 @@ export const topicsHead = {
   id: "anliegen-h",
   eyebrow: "Vier Themen",
   title: "Worum geht es dir?",
-  lead: "Alle vier Themen laufen über dasselbe Ticketsystem unter vylaris.eu/contact. Schreibe im Ticket, worum es geht.",
+  lead: "Alle vier Themen laufen über dasselbe Ticketsystem. Schreibe im Ticket, worum es geht.",
 } as const;
 
 export const topics: readonly KontaktTileData[] = [
   {
     icon: "info",
     title: "Allgemeine Fragen",
-    text: "Du willst wissen, was VylarisData ist, wie wir zur VylarisGroup gehören oder wie es mit der Infrastruktur weitergeht? Stelle deine Frage im Ticket.",
+    text: "Du willst wissen, was VylarisData ist, wie wir zur VylarisGroup gehören oder was hinter unserer Infrastruktur steckt? Stelle deine Frage im Ticket.",
   },
   {
     icon: "server",
-    title: "Hosting-Anfrage für Projekte",
-    text: "Du hast ein Vorhaben, das eines Tages bei uns laufen könnte? Beschreibe es im Ticket. VylarisData soll künftig das Hosting der VylarisGroup werden, die Infrastruktur ist im Aufbau.",
+    title: "Anfragen zur Infrastruktur",
+    text: "Du hast ein Vorhaben und möchtest wissen, ob es zu unserer Infrastruktur passt? Beschreibe es im Ticket, wir schauen gemeinsam darauf. Konkrete Aussagen dazu klären wir erst dort.",
   },
   {
     icon: "shield",
     title: "Sicherheitslücke melden",
     text: (
       <>
-        Du hast ein Problem entdeckt, das die Sicherheit dieser Website oder der entstehenden Infrastruktur betrifft?
+        Du hast ein Problem entdeckt, das die Sicherheit dieser Website oder unserer Infrastruktur betrifft?
         Melde es über das Ticketsystem und beachte die{" "}
         <A className="link" href="#sicherheit">
           Hinweise zur Meldung
@@ -66,19 +117,21 @@ export const topics: readonly KontaktTileData[] = [
   },
 ];
 
+export const topicsCta: LinkAction = { href: site.links.contact, label: "Ticket öffnen", icon: "ext" };
+
 /* ------------------------------------------------------------------ Ablauf */
 
 export const flowHead = {
   id: "ablauf-h",
   eyebrow: "Ablauf",
   title: "So erreichst du uns",
-  lead: "Drei Schritte genügen. Du brauchst kein Konto auf dieser Website, denn hier gibt es weder Formular noch Login.",
+  lead: "Drei Schritte genügen. Als Besucher brauchst du kein Konto und findest hier auch kein Kontaktformular – der Weg läuft über das Ticketsystem.",
 } as const;
 
 export const flowSteps: readonly StepItem[] = [
   {
     title: "Anliegen wählen",
-    text: "Überlege, ob es um eine allgemeine Frage, eine Hosting-Anfrage, eine Sicherheitsmeldung oder eine Partnerschaft geht.",
+    text: "Überlege, ob es um eine allgemeine Frage, eine Anfrage zur Infrastruktur, eine Sicherheitsmeldung oder eine Partnerschaft geht.",
   },
   {
     title: "Ticket eröffnen",
@@ -86,13 +139,11 @@ export const flowSteps: readonly StepItem[] = [
   },
   {
     title: "Antwort abwarten",
-    text: "Unser Ziel ist, auf Anliegen zu antworten. Zusagen zu Reaktionszeiten machen wir nicht.",
+    text: "Wir lesen dein Ticket und antworten im Ticketsystem. Feste Reaktionszeiten sagen wir nicht zu.",
   },
 ];
 
 /* ----------------------------------------------------------------- Anfrage */
-
-export type RequestPoint = { label: string; text: string };
 
 export const requestHead = {
   id: "anfrage-h",
@@ -102,19 +153,25 @@ export const requestHead = {
 } as const;
 
 export const requestPoints: readonly RequestPoint[] = [
-  { label: "Thema:", text: "ein Satz, der das Anliegen zusammenfasst, zum Beispiel „Hosting-Anfrage für ein Open-Source-Projekt“." },
-  { label: "Ziel:", text: "dein Ziel, nicht nur die vermutete Lösung." },
+  { label: "Thema:", text: "ein Satz, der das Anliegen zusammenfasst, zum Beispiel „Anfrage zur Infrastruktur für ein Open-Source-Projekt“." },
+  { label: "Ziel:", text: "was du erreichen willst, nicht nur die Lösung, die du dir vorstellst." },
   { label: "Kontext:", text: "welche Dienste, Seiten oder Technologien betroffen oder gewünscht sind." },
   { label: "Stand:", text: "Idee, laufendes Projekt oder konkreter Umzug." },
-  { label: "Bisherige Schritte:", text: "bei Fragen und Problemen spart das beiden Seiten Zeit." },
+  { label: "Bisherige Schritte:", text: "was du schon versucht hast – das spart uns beiden Rückfragen." },
   { label: "Erreichbarkeit:", text: "die Angaben, die das Ticketsystem dafür vorsieht." },
 ];
 
 export const note = {
   eyebrow: "Merksatz",
-  text: "Wer dein Ticket liest, kennt dein Projekt nicht. Ziel und Kontext in wenigen Sätzen helfen mehr als eine lange Vorgeschichte.",
-  chips: ["Thema", "Ziel", "Kontext", "Stand", "Bisherige Schritte", "Erreichbarkeit"],
-} as const;
+  title: (
+    <>
+      Schreibe für jemanden <Gradient>ohne Vorwissen</Gradient>.
+    </>
+  ),
+  text: "Ziel und Kontext in wenigen Sätzen helfen mehr als eine lange Vorgeschichte.",
+  /** Aus der Checkliste abgeleitet, damit beide nicht auseinanderlaufen. */
+  chips: requestPoints.map((p) => p.label.replace(/:$/, "")),
+};
 
 /* ------------------------------------------------------------- Sicherheit */
 
@@ -122,7 +179,7 @@ export const securityHead = {
   id: "sicherheit-h",
   eyebrow: "Sicherheitshinweise",
   title: "Sicherheitslücken verantwortungsvoll melden",
-  lead: "Wer Infrastruktur aufbaut, ist auf Hinweise von außen angewiesen. Wenn du etwas findest, melde es uns bitte, bevor du es öffentlich machst. So können wir es in Ruhe prüfen und gegebenenfalls beheben.",
+  lead: "Wer eigene Infrastruktur betreibt, ist auf Hinweise von außen angewiesen. Wenn du etwas findest, melde es uns bitte, bevor du es öffentlich machst. So können wir es in Ruhe prüfen und gegebenenfalls beheben.",
 } as const;
 
 export const securityRules: readonly RuleTileData[] = [
@@ -132,7 +189,7 @@ export const securityRules: readonly RuleTileData[] = [
     list: "checks",
     items: [
       <>
-        Melde den Fund über <strong>vylaris.eu/contact</strong> und schreibe gleich zu Beginn, dass es um Sicherheit geht.
+        Melde den Fund über {contactLink} und schreibe gleich zu Beginn, dass es um Sicherheit geht.
       </>,
       <>
         Beschreibe, <strong>wo</strong> du das Problem gefunden hast und <strong>wie</strong> man es nachvollziehen kann.
@@ -147,22 +204,22 @@ export const securityRules: readonly RuleTileData[] = [
   {
     icon: "x",
     iconTone: "indigo",
-    title: "Bitte unterlasse",
+    title: "Bitte nicht",
     list: "dots",
     items: [
-      "Daten Dritter auslesen, verändern oder löschen.",
-      "Systeme durch Überlastung, Massenabfragen oder Spam beeinträchtigen.",
-      "Social Engineering gegen Mitglieder oder Mitwirkende der VylarisGroup betreiben.",
-      "Gefundene Zugänge nutzen, um weiter ins System vorzudringen.",
-      "Eine Lücke öffentlich machen oder an Dritte weitergeben, bevor wir sie prüfen konnten.",
+      "Lies, ändere oder lösche keine Daten Dritter.",
+      "Beeinträchtige keine Systeme durch Überlastung, Massenabfragen oder Spam.",
+      "Betreibe kein Social Engineering gegen Mitglieder oder Mitwirkende der VylarisGroup.",
+      "Nutze gefundene Zugänge nicht, um weiter ins System vorzudringen.",
+      "Mache eine Lücke nicht öffentlich und gib sie nicht an Dritte weiter, bevor wir sie prüfen konnten.",
     ],
   },
 ];
 
 export const securityCallout = (
   <>
-    <strong>Unser Grundsatz:</strong> Wir wollen Meldungen ernst nehmen und prüfen. Feste Reaktionszeiten sagen wir nicht
-    zu, weil unsere Infrastruktur noch im Aufbau ist und wir nichts versprechen wollen, was wir nicht belegen können.
+    <strong>Unser Grundsatz:</strong> Wir nehmen Meldungen ernst und prüfen sie. Feste Reaktionszeiten sagen wir nicht zu,
+    weil wir nichts versprechen wollen, was wir nicht belegen können.
   </>
 );
 
@@ -170,9 +227,9 @@ export const securityCallout = (
 
 export const partnerHead = {
   id: "partner-h",
-  eyebrow: "Allianz CH & EU",
-  title: "Der Kontakt läuft über VylarisGroupEurope",
-  lead: "VylarisData gehört zur VylarisGroup. Der Schweizer Verein trägt die Idee, der europäische Zweig stellt Rechtsstruktur und Infrastruktur bereit; beide arbeiten Hand in Hand. Der Kontakt läuft über das Kontakt- und Ticketsystem des europäischen Zweigs.",
+  eyebrow: "Die Gruppe dahinter",
+  title: "Zwei Länder, eine Gruppe",
+  lead: "VylarisData gehört zur VylarisGroup. Der Schweizer Verein trägt die Idee, der europäische Zweig stellt Rechtsstruktur und Infrastruktur bereit. Anfragen an VylarisData laufen über das Ticketsystem des europäischen Zweigs.",
 } as const;
 
 export const brands: readonly KontaktBrand[] = [
@@ -181,7 +238,7 @@ export const brands: readonly KontaktBrand[] = [
     sub: "vylaris.eu",
     icon: "globe",
     current: true,
-    text: "Der offizielle europäische Zweig der Gruppe, geleitet von Lucas Wilms. Auf seinen Seiten findest du Kontakt & Tickets, den Systemstatus und den Blog.",
+    text: "Der offizielle europäische Zweig der Gruppe, geleitet von Lucas Wilms.",
     points: [
       "Kontakt & Tickets für Anfragen an VylarisData",
       "Systemstatus von VylarisGroupEurope",
@@ -193,8 +250,7 @@ export const brands: readonly KontaktBrand[] = [
     name: "VylarisGroup Schweiz",
     sub: "vylaris.ch",
     icon: "users",
-    iconTone: "indigo",
-    text: "Der Ursprungsverein der Gruppe ist aus einem Homelab und einem Podcast gewachsen. Auf seiner Idee baut das Vylaris-Ökosystem auf.",
+    text: "Der Ursprungsverein der Gruppe ging aus einem Homelab und einem Podcast hervor. Auf seiner Idee baut das Vylaris-Ökosystem auf.",
     points: [
       "Ursprung und Idee der VylarisGroup",
       "Verein mit fünf Mitgliedern, davon drei im Vorstand",
@@ -209,15 +265,22 @@ export const brands: readonly KontaktBrand[] = [
 export const statusHead = {
   id: "status-h",
   eyebrow: "Status, Blog & Rechtliches",
-  title: "Erst nachsehen, dann nachfragen",
-  lead: "Manche Fragen klären sich vorab. Systemstatus und Blog findest du bei VylarisGroupEurope, Impressum und Datenschutz direkt auf dieser Website.",
+  title: "Vielleicht ist deine Antwort schon da",
+  lead: "Manche Fragen klären sich vorab. Den aktuellen Zustand unserer Systeme zeigt das Live-Status-Board auf der Infrastruktur-Seite, Systemstatus und Blog findest du bei VylarisGroupEurope, Impressum und Datenschutz direkt hier.",
 } as const;
 
 export const resources: readonly KontaktTileData[] = [
   {
+    icon: "server",
+    title: "Live-Status der Infrastruktur",
+    text: "Ob ein System im Betrieb ist oder gewartet wird, zeigt unser Status-Board – öffentlich einsehbar und von uns gepflegt.",
+    href: "/infrastruktur/",
+    more: "Zur Infrastruktur",
+  },
+  {
     icon: "activity",
-    title: "Systemstatus",
-    text: "Hier findest du den Systemstatus der VylarisGroup-Dienste. Wenn etwas nicht erreichbar scheint, schau zuerst dort nach, bevor du ein Ticket öffnest.",
+    title: "Systemstatus der Gruppe",
+    text: "Der Systemstatus der VylarisGroup-Dienste. Prüfe ihn, bevor du bei einer Störung ein Ticket öffnest.",
     href: site.links.status,
     more: "vylaris.eu/status öffnen",
     moreIcon: "ext",
@@ -230,6 +293,10 @@ export const resources: readonly KontaktTileData[] = [
     more: "vylaris.eu/blog öffnen",
     moreIcon: "ext",
   },
+];
+
+/** Rechtliches in eigener Reihe, Sprungziel #rechtliches. */
+export const legalTiles: readonly KontaktTileData[] = [
   {
     icon: "building",
     title: "Impressum",
@@ -248,9 +315,9 @@ export const resources: readonly KontaktTileData[] = [
 
 export const privacyCallout = (
   <>
-    <strong>Diese Website kommt ohne Cookies und ohne Tracking aus.</strong> Schriften und Skripte liefern wir von
-    derselben Domain aus. Nur deine Wahl zwischen hellem, dunklem oder Geräte-Design bleibt lokal in deinem Browser
-    gespeichert.
+    <strong>Für Besucher kommt diese Website ohne Cookies und ohne Tracking aus.</strong> Schriften und Skripte liefern wir
+    von derselben Domain aus. Nur deine Wahl zwischen hellem, dunklem oder Geräte-Design bleibt lokal in deinem Browser
+    gespeichert. Ein technisch notwendiges Sitzungs-Cookie gibt es nur im geschützten Admin-Bereich nach der Anmeldung.
   </>
 );
 
@@ -265,17 +332,47 @@ export const faqHead = {
 export const faq: readonly FaqItem[] = [
   {
     q: "Warum finde ich hier keine E-Mail-Adresse oder Telefonnummer?",
-    a: "Der Kontakt läuft über das Kontakt- und Ticketsystem von VylarisGroupEurope unter vylaris.eu/contact. Eine E-Mail-Adresse oder Telefonnummer geben wir auf dieser Website nicht an.",
+    a: (
+      <p>
+        Der Kontakt läuft über das Kontakt- und Ticketsystem von VylarisGroupEurope unter {contactLink}. Eine
+        E-Mail-Adresse oder Telefonnummer geben wir auf dieser Website nicht an.
+      </p>
+    ),
   },
   {
-    q: "Kann ich schon Hosting bei VylarisData buchen?",
-    a: "Noch nicht. VylarisData soll künftig das Hosting der VylarisGroup übernehmen; die Infrastruktur dafür ist im Aufbau. Du kannst dein Vorhaben aber schon im Ticket beschreiben. Unser Grundsatz ist, offen über den Stand zu sprechen.",
+    q: "Kann ich Hosting bei VylarisData anfragen?",
+    a: (
+      <p>
+        Anfragen zu unserer Infrastruktur, auch zu Hosting, laufen über {contactLink}. Beschreibe dein Vorhaben im
+        Ticket. Ob es zu unserer Infrastruktur passt, klären wir dort gemeinsam.
+      </p>
+    ),
+  },
+  {
+    q: "Was betreibt VylarisData an Infrastruktur?",
+    a: "Wir betreiben zehn Server insgesamt: intern KVM-Server, außerhalb normale Server. Für den Speicher sorgen fünf Storage-Server: vier mit je 120 TB SSD und einer mit knapp 500 TB HDD, zusammen knapp ein Petabyte Rohkapazität vor Redundanz. Außerdem gehören ein PBS-Backup-System, ein eigenes IP-Subnetz mit Network-Server, ein DNS-Server (aktuell in Wartung) und ein Sicherheitssystem mit internem Netzwerk-Setup zu unserer Infrastruktur.",
+  },
+  {
+    q: "Ist der DNS-Server verfügbar, und wo sehe ich den Status?",
+    a: (
+      <p>
+        Unser DNS-Server ist aktuell in Wartung. Den aktuellen Zustand aller Systeme zeigt das Status-Board auf der Seite{" "}
+        <A className="link" href="/infrastruktur/">
+          Infrastruktur
+        </A>
+        . Den Systemstatus von VylarisGroupEurope findest du unter vylaris.eu/status, den Blog unter vylaris.eu/blog.
+      </p>
+    ),
+  },
+  {
+    q: "Was ist als Nächstes geplant?",
+    a: "Wir planen, das Vylaris-Ökosystem weiter auszubauen. Alles andere auf dieser Seite beschreibt den heutigen Stand unserer bestehenden Hardware.",
   },
   {
     q: "Wie melde ich eine Sicherheitslücke?",
     a: (
       <p>
-        Öffne ein Ticket über vylaris.eu/contact und schreibe gleich zu Beginn, dass es um eine Sicherheitslücke geht.
+        Öffne ein Ticket über {contactLink} und schreibe gleich zu Beginn, dass es um eine Sicherheitslücke geht.
         Beschreibe, wo du das Problem gefunden hast und wie man es nachvollziehen kann. Die{" "}
         <A className="link" href="#sicherheit">
           Hinweise zur Meldung
@@ -285,14 +382,11 @@ export const faq: readonly FaqItem[] = [
     ),
   },
   {
-    q: "Wo finde ich den Systemstatus?",
-    a: "Den Systemstatus von VylarisGroupEurope findest du unter vylaris.eu/status. Der Blog liegt unter vylaris.eu/blog.",
-  },
-  {
     q: "Erfasst diese Website Daten über mich?",
     a: (
       <p>
-        Diese Website setzt keine Cookies und nutzt kein Tracking. Mehr dazu steht in der{" "}
+        Für Besucher setzt diese Website keine Cookies und nutzt kein Tracking. Nur der geschützte Admin-Bereich verwendet
+        nach der Anmeldung ein technisch notwendiges Sitzungs-Cookie. Mehr dazu steht in der{" "}
         <A className="link" href="/datenschutz/">
           Datenschutzerklärung
         </A>
@@ -304,6 +398,24 @@ export const faq: readonly FaqItem[] = [
 
 export const faqAside: FaqAside = {
   icon: "shield",
-  title: "Der offizielle Weg",
-  text: "Der offizielle Weg zu VylarisData ist das Ticketsystem unter vylaris.eu/contact. Wenn dir jemand im Namen von VylarisData über einen anderen Weg schreibt, melde dich bitte über vylaris.eu/contact und frage nach.",
+  title: "Falsche Absender erkennen",
+  text: (
+    <>
+      Der offizielle Kontaktweg ist das Ticketsystem unter {contactLink}. Wenn dir jemand im Namen von VylarisData über
+      einen anderen Weg schreibt, frage bitte dort nach.
+    </>
+  ),
+};
+
+/* --------------------------------------------------------------------- CTA */
+
+export const cta = {
+  title: (
+    <>
+      Fragen zu unserer <Gradient>Hardware</Gradient>?
+    </>
+  ),
+  text: "Beschreibe dein Anliegen im Ticketsystem der VylarisGroupEurope – wir melden uns im Ticket.",
+  primary: { href: site.links.contact, label: "Kontakt & Tickets öffnen", icon: "ext" } satisfies LinkAction,
+  secondary: { href: "/infrastruktur/", label: "Zur Infrastruktur" } satisfies LinkAction,
 };
