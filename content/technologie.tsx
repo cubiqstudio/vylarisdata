@@ -168,7 +168,7 @@ export const hardwareCallout = (
     <A className="link" href="/infrastruktur/">
       Infrastruktur
     </A>
-    . Wir pflegen ihn selbst in einem geschützten Admin-Bereich.
+    .
   </>
 );
 
@@ -277,7 +277,7 @@ export const areas: readonly TechTileData[] = [
 export const website = {
   paragraphs: [
     "Die Website läuft hinter einem Cloudflare Tunnel: Die Verbindung baut der Server selbst nach außen auf. Der Betrieb läuft in gehärteten Containern.",
-    "Dazu kommt ein Live-Statusboard für unsere Infrastruktur. Wir pflegen es in einem geschützten Admin-Bereich, sichtbar ist es auf der Seite Infrastruktur.",
+    "Dazu kommt ein Live-Statusboard für unsere Infrastruktur. Sichtbar ist es auf der Seite Infrastruktur.",
   ],
   button: { href: "/infrastruktur/", label: "Live-Status ansehen" },
 } as const;
@@ -291,7 +291,7 @@ export const websiteSpecs: readonly (readonly [string, string])[] = [
   ["Cookies", "Keine"],
   ["Tracking", "Keines"],
   ["Darstellung", "Hell, dunkel oder Systemvorgabe; nur im Browser gespeichert"],
-  ["Statusboard", "Live, gepflegt in einem geschützten Admin-Bereich"],
+  ["Statusboard", "Live auf der Seite Infrastruktur"],
 ];
 
 export const websiteChecks = [

@@ -417,7 +417,7 @@ export const siteProofs: readonly FeatureTileData[] = [
   {
     icon: "activity",
     title: "Live-Status",
-    text: "Der Zustand unserer Infrastruktur ist auf der Seite Infrastruktur sichtbar. Wir pflegen ihn selbst und blenden auch ein, was in Wartung ist.",
+    text: "Der Zustand unserer Infrastruktur ist auf der Seite Infrastruktur sichtbar. Dort steht auch, was gerade in Wartung ist.",
   },
 ];
 

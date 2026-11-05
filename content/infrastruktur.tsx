@@ -49,7 +49,7 @@ export const pageText = {
   live: {
     eyebrow: "Live",
     title: "Live-Status unserer Systeme.",
-    lead: "Diesen Status pflegen wir selbst in einem geschützten Admin-Bereich. Die Übersicht wird bei jedem Aufruf der Seite neu geladen. Befindet sich ein System in Wartung, siehst du das hier genauso wie eine Störung.",
+    lead: "Die Übersicht wird bei jedem Aufruf der Seite neu geladen. Befindet sich ein System in Wartung, siehst du das hier genauso wie eine Störung.",
   },
   warum: {
     eyebrow: "Warum eigene Hardware",
@@ -85,7 +85,7 @@ export const facts: readonly Fact[] = [
   { id: "netz", value: "Eigenes IP-Subnetz", label: "Dazu ein Network-Server, der unsere Internetanbindung regelt." },
   { id: "pbs", value: "PBS-Backup-System", label: "Ein eigenes System für Backups." },
   { id: "security", value: "Sicherheitssystem", label: "Ein Sicherheitssystem mit eigenem, internem Netzwerk-Setup." },
-  { id: "live", value: "Live-Status", label: "Der Zustand unserer Systeme, von uns gepflegt und direkt auf dieser Seite sichtbar." },
+  { id: "live", value: "Live-Status", label: "Der Zustand unserer Systeme, direkt auf dieser Seite sichtbar." },
 ];
 
 export const rawCapacityNote = `Aktuell sind ${ssdTbNow} TB SSD in Betrieb. Der Rest ist im Aufbau: Das Ausbauziel sind ${ssdServers} × ${ssdTbEach} TB SSD (= ${ssdTbTotal} TB) plus knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität. Gemeint ist die Summe der Laufwerke vor Redundanz, die nutzbare Kapazität liegt je nach Redundanz darunter.`;

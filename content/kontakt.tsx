@@ -72,7 +72,7 @@ export const behindCallout = (
     <A className="link" href="/infrastruktur/">
       Infrastruktur
     </A>{" "}
-    – auch dann, wenn etwas gerade gewartet wird. Das Live-Status-Board pflegen wir selbst.
+    – auch dann, wenn etwas gerade gewartet wird.
   </>
 );
 
@@ -273,7 +273,7 @@ export const resources: readonly KontaktTileData[] = [
   {
     icon: "server",
     title: "Live-Status der Infrastruktur",
-    text: "Ob ein System im Betrieb ist oder gewartet wird, zeigt unser Status-Board – öffentlich einsehbar und von uns gepflegt.",
+    text: "Ob ein System im Betrieb ist oder gewartet wird, zeigt unser Status-Board, öffentlich einsehbar.",
     href: "/infrastruktur/",
     more: "Zur Infrastruktur",
   },

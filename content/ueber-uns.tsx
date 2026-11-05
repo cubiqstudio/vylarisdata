@@ -180,8 +180,7 @@ export const transparencyHead: UuHeadData = {
 export const transparencyCopy = (
   <p>
     Transparenz gehört für uns zum Angebot: Auf unserer Website steht nicht nur, was in Betrieb ist, sondern auch, was
-    gerade aufgebaut oder gewartet wird und was geplant ist. Den Stand pflegen wir selbst in einem geschützten Bereich und zeigen ihn
-    live auf der Infrastruktur-Seite.
+    gerade aufgebaut oder gewartet wird und was geplant ist. Den Stand zeigen wir live auf der Infrastruktur-Seite.
   </p>
 );
 
