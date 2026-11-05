@@ -62,7 +62,9 @@ Hat der Token keine DNS-Rechte, zeigt der Installer genau, welchen CNAME du von 
 ### Befehle
 
 ```bash
-./install.sh deploy     # Seite neu bauen und neu starten (nach Änderungen)
+./install.sh update     # neueste Version holen, Images erneuern, neu starten (mit Rollback)
+./install.sh update --check   # nur prüfen, ob ein Update verfügbar ist
+./install.sh deploy     # Seite aus dem aktuellen Stand neu bauen und neu starten
 ./install.sh status     # Tunnel, Container und Erreichbarkeit
 ./install.sh logs       # Logs ansehen
 ./install.sh stop       # Container stoppen (Seite offline)
@@ -75,6 +77,26 @@ Hat der Token keine DNS-Rechte, zeigt der Installer genau, welchen CNAME du von 
 
 Ohne Rückfragen: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `SITE_DOMAIN`, `TUNNEL_NAME` als
 Umgebungsvariablen setzen und `./install.sh --yes` ausführen.
+
+### Aktualisieren
+
+```bash
+./install.sh update
+```
+
+Der Befehl macht der Reihe nach:
+
+1. holt die neueste Version aus Git und zeigt, welche Änderungen kommen (`git pull --ff-only`; bei lokalen
+   Änderungen fragt er vorher nach),
+2. startet sich bei Bedarf selbst mit der neuen Installer-Version neu,
+3. sichert das laufende Image als Rückfallstand, lädt aktuelle Basis-Images (nginx, Node, cloudflared)
+   und baut die Seite neu – schlägt der Build fehl, läuft die bisherige Seite unverändert weiter,
+4. startet neu und wartet, bis nginx gesund ist; wird die neue Version nicht gesund, **rollt er automatisch
+   auf den vorherigen Stand zurück**,
+5. prüft Tunnel und Erreichbarkeit und räumt alte Images auf.
+
+`./install.sh update --check` prüft nur, ob ein Update verfügbar ist (Exit-Code 10 = ja), und eignet sich für
+einen Cronjob. Auch ohne neuen Code erneuert `update` die Container-Images (Sicherheitsupdates).
 
 ### Sicherheit
 

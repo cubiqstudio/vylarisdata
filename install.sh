@@ -17,7 +17,9 @@
 #
 #  Aufruf:
 #    ./install.sh              geführte Einrichtung (empfohlen)
-#    ./install.sh deploy       Seite neu bauen und neu starten
+#    ./install.sh update       neueste Version aus Git holen, Images erneuern, neu starten
+#    ./install.sh update --check   nur prüfen, ob ein Update verfügbar ist
+#    ./install.sh deploy       Seite aus dem aktuellen Stand neu bauen und neu starten
 #    ./install.sh status       Tunnel, Container und Erreichbarkeit anzeigen
 #    ./install.sh logs         Logs ansehen (Strg+C beendet)
 #    ./install.sh stop         Container stoppen
@@ -31,6 +33,7 @@
 #    --dry-run         nichts verändern, nur anzeigen
 #    --domain DOMAIN   Domain der Seite (Standard: vylarisdata.com)
 #    --tunnel NAME     Name des Tunnels (Standard: vylarisdata)
+#    --check           (bei update) nur prüfen, nichts verändern
 #
 #  Umgebungsvariablen (statt Eingabe, z. B. für Automatisierung):
 #    CLOUDFLARE_API_TOKEN  CLOUDFLARE_ACCOUNT_ID  SITE_DOMAIN  TUNNEL_NAME
@@ -46,7 +49,7 @@ DEFAULT_DOMAIN="vylarisdata.com"
 DEFAULT_TUNNEL="vylarisdata"
 ORIGIN="http://web:8080"             # Ziel im Container-Netz (siehe compose.yaml)
 
-YES=0; DRY=0; CMD="setup"; OPT_DOMAIN=""; OPT_TUNNEL=""
+YES=0; DRY=0; CMD="setup"; OPT_DOMAIN=""; OPT_TUNNEL=""; CHECK_ONLY=0; SKIP_PULL=0
 DOCKER=(docker)
 
 # ---------------------------------------------------------------- Ausgabe ----
@@ -584,6 +587,111 @@ ${B}${G}Fertig.${Z}
 EOF
 }
 
+# ---------------------------------------------------------------- Update ----
+IMAGE_WEB="vylarisdata-web"
+
+wait_web_healthy() {   # wartet bis zu 60 s auf einen gesunden nginx-Container
+  local cid st="" i
+  cid="$( cd "$ROOT" && dc ps -q web 2>/dev/null | head -n1 )"
+  [ -n "$cid" ] || return 1
+  for i in $(seq 1 20); do
+    st="$("${DOCKER[@]}" inspect -f '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' "$cid" 2>/dev/null)"
+    case "$st" in healthy|running) return 0 ;; unhealthy|exited|dead) return 1 ;; esac
+    sleep 3
+  done
+  return 1
+}
+
+cmd_update() {
+  local before after upstream behind sum_before sum_after dirty
+  load_env; apply_defaults
+  printf '\n%sUpdate%s\n' "$B" "$Z"
+  if ! command -v git >/dev/null 2>&1; then
+    warn "git fehlt."
+    if [ "$DRY" = 1 ] || [ "$CHECK_ONLY" = 1 ]; then die "git wird für das Update benötigt."; fi
+    confirm "git jetzt installieren?" j && pkg_install git && command -v git >/dev/null 2>&1 || die "git konnte nicht installiert werden. Bitte von Hand installieren."
+  fi
+  [ -d "$ROOT/.git" ] || die "Dies ist kein Git-Klon. Für Updates das Projekt mit „git clone https://github.com/cubiqstudio/vylarisdata.git“ holen."
+  cd "$ROOT" || die "Projektordner nicht erreichbar."
+  before="$(git rev-parse --short HEAD)"
+
+  # --- 1) Neue Version aus Git holen ---
+  if [ "$SKIP_PULL" != 1 ]; then
+    info "  Suche nach Updates …"
+    git fetch --quiet 2>/dev/null || die "Git-Server nicht erreichbar (git fetch fehlgeschlagen). Internetverbindung prüfen."
+    upstream="$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null)" || upstream="origin/$(git rev-parse --abbrev-ref HEAD)"
+    git rev-parse --verify --quiet "$upstream" >/dev/null || die "Kein Upstream-Branch gefunden ($upstream)."
+    behind="$(git rev-list --count "HEAD..$upstream")"
+    if [ "$behind" -gt 0 ]; then
+      ok "$behind neue Änderung(en) verfügbar:"
+      git log --no-merges --pretty='      %C(yellow)%h%C(reset) %s' --abbrev-commit -n 12 "HEAD..$upstream"
+      [ "$behind" -gt 12 ] && info "      … und weitere"
+    else
+      ok "Der Code ist bereits aktuell ($before)."
+    fi
+    if [ "$CHECK_ONLY" = 1 ]; then
+      if [ "$behind" -gt 0 ]; then info "  Zum Installieren:  ./install.sh update"; exit 10; fi
+      info "  Die Container-Images (nginx, cloudflared) werden bei jedem „./install.sh update“ auf Sicherheitsupdates geprüft."
+      exit 0
+    fi
+    if [ "$DRY" = 1 ]; then warn "Trockenlauf: würde ${behind:-0} Änderung(en) holen, Images erneuern und neu starten."; return 0; fi
+    if [ "$behind" -gt 0 ]; then
+      dirty="$(git status --porcelain --untracked-files=no)"
+      if [ -n "$dirty" ]; then
+        warn "Es gibt lokale, nicht gespeicherte Änderungen an Projektdateien:"
+        printf '%s\n' "$dirty" | sed 's/^/      /'
+        confirm "Update trotzdem versuchen? (bricht bei Konflikten ab, nichts geht verloren)" n || die "Abgebrochen. Änderungen zuerst sichern (git stash) und erneut starten."
+      fi
+      confirm "Update jetzt installieren?" j || die "Abgebrochen."
+      sum_before="$(sha256sum "$ROOT/install.sh" 2>/dev/null | cut -d' ' -f1)"
+      git pull --ff-only --quiet || die "Update nicht möglich (lokaler Stand weicht ab). Bitte prüfen: git status"
+      after="$(git rev-parse --short HEAD)"
+      ok "Code aktualisiert: $before → $after"
+      sum_after="$(sha256sum "$ROOT/install.sh" 2>/dev/null | cut -d' ' -f1)"
+      if [ -n "$sum_before" ] && [ "$sum_before" != "$sum_after" ]; then
+        info "  Der Installer selbst wurde aktualisiert – starte mit der neuen Version neu …"
+        local -a again=(update --skip-pull); [ "$YES" = 1 ] && again+=(--yes)
+        exec "$ROOT/install.sh" "${again[@]}"
+      fi
+    fi
+  fi
+
+  # --- 2) Container erneuern ---
+  ensure_tools
+  [ -f "$TUNNEL_ENV" ] || die ".env.tunnel fehlt – bitte zuerst ./install.sh ausführen."
+  local prev=""
+  prev="$("${DOCKER[@]}" image inspect -f '{{.Id}}' "$IMAGE_WEB:latest" 2>/dev/null)" || prev=""
+  [ -n "$prev" ] && "${DOCKER[@]}" tag "$prev" "$IMAGE_WEB:previous" >/dev/null 2>&1 && ok "Aktuelles Image als Rückfallstand gesichert ($IMAGE_WEB:previous)"
+
+  info "  Lade aktuelle Basis-Images und baue die Seite neu (1–3 Minuten) …"
+  ( dc pull tunnel ) >/dev/null 2>&1 && ok "cloudflared auf neuestem Stand" || warn "cloudflared-Image konnte nicht erneuert werden (weiter mit vorhandenem)."
+  if ! ( dc build --pull web ); then
+    bad "Der Build ist fehlgeschlagen – die laufende Seite bleibt unverändert."; return 1
+  fi
+  ( dc up -d --remove-orphans ) || { bad "Start fehlgeschlagen."; return 1; }
+
+  # --- 3) Prüfen, bei Problemen zurückrollen ---
+  if wait_web_healthy; then
+    ok "Neue Version läuft und ist gesund"
+  else
+    bad "Die neue Version wird nicht gesund."
+    if [ -n "$prev" ]; then
+      warn "Rolle auf den vorherigen Stand zurück …"
+      "${DOCKER[@]}" tag "$IMAGE_WEB:previous" "$IMAGE_WEB:latest" >/dev/null 2>&1
+      ( dc up -d --no-build --force-recreate web ) >/dev/null 2>&1
+      if wait_web_healthy; then ok "Vorherige Version läuft wieder."; else bad "Auch der vorherige Stand startet nicht. Logs:  ./install.sh logs"; fi
+    fi
+    info "  Der Code bleibt auf $(git rev-parse --short HEAD). Zurücksetzen mit:  git reset --hard $before"
+    return 1
+  fi
+  if [ -n "$TUNNEL_ID" ] && [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then wait_for_tunnel || true
+  else info "  (Tunnel-Status wird nicht geprüft – keine API-Zugangsdaten gespeichert.)"; fi
+  check_live || true
+  "${DOCKER[@]}" image prune -f >/dev/null 2>&1 && ok "Alte, nicht mehr genutzte Images entfernt"
+
+  printf '\n%s%sUpdate abgeschlossen.%s  Version: %s%s%s\n' "$B" "$G" "$Z" "$B" "$(git rev-parse --short HEAD)" "$Z"
+}
+
 need_config() {
   load_env; apply_defaults
   ensure_tools
@@ -632,10 +740,12 @@ usage() { awk 'NR==1{next} /^# =+$/{n++; next} n==2{sub(/^# ?/,""); print} n>=3{
 # ---------------------------------------------------------------- Start -------
 while [ $# -gt 0 ]; do
   case "$1" in
-    setup|deploy|verify|status|logs|stop|domain|forget) CMD="$1" ;;
+    setup|deploy|update|verify|status|logs|stop|domain|forget) CMD="$1" ;;
     help|-h|--help) CMD="help" ;;
     --yes|-y) YES=1 ;;
     --dry-run) DRY=1 ;;
+    --check) CHECK_ONLY=1 ;;
+    --skip-pull) SKIP_PULL=1 ;;
     --domain) shift; OPT_DOMAIN="${1:-}" ;;
     --tunnel) shift; OPT_TUNNEL="${1:-}" ;;
     *) die "Unbekannte Option: $1  (Hilfe: ./install.sh help)" ;;
@@ -644,6 +754,6 @@ while [ $# -gt 0 ]; do
 done
 
 case "$CMD" in
-  setup) cmd_setup ;; deploy) cmd_deploy ;; verify) cmd_verify ;; status) cmd_status ;;
+  setup) cmd_setup ;; deploy) cmd_deploy ;; update) cmd_update ;; verify) cmd_verify ;; status) cmd_status ;;
   logs) cmd_logs ;; stop) cmd_stop ;; domain) cmd_domain ;; forget) cmd_forget ;; help) usage ;;
 esac
