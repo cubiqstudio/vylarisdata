@@ -22,19 +22,19 @@ import {
 import {
   allianceCallout,
   areas,
+  aufbauCallout,
+  aufbauChecks,
+  aufbauFacts,
+  aufbauTiles,
+  bausteineHead,
+  bausteineRows,
   brands,
   cta,
   faq,
   faqSide,
   flow,
-  hardwareCallout,
-  hardwareChecks,
-  hardwareFacts,
-  hardwareTiles,
   heads,
   hero,
-  inventoryHead,
-  inventoryRows,
   meta,
   principles,
   processSteps,
@@ -67,34 +67,34 @@ export default function TechnologiePage() {
           </>
         }
       >
-        <Facts items={hardwareFacts} />
+        <Facts items={aufbauFacts} />
       </PageHero>
 
-      <Section id="hardware" labelledBy={heads.hardware.id} large>
-        <TechHead {...heads.hardware} />
+      <Section id="aufbau" labelledBy={heads.aufbau.id} large>
+        <TechHead {...heads.aufbau} />
         <Cards cols={3}>
-          {hardwareTiles.map((tile) => (
+          {aufbauTiles.map((tile) => (
             <TechTile key={tile.title} tile={tile} variant="feature" />
           ))}
         </Cards>
       </Section>
 
-      <Section id="bestand" labelledBy={heads.inventory.id} large band>
+      <Section id="bausteine" labelledBy={heads.bausteine.id} large band>
         <Split
           copy={
             <>
-              <TechHead {...heads.inventory} />
-              <Checks items={hardwareChecks} />
+              <TechHead {...heads.bausteine} />
+              <Checks items={aufbauChecks} />
             </>
           }
           visual={
             <Visual soft>
-              <SpecTable head={[...inventoryHead]} rows={inventoryRows} />
+              <SpecTable head={[...bausteineHead]} rows={bausteineRows} />
             </Visual>
           }
         />
         <div className="mt-12">
-          <Callout icon="info">{hardwareCallout}</Callout>
+          <Callout icon="info">{aufbauCallout}</Callout>
         </div>
       </Section>
 

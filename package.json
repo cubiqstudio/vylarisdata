@@ -11,7 +11,7 @@
     "build": "next build",
     "typecheck": "tsc --noEmit",
     "start": "node .next/standalone/server.js",
-    "test": "node --test tests/security.test.mjs tests/legal.test.mjs"
+    "test": "node --test tests/security.test.mjs tests/legal.test.mjs tests/status.test.mjs"
   },
   "dependencies": {
     "next": "^16.4.5",

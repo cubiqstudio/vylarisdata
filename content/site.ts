@@ -4,11 +4,11 @@ export const site = {
   url: "https://vylarisdata.com",
   tagline: "Powering the Vylaris Ecosystem.",
   tri: "Technology. Infrastructure. Innovation.",
-  owner: "CircleUpWilms",
+  owner: "VylarisGroupEurope",
   group: "VylarisGroup",
   area: "Software Development & Technology",
   description:
-    "VylarisData ist die Technologie- und Infrastruktur-Marke der VylarisGroup – Software Development & Technology. Eine Marke von CircleUpWilms.",
+    "VylarisData ist eine Untermarke von VylarisGroupEurope und gehört zur VylarisGroup – Software Development & Technology. Die eigene Infrastruktur ist im Aufbau, Hardware und Unterstützung sind willkommen.",
   links: {
     eu: "https://vylaris.eu",
     ch: "https://vylaris.ch",
@@ -29,6 +29,7 @@ export const nav: readonly NavItem[] = [
   { href: "/technologie/", label: "Technologie" },
   { href: "/oekosystem/", label: "Ökosystem" },
   { href: "/ueber-uns/", label: "Über uns" },
+  { href: "/unterstuetzen/", label: "Unterstützen" },
   { href: "/kontakt/", label: "Kontakt" },
 ];
 
@@ -41,6 +42,7 @@ export const footerColumns = [
       { href: "/technologie/", label: "Technologie" },
       { href: "/oekosystem/", label: "Ökosystem" },
       { href: "/ueber-uns/", label: "Über uns" },
+      { href: "/unterstuetzen/", label: "Unterstützen" },
     ],
   },
   {

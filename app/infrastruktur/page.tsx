@@ -15,15 +15,14 @@ import {
   netzwerk,
   overviewLayers,
   pageText,
-  rawCapacityNote,
   rechenleistung,
   roadmap,
   roadmapNotes,
   sicherheit,
   speicher,
+  standNote,
   whyTiles,
 } from "@/content/infrastruktur";
-import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata(meta);
@@ -45,20 +44,20 @@ export default function InfrastrukturPage() {
         lead={t.hero.lead}
         actions={
           <>
-            <Button href="#live-status" size="lg" icon="arrow">
+            <Button href="/unterstuetzen/" size="lg" icon="arrow">
               {t.hero.primary}
             </Button>
-            <Button href="#zahlen" variant="secondary" size="lg">
+            <Button href="#stand" variant="secondary" size="lg">
               {t.hero.secondary}
             </Button>
           </>
         }
       />
 
-      <Section id="zahlen" labelledBy="zahlen-h">
-        <SectionHead eyebrow={t.zahlen.eyebrow} id="zahlen-h" title={t.zahlen.title} lead={t.zahlen.lead} />
-        <FactList items={facts} ariaLabel={t.zahlen.ariaLabel} />
-        <p className="muted mt-6">{rawCapacityNote}</p>
+      <Section id="stand" labelledBy="stand-h">
+        <SectionHead eyebrow={t.stand.eyebrow} id="stand-h" title={t.stand.title} lead={t.stand.lead} />
+        <FactList items={facts} ariaLabel={t.stand.ariaLabel} />
+        <p className="muted mt-6">{standNote}</p>
       </Section>
 
       <Section id="ueberblick" labelledBy="ueberblick-h" band>
@@ -77,7 +76,7 @@ export default function InfrastrukturPage() {
       <TopicSection topic={netzwerk} />
       <TopicSection topic={sicherheit} />
 
-      <Section id="eigene-hardware" labelledBy="hardware-h" band>
+      <Section id="eigene-infrastruktur" labelledBy="hardware-h" band>
         <SectionHead eyebrow={t.warum.eyebrow} id="hardware-h" title={t.warum.title} lead={t.warum.lead} />
         <Cards cols={3}>
           {whyTiles.map((tile) => (
@@ -118,8 +117,8 @@ export default function InfrastrukturPage() {
             </>
           }
           text={t.cta.text}
-          primary={{ href: site.links.contact, label: t.cta.primary, icon: "ext" }}
-          secondary={{ href: "/oekosystem/", label: t.cta.secondary }}
+          primary={{ href: "/unterstuetzen/", label: t.cta.primary, icon: "arrow" }}
+          secondary={{ href: "/kontakt/", label: t.cta.secondary }}
         />
       </Section>
     </>

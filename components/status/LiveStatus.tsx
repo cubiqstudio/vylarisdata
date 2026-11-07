@@ -14,7 +14,7 @@ const formatTime = (iso?: string) =>
   iso ? new Date(iso).toLocaleString("de-DE", { dateStyle: "medium", timeStyle: "short", timeZone: "Europe/Berlin" }) : null;
 
 /**
- * Live-Statusübersicht der Infrastruktur (Server-Komponente, liest den Status bei jedem Aufruf).
+ * Live-Statusübersicht: zeigt, wie weit der Aufbau der einzelnen Bausteine der Infrastruktur ist (Server-Komponente, liest den Status bei jedem Aufruf).
  * Gepflegt wird sie im Admin-Bereich.
  */
 export async function LiveStatus() {
@@ -32,12 +32,17 @@ export async function LiveStatus() {
     .map((g) => ({ g, items: board.components.filter((c) => c.group === g) }))
     .filter((x) => x.items.length > 0);
   const allGood = operational === total;
+  const allBuilding = total > 0 && count("building") === total;
 
   return (
     <div className="livestatus" aria-live="polite">
       <div className="livestatus-head">
         <Status tone={allGood ? "ok" : "info"}>
-          {allGood ? "Alle Systeme im Betrieb" : [`${operational} von ${total} Systemen im Normalbetrieb`, ...extras].join(" · ")}
+          {allGood
+            ? "Alle Bausteine im Betrieb"
+            : allBuilding
+              ? "Alle Bausteine im Aufbau · noch nichts im Betrieb"
+              : [`${operational} von ${total} Bausteinen im Betrieb`, ...extras].join(" · ")}
         </Status>
         {formatTime(board.updatedAt) && <span className="muted">Zuletzt aktualisiert: {formatTime(board.updatedAt)}</span>}
       </div>

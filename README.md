@@ -3,16 +3,18 @@
 Website von **VylarisData** – *Powering the Vylaris Ecosystem. Technology. Infrastructure. Innovation.*
 
 - Zugehörigkeit: VylarisGroup · Geschäftsbereich: Software Development & Technology
-- Marke von: CircleUpWilms · Domain: vylarisdata.com
+- Untermarke von: VylarisGroupEurope (Leitung: Lucas Wilms) · Domain: vylarisdata.com
+- Stand: Die eigene Infrastruktur ist **im Aufbau**; wir haben aktuell noch keine eigene Hardware und freuen uns über
+  Hardware (auch ältere oder gebrauchte), Know-how, Sponsoring und Empfehlungen.
 
 Gebaut mit **Next.js** (App Router), **React** und **TypeScript** (strict). Kein Tracking, keine Cookies für
 Besucher, keine Drittanbieter-Ressourcen (die Schrift Poppins ist lokal eingebunden).
 
 ## Was die Seite kann
 
-- **Öffentliche Seiten:** Start, Leistungen, Infrastruktur, Technologie, Ökosystem, Über uns, Kontakt (vorgerendert).
-- **Live-Status der Infrastruktur** auf der Seite „Infrastruktur“: Zustand jedes Systems (Im Betrieb, In Wartung,
-  Eingeschränkt, Störung) mit Hinweis und Zeitstempel.
+- **Öffentliche Seiten:** Start, Leistungen, Infrastruktur, Technologie, Ökosystem, Über uns, Unterstützen, Kontakt (vorgerendert).
+- **Live-Status der Infrastruktur** auf der Seite „Infrastruktur“: Zustand jedes Bausteins (Im Aufbau, Im Betrieb, In Wartung,
+  Eingeschränkt, Störung) mit Hinweis und Zeitstempel. Aktuell befindet sich jeder Baustein im Aufbau.
 - **Admin-Bereich** unter `/admin/` mit Anmeldung: Status pflegen, **Impressum und Datenschutz pflegen**, Passwort ändern,
   Zwei-Faktor-Anmeldung (TOTP) mit Wiederherstellungscodes, Protokoll aller sicherheitsrelevanten Ereignisse.
 - **Impressum und Datenschutzerklärung** entstehen aus den Angaben im Admin-Bereich (siehe unten).

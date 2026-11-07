@@ -77,6 +77,13 @@ export default function LeistungenPage() {
               </A>
               .
             </p>
+            <p className="mt-2">
+              {sections.bausteine.support}{" "}
+              <A href="/unterstuetzen/" className="link">
+                {sections.bausteine.supportLink}
+              </A>
+              .
+            </p>
           </Callout>
         </div>
       </Section>

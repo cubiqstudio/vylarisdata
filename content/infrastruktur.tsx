@@ -5,23 +5,18 @@ import type { TopicContent, TopicPoint } from "@/components/sections/infrastrukt
 import type { TopicVisualContent } from "@/components/sections/infrastruktur/TopicVisual";
 import { site } from "@/content/site";
 
-/* ------------------------------------------------------------- Kennzahlen
- * Schreibweise: Zahlen mit Einheit als Ziffern (10 Server, 250 TB SSD, knapp 1 PB).
- * Alle Kennzahlen stehen nur hier und werden in den Texten eingesetzt. */
+/* Hinweis zum Stand: VylarisData besitzt aktuell keine eigene Hardware. Die Infrastruktur ist im Aufbau.
+ * Alle Beschreibungen der Bausteine auf dieser Seite sind Ziel und Plan, ohne Zahlen und ohne Zeitangaben. */
 
-const serverCount = 10;
-const ssdServers = 4;
-const ssdTbEach = 120;
-const ssdTbTotal = ssdServers * ssdTbEach; // Ausbauziel SSD
-const ssdTbNow = 250; // aktuell in Betrieb
-const hddServers = 1;
-const storageServers = ssdServers + hddServers;
+/** Ziel der Seite "Unterstützen" (Aufruf zur Mithilfe). */
+const supportHref = "/unterstuetzen/";
 
 /* ------------------------------------------------------------------ Meta */
 
 export const meta = {
   title: "Infrastruktur",
-  description: `${serverCount} Server, aktuell ${ssdTbNow} TB SSD im Betrieb und ein Speicherausbau auf knapp 1 PB, eigenes PBS-Backup-System und IP-Subnetz: Unsere Infrastruktur im Überblick, mit Live-Status.`,
+  description:
+    "VylarisData baut eine eigene Infrastruktur in Europa auf. Aktuell haben wir noch keine eigene Hardware: Wir fangen gerade an und suchen Hardware, gern auch gebrauchte, sowie Unterstützung. Mit Live-Status zum Stand des Aufbaus.",
   path: "/infrastruktur/",
 } as const;
 
@@ -30,65 +25,64 @@ export const meta = {
 export const pageText = {
   hero: {
     eyebrow: "Unsere Infrastruktur",
-    title: "Eigene Hardware. Eigenes Netz. Im Aufbau.",
-    lead: `${serverCount} Server, aktuell ${ssdTbNow} TB SSD im Betrieb, ein eigenes PBS-Backup-System, ein eigenes IP-Subnetz und ein Sicherheitssystem: Das ist bestehende Hardware. Der Rest des Speichers (Ziel knapp 1 PB) ist im Aufbau, der DNS-Server in Wartung. Den Zustand aller Systeme zeigen wir live auf dieser Seite.`,
-    primary: "Live-Status ansehen",
-    secondary: "Die Zahlen",
+    title: "Wir fangen gerade an. Die Infrastruktur ist im Aufbau.",
+    lead: "Ehrlich gesagt: Aktuell haben wir keine eigene Hardware. Keine eigenen Server, keinen eigenen Speicher, kein eigenes Backup-System und kein eigenes Netz. Wir bauen eine eigene Infrastruktur in Europa auf und suchen dafür Hardware, gern auch ältere oder gebrauchte, und Unterstützung. Wie weit der Aufbau ist, zeigen wir live auf dieser Seite.",
+    primary: "Hardware und Unterstützung gesucht",
+    secondary: "Wo wir stehen",
   },
-  zahlen: {
-    eyebrow: "Die Zahlen",
-    title: `${serverCount} Server, ${ssdTbNow} TB SSD, Ziel knapp 1 PB.`,
-    lead: "Was heute läuft und was gerade entsteht: die Eckdaten unserer Infrastruktur.",
-    ariaLabel: "Eckdaten der Infrastruktur",
+  stand: {
+    eyebrow: "Wo wir stehen",
+    title: "Aufbau statt Betrieb: So ist der Stand heute.",
+    lead: "Wir sagen offen, was es gibt und was nicht, damit du uns einschätzen kannst.",
+    ariaLabel: "Stand des Aufbaus",
   },
   ueberblick: {
-    eyebrow: "Überblick",
-    title: "Was bei uns läuft.",
-    lead: "Sechs Schichten, die zusammen unsere Infrastruktur ergeben: von den Diensten über Rechenleistung, Speicher und Datensicherung bis zu Netzwerk und Sicherheit.",
+    eyebrow: "Das Ziel",
+    title: "Was wir aufbauen wollen.",
+    lead: "Sechs geplante Schichten, die zusammen unsere Infrastruktur ergeben sollen: von den Diensten über Rechenleistung, Speicher und Datensicherung bis zu Netzwerk und Sicherheit. Das ist unser Zielbild, kein heutiger Bestand.",
   },
   live: {
     eyebrow: "Live",
-    title: "Live-Status unserer Systeme.",
-    lead: "Die Übersicht wird bei jedem Aufruf der Seite neu geladen. Befindet sich ein System in Wartung, siehst du das hier genauso wie eine Störung.",
+    title: "Live-Status: wie weit der Aufbau ist.",
+    lead: "Der Status zeigt, wie weit der Aufbau der einzelnen Bausteine ist. Aktuell steht alles im Aufbau. Sobald ein Baustein tatsächlich läuft, siehst du es hier. Die Übersicht wird bei jedem Aufruf der Seite neu geladen.",
   },
   warum: {
-    eyebrow: "Warum eigene Hardware",
+    eyebrow: "Warum wir eigene Infrastruktur aufbauen",
     title: "Weil wir wissen wollen, worauf wir bauen.",
-    lead: "Eigene Hardware bedeutet für uns Kontrolle, Transparenz und eigene Grundlagen.",
+    lead: "Das ist unsere Zielsetzung: Eigene Infrastruktur soll uns Kontrolle, Transparenz und eigene Grundlagen geben.",
   },
   naechstes: {
     eyebrow: "Stand und Ausblick",
-    title: "Heute im Betrieb, der Ausbau läuft.",
-    lead: "Wir planen, unser Ökosystem weiter auszubauen. Jeder Punkt trägt den Status, der heute stimmt.",
+    title: "Heute der Anfang, danach Schritt für Schritt.",
+    lead: "Wir planen, unser Ökosystem Schritt für Schritt auszubauen. Jeder Punkt trägt den Status, der heute stimmt, und wir nennen keine Termine.",
   },
   faq: {
     eyebrow: "Häufige Fragen",
     title: "Antworten, ohne Umwege.",
   },
   cta: {
-    titleBefore: "Du willst mehr über unsere ",
-    titleAccent: "Hardware",
-    titleAfter: " wissen?",
-    text: "Schreib uns über die Kontaktseite der VylarisGroup (Kontakt und Tickets).",
-    primary: "Kontakt aufnehmen",
-    secondary: "Zum Ökosystem",
+    titleBefore: "",
+    titleAccent: "Hardware und Unterstützung",
+    titleAfter: " gesucht.",
+    text: "Wir fangen gerade an und freuen uns über jede Hilfe: Hardware, gern auch ältere oder gebrauchte, Know-how, Sponsoring oder einfach Weitersagen und Empfehlen. Angebote und Fragen erreichen uns über die Kontaktseite.",
+    primary: "So kannst du helfen",
+    secondary: "Kontakt aufnehmen",
   },
 } as const;
 
 /* ---------------------------------------------------------------- Fakten */
 
 export const facts: readonly Fact[] = [
-  { id: "server", value: `${serverCount} Server`, label: "Intern eigene Server, extern ganz normale Server." },
-  { id: "ssd", value: `${ssdTbNow} TB SSD`, label: "Aktuell in Betrieb. Das ist unser heutiger Speicher." },
-  { id: "hdd", value: "Im Aufbau", label: `Der Rest des Speichers: weitere SSD-Kapazität und ${hddServers} Storage-Server mit knapp 500 TB HDD.` },
-  { id: "raw", value: "Ziel: knapp 1 PB", label: "Rohkapazität nach dem Ausbau, vor Redundanz. Die Rechnung steht darunter." },
-  { id: "netz", value: "Eigenes IP-Subnetz", label: "Dazu ein Network-Server, der unsere Internetanbindung regelt." },
-  { id: "pbs", value: "PBS-Backup-System", label: "Ein eigenes System für Backups." },
-  { id: "security", value: "Sicherheitssystem", label: "Ein Sicherheitssystem mit eigenem, internem Netzwerk-Setup." },
-  { id: "live", value: "Live-Status", label: "Der Zustand unserer Systeme, direkt auf dieser Seite sichtbar." },
+  { id: "hardware", value: "Keine eigene Hardware", label: "Aktuell haben wir weder eigene Server noch eigenen Speicher." },
+  { id: "aufbau", value: "Im Aufbau", label: "Wir fangen gerade an, unsere Infrastruktur in Europa aufzubauen." },
+  { id: "betrieb", value: "Nichts im Betrieb", label: "Backup, Netz und Sicherheit sind geplante Bausteine und laufen noch nicht bei uns." },
+  { id: "gesucht", value: "Gesucht: Hardware", label: "Auch ältere oder gebrauchte Hardware nehmen wir sehr gerne entgegen." },
+  { id: "unterstuetzung", value: "Gesucht: Unterstützung", label: "Know-how, Sponsoring, Weitersagen und Empfehlen helfen uns genauso." },
+  { id: "live", value: "Live-Status", label: "Der Stand des Aufbaus, direkt auf dieser Seite sichtbar." },
 ];
 
-export const rawCapacityNote = `Aktuell sind ${ssdTbNow} TB SSD in Betrieb. Der Rest ist im Aufbau: Das Ausbauziel sind ${ssdServers} × ${ssdTbEach} TB SSD (= ${ssdTbTotal} TB) plus knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität. Gemeint ist die Summe der Laufwerke vor Redundanz, die nutzbare Kapazität liegt je nach Redundanz darunter.`;
+export const standNote =
+  "Was das konkret heißt: Es gibt heute keine Hardware, die uns gehört, und keinen Dienst, der auf eigener Infrastruktur läuft. Alles, was du unten über Rechenleistung, Speicher, Datensicherung, Netzwerk und Sicherheit liest, beschreibt, was wir aufbauen wollen. Wenn du uns dabei helfen möchtest, findest du den Weg auf der Seite „Unterstützen“.";
 
 /* ------------------------------------------------------------ Überblick */
 
@@ -96,34 +90,34 @@ export const overviewLayers: readonly Layer[] = [
   {
     icon: "box",
     name: "Dienste",
-    text: "Diese Website läuft in gehärteten Containern hinter einem Cloudflare Tunnel, ohne offene Ports am Server, ohne Tracking und ohne Cookies für Besucher.",
+    text: "Geplant: Dienste für das Vylaris-Ökosystem auf eigener Infrastruktur. Wie wir arbeiten wollen, zeigt schon diese Website: Sie läuft in gehärteten Containern hinter einem Cloudflare Tunnel, ohne offene Ports am Server, ohne Tracking und ohne Cookies für Besucher.",
     highlight: true,
   },
   {
     icon: "cpu",
     name: "Rechenleistung",
-    text: `${serverCount} Server insgesamt: intern eigene Server, extern ganz normale Server.`,
+    text: "Geplant: eigene Server in Europa als Grundlage für unsere Dienste.",
   },
   {
     icon: "hdd",
     name: "Speicher",
-    text: `Aktuell ${ssdTbNow} TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind ${storageServers} Storage-Server mit zusammen knapp 1 PB Rohkapazität.`,
+    text: "Geplant: eigener Speicher für unsere Daten und die Daten des Ökosystems.",
     highlight: true,
   },
   {
     icon: "refresh",
     name: "Datensicherung",
-    text: "Ein PBS-Backup-System sichert unsere Daten.",
+    text: "Geplant: ein eigenes System, das unsere Daten regelmäßig sichert.",
   },
   {
     icon: "network",
     name: "Netzwerk",
-    text: "Eigenes IP-Subnetz und ein Network-Server, der die Internetanbindung regelt.",
+    text: "Geplant: ein eigenes Netzwerk mit eigener Anbindung ans Internet.",
   },
   {
     icon: "shield",
     name: "Sicherheit",
-    text: "Ein Sicherheitssystem mit internem Netzwerk-Setup.",
+    text: "Geplant: ein Sicherheitskonzept, das alle Schichten schützt.",
   },
 ];
 
@@ -135,17 +129,17 @@ export const whyTiles: readonly InfoTile[] = [
   {
     icon: "key",
     title: "Kontrolle",
-    text: "Wir betreiben unsere Systeme selbst und zeigen ihren Zustand offen.",
+    text: "Wir wollen unsere Systeme einmal selbst betreiben und ihren Zustand offen zeigen.",
   },
   {
     icon: "eye",
     title: "Transparenz",
-    text: "Der Live-Status steht öffentlich auf dieser Seite, auch dann, wenn ein System in Wartung ist.",
+    text: "Der Live-Status steht öffentlich auf dieser Seite, auch jetzt, wo noch alles im Aufbau ist.",
   },
   {
     icon: "layers",
     title: "Eigene Grundlagen",
-    text: "Eigene Server, eigener Speicher, eigenes Netz, eigenes PBS-Backup-System: Aufbau und Betrieb der Grundlagen liegen bei uns. Für die Erreichbarkeit dieser Website nutzen wir zusätzlich einen Cloudflare Tunnel.",
+    text: "Eigene Rechenleistung, eigener Speicher, eigene Datensicherung, eigenes Netz: Aufbau und Betrieb dieser Grundlagen sollen bei uns liegen. Für die Erreichbarkeit dieser Website nutzen wir heute einen Cloudflare Tunnel.",
   },
 ];
 
@@ -156,24 +150,21 @@ const point = (lead: string, text: string): TopicPoint => ({ lead, text });
 export const rechenleistung: TopicContent = {
   id: "rechenleistung",
   eyebrow: "Rechenleistung",
-  title: `${serverCount} Server: intern eigene Server, extern ganz normale Server.`,
+  title: "Geplant: eigene Server in Europa.",
   paragraphs: [
-    `Unsere Rechenleistung verteilt sich auf insgesamt ${serverCount} Server. Wir unterscheiden zwischen internen und externen Servern. Die internen Server sind unsere eigenen Server, die wir selbst betreiben.`,
-    "Die externen Server sind ganz normale Server. Zu ihnen nennen wir keine weiteren Details.",
+    "Als Rechenleistung wollen wir eigene Server aufbauen. Heute haben wir keine. Wir fangen gerade an und suchen Hardware, gern auch ältere oder gebrauchte, die dafür infrage kommt.",
+    "Was später auf diesen Servern laufen soll, sind die Dienste für das Vylaris-Ökosystem.",
   ],
   points: [
-    point(`${serverCount} Server:`, "Die gesamte Rechenleistung liegt auf eigener Hardware."),
-    point("Intern:", "Eigene Server."),
-    point("Extern:", "Ganz normale Server."),
+    point("Heute:", "Keine eigenen Server."),
+    point("Ziel:", "Eigene Server in Europa."),
+    point("Gesucht:", "Hardware, auch ältere oder gebrauchte."),
   ],
   visual: {
-    kind: "flow",
-    heading: `Aufteilung der ${serverCount} Server`,
-    arrows: false,
-    layers: [
-      { icon: "cpu", name: "Intern", text: "Eigene Server.", highlight: true },
-      { icon: "server", name: "Extern", text: "Ganz normale Server." },
-    ],
+    kind: "outline",
+    heading: "Rechenleistung im Überblick",
+    items: ["Heute: keine eigene Hardware", "Ziel: eigene Server in Europa", "Gesucht: Hardware und Unterstützung"],
+    chips: [{ label: "Geplant", blue: true }, { label: "Gesucht: Hardware" }],
   },
 };
 
@@ -182,45 +173,42 @@ export const speicher: TopicContent = {
   band: true,
   reverse: true,
   eyebrow: "Speicher",
-  title: "250 TB SSD im Betrieb, Ausbau auf knapp 1 PB.",
+  title: "Geplant: eigener Speicher.",
   paragraphs: [
-    `Heute tragen ${ssdTbNow} TB SSD unseren Speicher. Der Rest ist im Aufbau: Am Ende sollen ${storageServers} Storage-Server stehen, ${ssdServers} mit je ${ssdTbEach} TB SSD (zusammen ${ssdTbTotal} TB) und ${hddServers} Storage-Server mit knapp 500 TB HDD.`,
-    "In einfachen Worten: SSDs speichern ohne bewegliche Teile und sind in der Regel schneller im Zugriff. Festplatten (HDD) sind die klassische Technik, um sehr große Datenmengen unterzubringen. Heute laufen 250 TB SSD, der weitere SSD-Ausbau und die HDD-Stufe entstehen gerade.",
+    "Wir wollen eigenen Speicher für unsere Daten aufbauen. Heute gibt es ihn nicht, wir fangen gerade erst an. Wie groß er einmal wird, legen wir fest, wenn wir wissen, welche Hardware wir bekommen.",
+    "In einfachen Worten: SSDs speichern ohne bewegliche Teile und sind in der Regel schneller im Zugriff. Festplatten (HDD) sind die klassische Technik, um sehr große Datenmengen unterzubringen. Welche Technik wir einsetzen, hängt auch davon ab, was wir geschenkt oder weitergegeben bekommen.",
   ],
   points: [
-    point("Im Betrieb:", `${ssdTbNow} TB SSD.`),
-    point("Im Aufbau:", `SSD-Ausbau auf ${ssdServers} × ${ssdTbEach} TB (${ssdTbTotal} TB) und ${hddServers} Storage-Server mit knapp 500 TB HDD.`),
-    point("Ausbauziel:", "Zusammen knapp 1 PB Rohkapazität, gerechnet vor Redundanz."),
+    point("Heute:", "Kein eigener Speicher."),
+    point("Ziel:", "Eigener Speicher für unsere Daten."),
+    point("Gesucht:", "Laufwerke und Speichersysteme, gern auch gebrauchte."),
   ],
   visual: {
     kind: "outline",
-    heading: "Speicher in Zahlen",
-    items: [
-      `Im Betrieb: ${ssdTbNow} TB SSD`,
-      `Im Aufbau: Ausbau auf ${ssdServers} × ${ssdTbEach} TB SSD und ${hddServers} Storage-Server mit knapp 500 TB HDD`,
-      "Ausbauziel: knapp 1 PB Rohkapazität",
-    ],
-    chips: [{ label: "SSD", blue: true }, { label: "HDD" }, { label: "Rohkapazität" }],
+    heading: "Speicher im Überblick",
+    items: ["Heute: kein eigener Speicher", "Ziel: eigener Speicher in unserer Infrastruktur", "Gesucht: Hardware, auch gebrauchte"],
+    chips: [{ label: "Geplant", blue: true }, { label: "SSD" }, { label: "HDD" }],
   },
 };
 
 export const datensicherung: TopicContent = {
   id: "datensicherung",
   eyebrow: "Datensicherung",
-  title: "Ein eigenes PBS-Backup-System.",
+  title: "Geplant: ein eigenes System für Backups.",
   paragraphs: [
-    "Backups sind nur dann etwas wert, wenn sie wirklich laufen. Deshalb betreiben wir ein eigenes PBS-Backup-System, das unsere Daten sichert und im Live-Status als eigener Eintrag steht.",
-    "Zu Intervallen und Aufbewahrungszeiten machen wir hier keine Angaben.",
+    "Backups sind nur dann etwas wert, wenn sie wirklich laufen. Deshalb planen wir ein eigenes System zur Datensicherung. Heute gibt es dieses System noch nicht.",
+    "Zu Technik, Intervallen und Aufbewahrungszeiten machen wir erst Angaben, wenn es das System gibt.",
   ],
   points: [
-    point("PBS-Backup-System:", "Eigenes System für die Datensicherung."),
-    point("Sichtbar:", "Der Zustand steht im Live-Status auf dieser Seite."),
+    point("Heute:", "Kein eigenes Backup-System."),
+    point("Ziel:", "Ein eigenes System für die Datensicherung."),
+    point("Sichtbar:", "Den Stand zeigt der Live-Status auf dieser Seite."),
   ],
   visual: {
     kind: "outline",
     heading: "Datensicherung im Überblick",
-    items: ["Ein PBS-Backup-System", "Teil unserer Infrastruktur", "Eigener Eintrag im Live-Status"],
-    chips: [{ label: "PBS", blue: true }, { label: "Backup" }, { label: "Live-Status" }],
+    items: ["Heute: noch kein eigenes Backup-System", "Ziel: Teil unserer Infrastruktur", "Eigener Eintrag im Live-Status"],
+    chips: [{ label: "Geplant", blue: true }, { label: "Backup" }, { label: "Live-Status" }],
   },
 };
 
@@ -229,24 +217,24 @@ export const netzwerk: TopicContent = {
   band: true,
   reverse: true,
   eyebrow: "Netzwerk",
-  title: "Eigenes IP-Subnetz und ein Network-Server für die Internetanbindung.",
+  title: "Geplant: ein eigenes Netzwerk.",
   paragraphs: [
-    "Wir betreiben ein eigenes Netzwerk mit einem eigenen IP-Subnetz. Ein Network-Server regelt unsere Internetanbindung.",
-    "Wir betreiben auch einen DNS-Server. Er ist aktuell in Wartung. Den Stand zeigt der Live-Status, denn Transparenz gehört zu dem, was wir versprechen.",
+    "Wir wollen ein eigenes Netzwerk aufbauen, mit einer eigenen Anbindung ans Internet und einer eigenen Namensauflösung. Heute haben wir weder ein eigenes Netz noch einen eigenen DNS-Server im Betrieb.",
+    "Den Stand zeigt der Live-Status, denn Transparenz gehört zu dem, was wir versprechen.",
   ],
   points: [
-    point("Eigenes IP-Subnetz:", "Ein Adressbereich, der zu unserem Netz gehört."),
-    point("Network-Server:", "Regelt unsere Internetanbindung."),
-    point("DNS-Server:", "Aktuell in Wartung."),
+    point("Heute:", "Kein eigenes Netzwerk."),
+    point("Ziel:", "Eigene Anbindung ans Internet."),
+    point("Ziel:", "Eigene Namensauflösung (DNS)."),
   ],
   visual: {
     kind: "flow",
-    heading: "Bausteine des Netzwerks",
+    heading: "Geplante Bausteine des Netzwerks",
     arrows: false,
     layers: [
-      { icon: "globe", name: "Network-Server", text: "Regelt unsere Internetanbindung.", highlight: true },
-      { icon: "network", name: "Eigenes IP-Subnetz", text: "Der Adressbereich unseres Netzes." },
-      { icon: "wrench", name: "DNS-Server", text: "Aktuell in Wartung." },
+      { icon: "globe", name: "Internetanbindung", text: "Geplant: unsere eigene Anbindung ans Internet.", highlight: true },
+      { icon: "network", name: "Eigenes Netz", text: "Geplant: der Rahmen, in dem unsere Systeme verbunden sind." },
+      { icon: "wrench", name: "Namensauflösung", text: "Geplant: ein eigener DNS-Server." },
     ],
   },
 };
@@ -254,20 +242,20 @@ export const netzwerk: TopicContent = {
 export const sicherheit: TopicContent = {
   id: "sicherheit",
   eyebrow: "Sicherheit",
-  title: "Ein Sicherheitssystem und eine Website ohne offene Ports.",
+  title: "Geplant: Sicherheit für alle Schichten. Schon heute: eine Website ohne offene Ports.",
   paragraphs: [
-    "Zu unserer Infrastruktur gehört ein Sicherheitssystem mit internem Netzwerk-Setup. Produkte oder Einstellungen nennen wir dazu nicht, weil Details zur Sicherheit nicht auf eine öffentliche Seite gehören.",
-    "Diese Website zeigt, wie wir arbeiten: Sie läuft hinter einem Cloudflare Tunnel. Der Server baut die Verbindung nur nach außen auf, deshalb sind am Server keine Ports offen. Die Anwendung läuft in gehärteten Containern. Besucher werden nicht getrackt und bekommen keine Cookies.",
+    "Zu unserer geplanten Infrastruktur gehört ein Sicherheitssystem. Heute haben wir keines im Betrieb. Wenn es soweit ist, nennen wir keine Produkte oder Einstellungen, weil Details zur Sicherheit nicht auf eine öffentliche Seite gehören.",
+    "Diese Website zeigt, wie wir arbeiten wollen: Sie läuft hinter einem Cloudflare Tunnel. Der Server baut die Verbindung nur nach außen auf, deshalb sind am Server keine Ports offen. Die Anwendung läuft in gehärteten Containern. Besucher werden nicht getrackt und bekommen keine Cookies.",
   ],
   points: [
-    point("Sicherheitssystem:", "Mit internem Netzwerk-Setup."),
-    point("Keine offenen Ports:", "Die Verbindung des Servers zum Tunnel geht nur nach außen."),
-    point("Gehärtete Container:", "Die Website läuft in abgesicherten Containern."),
+    point("Heute:", "Kein eigenes Sicherheitssystem."),
+    point("Ziel:", "Ein Sicherheitssystem für unsere Infrastruktur."),
+    point("Schon jetzt:", "Diese Website läuft ohne offene Ports in gehärteten Containern."),
   ],
   action: { href: "/datenschutz/", label: "Zur Datenschutzerklärung", icon: "arrow" },
   visual: {
     kind: "checks",
-    heading: "Diese Website",
+    heading: "Diese Website, schon heute",
     items: [
       "Cloudflare Tunnel, ausgehende Verbindung",
       "Keine offenen Ports am Server",
@@ -282,19 +270,19 @@ export const sicherheit: TopicContent = {
 
 export const roadmap: readonly TimelineItem[] = [
   {
-    title: "Heute im Betrieb",
-    status: { tone: "ok", label: "Im Betrieb" },
-    text: `Server, ${ssdTbNow} TB SSD-Speicher, PBS-Backup, Netzwerk und Sicherheitssystem. Details stehen im Live-Status.`,
-  },
-  {
-    title: "Speicherausbau",
+    title: "Heute: der Anfang",
     status: { tone: "info", label: "Im Aufbau" },
-    text: "Der Rest des Speichers ist im Aufbau: weitere SSD-Kapazität und ein Storage-Server mit HDD, Ziel knapp 1 PB Rohkapazität. Wir nennen keinen Termin.",
+    text: "Wir fangen gerade an. Es ist noch keine eigene Hardware im Betrieb. Den Stand der einzelnen Bausteine zeigt der Live-Status.",
   },
   {
-    title: "Wartung des DNS-Servers",
-    status: { tone: "info", label: "In Wartung" },
-    text: "Unser DNS-Server ist aktuell in Wartung. Wir nennen keinen Termin, zeigen aber jederzeit den Stand im Live-Status.",
+    title: "Hardware und Unterstützung finden",
+    status: { tone: "info", label: "Gesucht" },
+    text: "Wir suchen Hardware, gern auch ältere oder gebrauchte, sowie Know-how und Unterstützung. Wie du helfen kannst, steht auf der Seite „Unterstützen“.",
+  },
+  {
+    title: "Eigene Infrastruktur in Europa",
+    status: { tone: "info", label: "Geplant" },
+    text: "Rechenleistung, Speicher, Datensicherung, Netzwerk und Sicherheit als eigene Bausteine. Ein Vorhaben ohne Termin.",
   },
   {
     title: "Ausbau des Ökosystems",
@@ -307,12 +295,12 @@ export const roadmapNotes: TopicVisualContent = {
   kind: "outline",
   heading: "So lesen wir die Zustände",
   items: [
-    "Im Betrieb: Das System ist da und läuft.",
-    "Im Aufbau: Die Hardware entsteht gerade und ist noch nicht im Betrieb.",
-    "In Wartung: Wir arbeiten daran, offen ausgewiesen.",
+    "Im Betrieb: Der Baustein ist da und läuft. Das trifft aktuell auf keinen Baustein zu.",
+    "Im Aufbau: Der Baustein entsteht gerade und ist noch nicht im Betrieb.",
+    "Gesucht: Dafür brauchen wir Hardware oder Unterstützung.",
     "Geplant: Ein Vorhaben, noch nicht umgesetzt.",
   ],
-  chips: [{ label: "Im Betrieb", blue: true }, { label: "Im Aufbau" }, { label: "In Wartung" }, { label: "Geplant" }],
+  chips: [{ label: "Im Betrieb", blue: true }, { label: "Im Aufbau" }, { label: "Gesucht" }, { label: "Geplant" }],
   note: "Für geplante Vorhaben nennen wir keine festen Termine.",
 };
 
@@ -320,32 +308,63 @@ export const roadmapNotes: TopicVisualContent = {
 
 export const faq: readonly FaqItem[] = [
   {
-    q: "Wie viele Server habt ihr?",
+    q: "Habt ihr eigene Hardware?",
     a: (
       <p>
-        Insgesamt {serverCount} Server. Intern laufen eigene Server, extern ganz normale Server. Mehr dazu im Abschnitt{" "}
-        <A href="#rechenleistung" className="link">
-          Rechenleistung
+        Nein, aktuell nicht. Wir haben keine eigenen Server, keinen eigenen Speicher, kein eigenes Backup-System, kein eigenes
+        Netz und kein eigenes Sicherheitssystem. Wir fangen gerade an, eine eigene Infrastruktur in Europa aufzubauen. Mehr dazu
+        im Abschnitt{" "}
+        <A href="#stand" className="link">
+          Wo wir stehen
         </A>
         .
       </p>
     ),
   },
   {
-    q: "Wie viel Speicher habt ihr?",
+    q: "Was habt ihr vor?",
     a: (
       <p>
-        Aktuell {ssdTbNow} TB SSD im Betrieb. Der Rest ist im Aufbau: Das Ausbauziel sind knapp 1 PB Rohkapazität aus{" "}
-        {ssdServers} × {ssdTbEach} TB SSD und knapp 500 TB HDD, gerechnet vor Redundanz.
+        Wir wollen eine eigene Infrastruktur aufbauen, mit den Bausteinen Rechenleistung, Speicher, Datensicherung, Netzwerk und
+        Sicherheit. Das ist unser Ziel, keine Beschreibung des heutigen Zustands. Termine nennen wir nicht.
       </p>
     ),
   },
   {
-    q: "Wie wird gesichert?",
+    q: "Ich habe Hardware übrig. Kann ich sie euch geben?",
     a: (
       <p>
-        Mit einem PBS-Backup-System, das zu unserer eigenen Infrastruktur gehört. Zu Intervallen oder Aufbewahrungszeiten machen
-        wir hier keine Angaben.
+        Sehr gerne. Wir nehmen auch ältere oder gebrauchte Hardware entgegen und freuen uns über jede Unterstützung. Schreib uns
+        einfach über die{" "}
+        <A href="/kontakt/" className="link">
+          Kontaktseite
+        </A>
+        , was du hast oder anbieten möchtest. Mehr dazu auf der Seite{" "}
+        <A href={supportHref} className="link">
+          Unterstützen
+        </A>
+        .
+      </p>
+    ),
+  },
+  {
+    q: "Wie kann ich uns sonst helfen?",
+    a: (
+      <p>
+        Neben Hardware helfen uns Know-how, Sponsoring und Weitersagen oder Empfehlen. Alles Weitere steht auf der Seite{" "}
+        <A href={supportHref} className="link">
+          Unterstützen
+        </A>
+        .
+      </p>
+    ),
+  },
+  {
+    q: "Wie wird später gesichert?",
+    a: (
+      <p>
+        Wir planen ein eigenes System zur Datensicherung. Heute gibt es dieses System noch nicht. Zu Technik, Intervallen oder
+        Aufbewahrungszeiten machen wir erst Angaben, wenn es das System gibt.
       </p>
     ),
   },
@@ -355,9 +374,9 @@ export const faq: readonly FaqItem[] = [
       <p>
         Direkt auf dieser Seite im Abschnitt{" "}
         <A href="#live-status" className="link">
-          Live-Status unserer Systeme
+          Live-Status
         </A>
-        . Den Status der VylarisGroup findest du zusätzlich unter{" "}
+        . Er zeigt, wie weit der Aufbau der einzelnen Bausteine ist. Den Status der VylarisGroup findest du zusätzlich unter{" "}
         <A href={site.links.status} className="link">
           vylaris.eu/status
         </A>
@@ -366,11 +385,11 @@ export const faq: readonly FaqItem[] = [
     ),
   },
   {
-    q: "Was bedeutet es, dass der DNS-Server in Wartung ist?",
+    q: "Was bedeutet „Im Aufbau“ im Live-Status?",
     a: (
       <p>
-        Wir arbeiten aktuell an unserem DNS-Server, deshalb steht er im Live-Status als „In Wartung“. Einen Termin für das Ende
-        der Wartung nennen wir nicht.
+        Der Baustein entsteht gerade und ist noch nicht im Betrieb. Im Moment steht noch alles im Aufbau. Sobald ein Baustein
+        wirklich läuft, ändert sich sein Status. Einen Termin dafür nennen wir nicht.
       </p>
     ),
   },
@@ -391,7 +410,12 @@ export const faq: readonly FaqItem[] = [
     q: "Wie stelle ich eine Anfrage, etwa zu Hosting?",
     a: (
       <p>
-        Für Anfragen jeder Art, auch zu Hosting, melde dich über die Kontaktseite der VylarisGroup unter{" "}
+        Zu Hosting können wir aktuell noch nichts anbieten, weil unsere Infrastruktur im Aufbau ist. Für alle anderen Anfragen
+        und Angebote melde dich über die{" "}
+        <A href="/kontakt/" className="link">
+          Kontaktseite
+        </A>
+        . Für die VylarisGroup insgesamt gibt es außerdem die Kontaktseite unter{" "}
         <A href={site.links.contact} className="link">
           vylaris.eu/contact
         </A>{" "}
@@ -403,10 +427,12 @@ export const faq: readonly FaqItem[] = [
 
 export const faqLinks: TopicVisualContent = {
   kind: "links",
-  heading: "Direkt zu den Seiten der VylarisGroup",
+  heading: "Direkt weiter",
   links: [
+    { href: supportHref, label: "Hardware und Unterstützung gesucht" },
+    { href: "/kontakt/", label: "Kontakt aufnehmen" },
     { href: site.links.status, label: "Systemstatus der VylarisGroup" },
-    { href: site.links.contact, label: "Kontakt und Tickets" },
+    { href: site.links.contact, label: "Kontakt und Tickets der VylarisGroup" },
     { href: site.links.services, label: "Dienste von VylarisGroupEurope" },
     { href: "/oekosystem/", label: "Ökosystem der VylarisGroup" },
   ],

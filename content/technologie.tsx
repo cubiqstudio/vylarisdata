@@ -11,7 +11,7 @@ import { site } from "@/content/site";
 export const meta = {
   title: "Technologie und Infrastruktur",
   description:
-    "10 Server, 250 TB SSD im Betrieb, ein Speicherausbau auf knapp 1 PB, eigenes IP-Subnetz und PBS-Backup-System: die Infrastruktur und die Grundsätze von VylarisData.",
+    "Technologie und Grundsätze von VylarisData. Die eigene Infrastruktur ist im Aufbau, wir suchen Hardware (auch ältere oder gebrauchte) und Unterstützung.",
   path: "/technologie/",
 } as const;
 
@@ -22,28 +22,28 @@ export const hero = {
   eyebrow: "Software Development & Technology",
   title: (
     <>
-      <Gradient>Eigene Hardware</Gradient>, eigene Technik.
+      Klare Grundsätze, <Gradient>Infrastruktur im Aufbau</Gradient>.
     </>
   ),
-  lead: "10 Server, 250 TB SSD im Betrieb, ein eigenes IP-Subnetz und ein PBS-Backup-System: Die Infrastruktur von VylarisData läuft, der Speicher wird auf knapp 1 PB ausgebaut. Wir entwickeln Technik für das Vylaris-Ökosystem und betreiben eigene Hardware, nach klaren Grundsätzen und mit transparentem Stand.",
-  primaryAction: { href: "#hardware", label: "Unsere Hardware" },
-  secondaryAction: { href: "/infrastruktur/", label: "Live-Status ansehen" },
+  lead: "Wir fangen gerade an: VylarisData hat aktuell noch keine eigene Hardware, die Infrastruktur befindet sich im Aufbau. Hier zeigen wir offen, nach welchen Grundsätzen wir Technik für das Vylaris-Ökosystem entwickeln, was wir planen und wobei du uns helfen kannst.",
+  primaryAction: { href: "#aufbau", label: "Unser Aufbau" },
+  secondaryAction: { href: "/unterstuetzen/", label: "Uns unterstützen" },
 } as const;
 
 /* ------------------------------------------------------------ Sektionsköpfe */
 
 export const heads = {
-  hardware: {
-    id: "hardware-h",
-    eyebrow: "Eigene Infrastruktur",
-    title: "250 TB SSD, ein PBS-Backup-System, ein eigenes IP-Subnetz: Das ist unsere Infrastruktur.",
-    lead: "Wir entwickeln Software und betreiben eigene Hardware. Hier siehst du, woraus sie besteht: Server, Speicher, Backup, Netz und Sicherheit.",
+  aufbau: {
+    id: "aufbau-h",
+    eyebrow: "Infrastruktur im Aufbau",
+    title: "Unser Zielbild: eigene Infrastruktur in Europa.",
+    lead: "Das ist ein Plan und kein Bestand. Wir haben aktuell keine eigene Hardware. Diese Bausteine wollen wir aufbauen, und für jeden davon suchen wir Unterstützung.",
   },
-  inventory: {
-    id: "bestand-h",
-    eyebrow: "Bestand im Überblick",
-    title: "Jede Komponente mit ihrem Stand.",
-    lead: "Hier siehst du jede Komponente mit ihrem aktuellen Stand: Im Betrieb ist, was läuft. Im Aufbau ist, was gerade entsteht. In Wartung ist, was gerade gepflegt wird. Geplant ist, was noch kommt.",
+  bausteine: {
+    id: "bausteine-h",
+    eyebrow: "Bausteine im Überblick",
+    title: "Jeder Baustein mit seinem Stand.",
+    lead: "Hier siehst du ehrlich, wo wir stehen: Im Aufbau ist, was gerade entsteht. Geplant ist, was noch kommt. Gesucht ist, wobei wir Hilfe brauchen.",
   },
   website: {
     id: "website-h",
@@ -54,8 +54,8 @@ export const heads = {
   status: {
     id: "stand-h",
     eyebrow: "Stand heute",
-    title: "Was läuft, was entsteht, was in Wartung ist und was geplant ist.",
-    lead: "Wir trennen offen zwischen dem, was im Betrieb ist, dem, was gerade entsteht oder gewartet wird, und dem, was wir planen.",
+    title: "Was läuft, was entsteht, was wir suchen und was geplant ist.",
+    lead: "Wir trennen offen zwischen dem, was schon läuft, dem, was gerade entsteht, dem, was wir suchen, und dem, was wir planen.",
   },
   principles: {
     id: "grundsaetze-h",
@@ -73,98 +73,103 @@ export const heads = {
     id: "arbeitsbereiche-h",
     eyebrow: "Arbeitsbereiche",
     title: "Vier Felder, in denen wir Technik für die VylarisGroup entwickeln.",
-    lead: "Die Bereiche greifen ineinander: Eine Anwendung braucht Schnittstellen, Schnittstellen brauchen Werkzeuge zum Testen, und alles zusammen braucht Infrastruktur. Auch die betreiben wir selbst.",
+    lead: "Die Bereiche greifen ineinander: Eine Anwendung braucht Schnittstellen, Schnittstellen brauchen Werkzeuge zum Testen, und alles zusammen braucht Infrastruktur. Die bauen wir gerade auf.",
   },
   group: {
     id: "gruppe-h",
     eyebrow: "Zusammenarbeit mit der VylarisGroup",
     title: "Technik im Verbund: Schweiz, Europa und VylarisData.",
-    lead: "Wir bauen nicht für uns allein: VylarisData ist der Bereich Software Development & Technology der VylarisGroup. Die Dienste der Gruppe stellen die jeweiligen Marken auf ihren eigenen Seiten vor.",
+    lead: "Wir bauen nicht für uns allein: VylarisData ist eine Untermarke von VylarisGroupEurope und der Bereich Software Development & Technology der VylarisGroup. Die Dienste der Gruppe stellen die jeweiligen Marken auf ihren eigenen Seiten vor.",
   },
 } as const satisfies Record<string, TechHeadData>;
 
-/* ----------------------------------------------------- Fakten & Hardware */
+/* ----------------------------------------------------- Fakten & Zielbild */
 
-export const hardwareFacts: readonly FactItem[] = [
-  { value: "10", label: "Server insgesamt" },
-  { value: "250 TB", label: "SSD-Speicher aktuell im Betrieb" },
-  { value: "Im Aufbau", label: "Der Rest des Speichers: weitere SSD und ein Storage-Server mit knapp 500 TB HDD" },
-  { value: "knapp 1 PB", label: "Ausbauziel, Rohkapazität aus SSD und HDD, vor Redundanz" },
+export const aufbauFacts: readonly FactItem[] = [
+  { value: "Im Aufbau", label: "Die eigene Infrastruktur von VylarisData entsteht gerade" },
+  { value: "Gesucht: Hardware", label: "Auch ältere oder gebrauchte Hardware nehmen wir sehr gerne entgegen" },
+  { value: "Ziel: Europa", label: "Geplant ist eine eigene Infrastruktur in Europa" },
+  { value: "Offen", label: "Wir zeigen ehrlich, was schon steht und was noch fehlt" },
 ];
 
-export const hardwareTiles: readonly TechTileData[] = [
+export const aufbauTiles: readonly TechTileData[] = [
   {
     icon: "server",
-    title: "Intern: eigene Server",
-    text: "Unsere internen Server betreiben wir selbst. Sie gehören zu den 10 Servern von VylarisData.",
-    chips: [{ label: "Intern" }],
+    title: "Eigene Infrastruktur in Europa",
+    text: "Geplant: eigene Server für unsere Dienste und Projekte, betrieben in Europa. Aktuell haben wir noch keine.",
+    chips: [{ label: "Geplant" }],
+  },
+  {
+    icon: "hdd",
+    iconTone: "indigo",
+    title: "Speicher",
+    text: "Geplant: eigener Speicher für die Daten unserer Dienste. Aktuell gibt es noch keinen.",
+    chips: [{ label: "Geplant" }],
+  },
+  {
+    icon: "life",
+    title: "Datensicherung",
+    text: "Geplant: ein eigenes Backup-System. Datensicherung soll bei uns keine Nebensache sein, sondern ein eigener Baustein.",
+    chips: [{ label: "Geplant" }],
+  },
+  {
+    icon: "network",
+    iconTone: "indigo",
+    title: "Netzwerk",
+    text: "Geplant: ein eigenes Netzwerk, über das wir unsere Anbindung selbst regeln.",
+    chips: [{ label: "Geplant" }],
+  },
+  {
+    icon: "shield",
+    title: "Sicherheit",
+    text: "Geplant: ein Sicherheitskonzept für Server und Netz, das wir von Anfang an mitdenken.",
+    chips: [{ label: "Geplant" }],
   },
   {
     icon: "cloud",
     iconTone: "indigo",
-    title: "Extern: ganz normale Server",
-    text: "Die externen Server sind reguläre Server. Zu Einzelheiten der Einrichtung machen wir bewusst keine Angaben.",
-    chips: [{ label: "Extern" }],
-  },
-  {
-    icon: "hdd",
-    title: "Storage",
-    text: "Aktuell sind 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind 4 Storage-Server mit je 120 TB SSD und 1 Storage-Server mit knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität.",
-    chips: [{ label: "250 TB SSD im Betrieb" }, { label: "Weiterer Speicher im Aufbau" }],
-  },
-  {
-    icon: "life",
-    iconTone: "indigo",
-    title: "PBS-Backup-System",
-    text: "Datensicherung ist bei uns keine Nebensache, sondern ein eigenes System: Wir betreiben ein eigenes PBS-System für Backups.",
-    chips: [{ label: "Datensicherung" }],
-  },
-  {
-    icon: "network",
-    title: "Eigenes Netz",
-    text: "Wir betreiben ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
-    chips: [{ label: "Eigenes IP-Subnetz" }, { label: "Network-Server" }],
-  },
-  {
-    icon: "shield",
-    iconTone: "indigo",
-    title: "Sicherheitssystem",
-    text: "Ein Sicherheitssystem mit internem Netzwerk-Setup gehört zu unserer Infrastruktur und ist im Betrieb.",
-    chips: [{ label: "Internes Netzwerk-Setup" }],
+    title: "Gesucht: Hardware und Unterstützung",
+    text: "Wir suchen Hardware und nehmen sehr gerne auch ältere oder gebrauchte Hardware entgegen. Wir freuen uns außerdem über Know-how, Sponsoring und Weitersagen.",
+    chips: [{ label: "Gesucht" }, { label: "Auch gebraucht" }],
   },
 ];
 
-export const inventoryHead = ["Komponente", "Stand"] as const;
+export const bausteineHead = ["Baustein", "Stand"] as const;
 
-export const inventoryRows: readonly (readonly [string, ReactNode])[] = [
-  ["Server insgesamt", "10"],
-  ["Server (intern)", <Status key="int" tone="ok">Im Betrieb</Status>],
-  ["Server (extern)", <Status key="ext" tone="ok">Im Betrieb</Status>],
-  ["SSD-Speicher, 250 TB", <Status key="ssd" tone="ok">Im Betrieb</Status>],
-  ["Speicherausbau (SSD-Ausbau auf 4 × 120 TB, 1 Storage-Server mit knapp 500 TB HDD)", <Status key="hdd" tone="info">Im Aufbau</Status>],
-  ["PBS-Backup-System", <Status key="pbs" tone="ok">Im Betrieb</Status>],
-  ["Eigenes IP-Subnetz und Network-Server", <Status key="net" tone="ok">Im Betrieb</Status>],
-  ["Sicherheitssystem mit internem Netzwerk-Setup", <Status key="sec" tone="ok">Im Betrieb</Status>],
-  ["DNS-Server", <Status key="dns" tone="warn">In Wartung</Status>],
+export const bausteineRows: readonly (readonly [string, ReactNode])[] = [
+  ["Eigene Infrastruktur insgesamt", <Status key="all" tone="info">Im Aufbau</Status>],
+  ["Eigene Server in Europa", <Status key="srv" tone="info">Geplant</Status>],
+  ["Eigener Speicher", <Status key="sto" tone="info">Geplant</Status>],
+  ["Datensicherung (Backup-System)", <Status key="bak" tone="info">Geplant</Status>],
+  ["Eigenes Netzwerk", <Status key="net" tone="info">Geplant</Status>],
+  ["Sicherheitskonzept", <Status key="sec" tone="info">Geplant</Status>],
+  ["Hardware, Know-how und Sponsoring", <Status key="sup" tone="info">Gesucht</Status>],
   ["Ökosystem weiter ausbauen", <Status key="eco" tone="info">Geplant</Status>],
 ];
 
-export const hardwareChecks = [
+export const aufbauChecks = [
   <>
-    <strong>Eigene Hardware:</strong> Server, Speicher, Backup und Netz betreiben wir selbst.
+    <strong>Ehrlicher Stand:</strong> Wir haben aktuell keine eigene Hardware. Die Infrastruktur befindet sich im Aufbau.
   </>,
   <>
-    <strong>Nachvollziehbare Kapazität:</strong> Heute laufen 250 TB SSD. Das Ausbauziel (4 × 120 TB SSD und knapp 500 TB HDD) sind knapp
-    1 PB Rohkapazität. Das ist die Zahl vor Redundanz, nicht die nutzbare Menge.
+    <strong>Klares Zielbild:</strong> Eigene Infrastruktur in Europa, mit Datensicherung, Netzwerk und Sicherheit als geplanten Bausteinen.
   </>,
   <>
-    <strong>Eigene Netzbasis:</strong> Mit eigenem IP-Subnetz und eigenem Network-Server regeln wir unsere Internetanbindung selbst.
+    <strong>Hilfe willkommen:</strong> Hardware (auch ältere oder gebrauchte), Know-how, Sponsoring und Weitersagen bringen uns voran.
   </>,
 ];
 
-export const hardwareCallout = (
+export const aufbauCallout = (
   <>
-    <strong>Der Stand ist live einsehbar.</strong> Den aktuellen Stand aller Komponenten findest du auf der Seite{" "}
+    <strong>Du möchtest helfen?</strong> Angebote und Fragen erreichen uns über die{" "}
+    <A className="link" href="/kontakt/">
+      Kontaktseite
+    </A>
+    , mehr dazu steht unter{" "}
+    <A className="link" href="/unterstuetzen/">
+      Unterstützen
+    </A>
+    . Den aktuellen Stand der Bausteine zeigt die Seite{" "}
     <A className="link" href="/infrastruktur/">
       Infrastruktur
     </A>
@@ -267,8 +272,8 @@ export const areas: readonly TechTileData[] = [
     icon: "layers",
     iconTone: "indigo",
     title: "Plattform-Bausteine",
-    text: "Gemeinsame Grundlagen, damit nicht jedes Projekt bei null beginnt: Das ist unser Ziel für diesen Bereich. Unabhängig davon betreiben wir eigene Server, Speicher, ein PBS-Backup-System und ein eigenes Netz.",
-    chips: [{ label: "Wiederverwendbar" }, { label: "Gemeinsame Grundlagen" }],
+    text: "Gemeinsame Grundlagen, damit nicht jedes Projekt bei null beginnt: Das ist unser Ziel für diesen Bereich. Dazu gehört als Plan eine eigene Infrastruktur, die wir gerade aufbauen.",
+    chips: [{ label: "Wiederverwendbar" }, { label: "Gemeinsame Grundlagen" }, { label: "Im Aufbau" }],
   },
 ];
 
@@ -277,9 +282,9 @@ export const areas: readonly TechTileData[] = [
 export const website = {
   paragraphs: [
     "Die Website läuft hinter einem Cloudflare Tunnel: Die Verbindung baut der Server selbst nach außen auf. Der Betrieb läuft in gehärteten Containern.",
-    "Dazu kommt ein Live-Statusboard für unsere Infrastruktur. Sichtbar ist es auf der Seite Infrastruktur.",
+    "Dazu kommt ein Statusboard für unsere Infrastruktur. Sichtbar ist es auf der Seite Infrastruktur.",
   ],
-  button: { href: "/infrastruktur/", label: "Live-Status ansehen" },
+  button: { href: "/infrastruktur/", label: "Zum Statusboard" },
 } as const;
 
 export const websiteSpecHead = ["Merkmal", "Umsetzung"] as const;
@@ -291,7 +296,7 @@ export const websiteSpecs: readonly (readonly [string, string])[] = [
   ["Cookies", "Keine"],
   ["Tracking", "Keines"],
   ["Darstellung", "Hell, dunkel oder Systemvorgabe; nur im Browser gespeichert"],
-  ["Statusboard", "Live auf der Seite Infrastruktur"],
+  ["Statusboard", "Auf der Seite Infrastruktur"],
 ];
 
 export const websiteChecks = [
@@ -311,10 +316,15 @@ export const websiteChecks = [
 export const statusItems: readonly TimelineItem[] = [
   {
     status: { tone: "ok", label: "Im Betrieb" },
+    title: "Diese Website",
+    text: "Die Website von VylarisData ist online, ohne Tracking, ohne Cookies und ohne offene Ports am Server.",
+  },
+  {
+    status: { tone: "info", label: "Im Aufbau" },
     title: "Eigene Infrastruktur",
     text: (
       <>
-        Die Infrastruktur ist im Betrieb, mit Ausnahme des DNS-Servers und des noch im Aufbau befindlichen Speicherausbaus. Den Live-Stand zeigt die Seite{" "}
+        Wir haben aktuell keine eigene Hardware. Die Infrastruktur entsteht gerade, wir fangen an. Den Stand der einzelnen Bausteine zeigt die Seite{" "}
         <A className="link" href="/infrastruktur/">
           Infrastruktur
         </A>
@@ -323,19 +333,27 @@ export const statusItems: readonly TimelineItem[] = [
     ),
   },
   {
-    status: { tone: "info", label: "Im Aufbau" },
-    title: "Speicherausbau",
-    text: "Aktuell sind 250 TB SSD in Betrieb. Der Rest des Speichers ist im Aufbau, Ziel sind knapp 1 PB Rohkapazität.",
+    status: { tone: "info", label: "Gesucht" },
+    title: "Hardware und Unterstützung",
+    text: (
+      <>
+        Wir suchen Hardware, sehr gerne auch ältere oder gebrauchte, außerdem Know-how, Sponsoring und Weitersagen. Angebote nehmen wir über die{" "}
+        <A className="link" href="/kontakt/">
+          Kontaktseite
+        </A>{" "}
+        entgegen.
+      </>
+    ),
   },
   {
-    status: { tone: "warn", label: "In Wartung" },
-    title: "DNS-Server",
-    text: "Der DNS-Server wird derzeit gewartet. Den Live-Stand zeigt die Seite Infrastruktur.",
+    status: { tone: "info", label: "Geplant" },
+    title: "Datensicherung, Netzwerk und Sicherheit",
+    text: "Das sind geplante Bausteine unserer Infrastruktur. Sie sind ein Ziel und noch nicht vorhanden. Zeitpunkte nennen wir erst, wenn wir sie belegen können.",
   },
   {
     status: { tone: "info", label: "Geplant" },
     title: "Das Ökosystem weiter ausbauen",
-    text: "Geplant ist, das Vylaris-Ökosystem weiter auszubauen. Das ist der einzige Punkt in dieser Liste, der noch nicht begonnen hat.",
+    text: "Geplant ist, das Vylaris-Ökosystem weiter auszubauen. Das ist ein Vorhaben und keine Zusage.",
   },
 ];
 
@@ -348,7 +366,7 @@ export const brands: readonly TechBrand[] = [
     icon: "cpu",
     tag: "Diese Seite",
     current: true,
-    text: "Software Development & Technology. Wir entwickeln Software und betreiben eigene Infrastruktur: 10 Server, eigenes IP-Subnetz, PBS-Backup-System.",
+    text: "Untermarke von VylarisGroupEurope. Software Development & Technology: Wir entwickeln Software und bauen eine eigene Infrastruktur auf, die noch im Aufbau ist.",
     action: { href: "/infrastruktur/", label: "Zur Infrastruktur" },
   },
   {
@@ -387,18 +405,18 @@ export const faqSide = {
   eyebrow: "FAQ",
   id: "faq-h",
   title: "Häufige Fragen zur Technologie.",
-  lead: "Kurze Antworten zu Infrastruktur, Open Source, Sicherheit und Kontakt.",
+  lead: "Kurze Antworten zu Infrastruktur, Unterstützung, Open Source, Sicherheit und Kontakt.",
   action: { href: "/kontakt/", label: "Zur Kontaktseite" },
 } as const;
 
 export const faq: readonly FaqItem[] = [
   {
-    q: "Welche Infrastruktur betreibt VylarisData?",
+    q: "Welche Infrastruktur hat VylarisData?",
     a: (
       <p>
-        10 Server, 250 TB SSD-Speicher im Betrieb (der Ausbau auf knapp 1 PB Rohkapazität ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit
-        Network-Server und ein Sicherheitssystem mit internem Netzwerk-Setup. Die Details stehen oben, den Live-Stand zeigt die
-        Seite{" "}
+        Aktuell noch keine eigene Hardware: Wir haben keine eigenen Server, keinen eigenen Speicher und kein eigenes Backup-System. Die
+        Infrastruktur befindet sich im Aufbau. Unser Ziel ist eine eigene Infrastruktur in Europa, mit Datensicherung, Netzwerk und
+        Sicherheit als geplanten Bausteinen. Den Stand zeigt die Seite{" "}
         <A className="link" href="/infrastruktur/">
           Infrastruktur
         </A>
@@ -407,12 +425,32 @@ export const faq: readonly FaqItem[] = [
     ),
   },
   {
-    q: "Was bedeutet Rohkapazität?",
-    a: "Rohkapazität ist die Summe aller Speicherplatten, bevor Redundanz abgezogen wird. Die nutzbare Menge hängt von der Redundanz ab. Die Zahl knapp 1 PB ist unser Ausbauziel, aktuell sind 250 TB SSD im Betrieb.",
+    q: "Nehmt ihr Hardware entgegen, auch gebrauchte?",
+    a: (
+      <p>
+        Ja, sehr gerne, auch ältere oder gebrauchte Hardware. Wir suchen Hardware und freuen uns über jedes Angebot. Schreib uns über die{" "}
+        <A className="link" href="/kontakt/">
+          Kontaktseite
+        </A>
+        , was du anbieten kannst.
+      </p>
+    ),
   },
   {
-    q: "Was bedeutet „In Wartung“ im Statusboard?",
-    a: "Die Komponente wird gerade gewartet und ist nicht im Normalbetrieb. Welche das ist, zeigt das Statusboard auf der Seite Infrastruktur.",
+    q: "Wie kann ich VylarisData sonst unterstützen?",
+    a: (
+      <p>
+        Mit Know-how, Sponsoring oder indem du uns weiterempfiehlst. Jede Unterstützung hilft uns beim Aufbau. Mehr steht auf der Seite{" "}
+        <A className="link" href="/unterstuetzen/">
+          Unterstützen
+        </A>
+        .
+      </p>
+    ),
+  },
+  {
+    q: "Was bedeutet „Im Aufbau“ im Statusboard?",
+    a: "Der Baustein entsteht gerade und läuft noch nicht im Normalbetrieb. Den aktuellen Stand zeigt das Statusboard auf der Seite Infrastruktur.",
   },
   {
     q: "Wie nehme ich Kontakt auf?",
@@ -460,10 +498,10 @@ export const cta = {
   headingId: "cta-h",
   title: (
     <>
-      Fragen zu unserer Technik? <Gradient>Sprich mit uns</Gradient>.
+      Du kannst helfen? <Gradient>Melde dich</Gradient>.
     </>
   ),
-  text: "Du willst wissen, wie wir arbeiten oder wie unsere Infrastruktur aufgebaut ist? Über die Kontaktseite der VylarisGroup erreichst du uns.",
-  primary: { href: site.links.contact, label: "Kontakt aufnehmen", icon: "mail" },
-  secondary: { href: "/infrastruktur/", label: "Zur Infrastruktur" },
+  text: "Wir suchen Hardware, auch ältere oder gebrauchte, sowie Know-how und Unterstützung. Auch Fragen zu unserer Technik beantworten wir gern. Über die Kontaktseite erreichst du uns.",
+  primary: { href: "/kontakt/", label: "Zur Kontaktseite", icon: "mail" },
+  secondary: { href: "/unterstuetzen/", label: "So kannst du unterstützen" },
 } as const;

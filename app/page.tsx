@@ -41,9 +41,10 @@ import {
   principles,
   roadmap,
   sections,
-  storageChips,
-  storageRows,
+  supportBanner,
   transparencyPoints,
+  wantedChips,
+  wantedRows,
   workPrinciples,
 } from "@/content";
 import { pageMetadata } from "@/lib/metadata";
@@ -61,6 +62,15 @@ export default function HomePage() {
   return (
     <div className="home-page">
       <HomeHero {...hero} art={<NetworkGraphic />} />
+
+      <Section id="unterstuetzen" labelledBy="unterstuetzen-h">
+        <SectionHead center {...supportBanner} id="unterstuetzen-h" />
+        <CtaRow>
+          <Button href={supportBanner.action.href} icon="arrow">
+            {supportBanner.action.label}
+          </Button>
+        </CtaRow>
+      </Section>
 
       <Section id="eckdaten" labelledBy="eckdaten-h" large>
         <SectionHead center {...sections.eckdaten} id="eckdaten-h" />
@@ -88,24 +98,28 @@ export default function HomePage() {
         </CtaRow>
       </Section>
 
-      <Section id="speicher" labelledBy="speicher-h" large band>
+      <Section id="gesucht" labelledBy="gesucht-h" large band>
         <Split
           reverse
           copy={
             <>
-              <CopyHead {...sections.speicher} id="speicher-h" />
+              <CopyHead {...sections.gesucht} id="gesucht-h" />
               <p>
-                Aktuell sind 250 TB SSD in Betrieb. Der Rest ist im Aufbau: vier Storage-Server mit je 120 TB SSD und ein
-                Storage-Server mit knapp 500 TB HDD ergeben als Ausbauziel knapp 1 Petabyte Rohkapazität.
+                Aktuell haben wir keine eigene Hardware, und genau dafür suchen wir Unterstützung. Wir nehmen sehr gerne auch
+                ältere oder gebrauchte Hardware entgegen, als Spende oder zur Weitergabe.
               </p>
-              <p>Es ist die Rohkapazität vor Redundanz; die nutzbare Menge nennen wir hier nicht.</p>
-              <Chips items={storageChips} blue />
+              <p>
+                Wir freuen uns außerdem über Know-how, Sponsoring und jede Empfehlung. Angebote richtest du bitte über die
+                Kontaktseite an uns.
+              </p>
+              <Chips items={wantedChips} blue />
+              <CopyAction href="/unterstuetzen/" label="So kannst du helfen" />
             </>
           }
           visual={
             <Visual soft>
-              <p className="h4">Speicher im Detail</p>
-              <SpecTable head={["Speicherklasse", "Umfang"]} rows={storageRows} />
+              <p className="h4">Wobei du helfen kannst</p>
+              <SpecTable head={["Bereich", "Was uns hilft"]} rows={wantedRows} />
             </Visual>
           }
         />
@@ -200,8 +214,9 @@ export default function HomePage() {
             <>
               <CopyHead {...sections.technologie} id="technologie-h" />
               <p>
-                Die Dienste von VylarisGroupEurope sind kostenlose Open-Source-SaaS-Dienste. VylarisData ist der Geschäftsbereich
-                Software Development & Technology der VylarisGroup und betreibt eigene Hardware.
+                Die Dienste von VylarisGroupEurope sind kostenlose Open-Source-SaaS-Dienste. VylarisData ist eine Untermarke von
+                VylarisGroupEurope, der Geschäftsbereich Software Development & Technology der VylarisGroup, und baut gerade eine
+                eigene Infrastruktur auf.
               </p>
               <p>
                 Auf der Technologie-Seite beschreiben wir unsere Arbeitsweise. Diese Website selbst ist ein Beispiel: hinter einem

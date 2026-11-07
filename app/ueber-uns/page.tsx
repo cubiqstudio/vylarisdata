@@ -59,18 +59,18 @@ export default function UeberUnsPage() {
         eyebrow={site.area}
         title={
           <>
-            Eigene Hardware. Eigenes Netz. <Gradient>Ein Ökosystem.</Gradient>
+            Eine Untermarke im Aufbau. <Gradient>Mit Plan.</Gradient>
           </>
         }
         lead={heroLead}
         status={heroStatus}
         actions={
           <>
-            <Button href="/infrastruktur/" size="lg" icon="arrow">
-              Zur Infrastruktur
+            <Button href="/unterstuetzen/" size="lg" icon="arrow">
+              Unterstützen
             </Button>
-            <Button href="/oekosystem/" variant="secondary" size="lg">
-              Das Ökosystem
+            <Button href="/infrastruktur/" variant="secondary" size="lg">
+              Zur Infrastruktur
             </Button>
           </>
         }
@@ -238,7 +238,7 @@ export default function UeberUnsPage() {
         id="cta-h"
         title={
           <>
-            Sieh dir an, was bei <Gradient>uns</Gradient> läuft.
+            Hilf uns beim <Gradient>Aufbau</Gradient>.
           </>
         }
         text={ctaCopy.text}

@@ -31,9 +31,6 @@ import {
   allianceParagraph,
   allianceTop,
   brands,
-  circleUpWilmsPanel,
-  circleUpWilmsParagraphs,
-  circleUpWilmsRows,
   copies,
   ecoCta,
   facts,
@@ -53,9 +50,14 @@ import {
   responsibilitiesFooter,
   siteProofs,
   statusGroups,
-  storageParagraphs,
-  storageRows,
+  supportHead,
+  supportLink,
+  supportParagraphs,
+  supportRows,
   values,
+  vylarisGroupEuropePanel,
+  vylarisGroupEuropeParagraphs,
+  vylarisGroupEuropeRows,
 } from "@/content/oekosystem";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -72,7 +74,7 @@ export default function OekosystemPage() {
         actions={
           <>
             <Button href="#fundament" size="lg" icon="arrow">
-              Das Fundament ansehen
+              Das Zielbild ansehen
             </Button>
             <Button href="#uebersicht" variant="secondary" size="lg">
               Zur Übersicht
@@ -81,7 +83,7 @@ export default function OekosystemPage() {
         }
       />
 
-      <Section id="zahlen" labelledBy={heads.facts.id}>
+      <Section id="aufbau" labelledBy={heads.facts.id}>
         <SectionHead {...heads.facts} />
         <Facts items={facts} />
       </Section>
@@ -105,17 +107,18 @@ export default function OekosystemPage() {
         <LinkLine {...foundationLink} />
       </Section>
 
-      <Section id="speicher" labelledBy={copies.storage.id} band>
+      <Section id="unterstuetzung" labelledBy={copies.support.id} band>
         <Split
           copy={
             <>
-              <CopyHead {...copies.storage} />
-              {storageParagraphs.map((text) => (
+              <CopyHead {...copies.support} />
+              {supportParagraphs.map((text) => (
                 <p key={text}>{text}</p>
               ))}
+              <LinkLine {...supportLink} />
             </>
           }
-          visual={<SpecTable head={["Baustein", "Kapazität"]} rows={storageRows} />}
+          visual={<SpecTable head={[...supportHead]} rows={supportRows} />}
         />
       </Section>
 
@@ -137,20 +140,20 @@ export default function OekosystemPage() {
         />
       </Section>
 
-      <Section id="circleupwilms" labelledBy={copies.circleUpWilms.id} band>
+      <Section id="vylarisgroupeurope" labelledBy={copies.vylarisGroupEurope.id} band>
         <Split
           reverse
           copy={
             <>
-              <CopyHead {...copies.circleUpWilms} />
-              {circleUpWilmsParagraphs.map((text) => (
+              <CopyHead {...copies.vylarisGroupEurope} />
+              {vylarisGroupEuropeParagraphs.map((text) => (
                 <p key={text}>{text}</p>
               ))}
             </>
           }
           visual={
-            <Panel tone="indigo" icon="building" iconTone="indigo" {...circleUpWilmsPanel}>
-              <PanelFacts rows={circleUpWilmsRows} />
+            <Panel tone="indigo" icon="building" iconTone="indigo" {...vylarisGroupEuropePanel}>
+              <PanelFacts rows={vylarisGroupEuropeRows} />
             </Panel>
           }
         />
