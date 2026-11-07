@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = pageMetadata({
   title: "Datenschutz",
-  description: "Datenschutz von VylarisData, einer Marke von CircleUpWilms.",
+  description: "Datenschutz von VylarisData, einer Untermarke von VylarisGroupEurope.",
   path: "/datenschutz/",
   noindex: true,
 });

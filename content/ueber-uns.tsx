@@ -12,21 +12,21 @@ import { site } from "@/content/site";
 /** Daten der Seite "Über uns". Markup liegt in den Komponenten, hier nur Inhalt. */
 
 export const meta = {
-  title: "Über uns: Eigene Hardware, eigenes Netz",
+  title: "Über uns: Untermarke im Aufbau",
   description:
-    "Wer hinter VylarisData steht: Technikmarke der VylarisGroup mit 10 Servern, 250 TB SSD im Betrieb, eigenem Netz und PBS-Backup-System. Der Speicherausbau ist im Aufbau.",
+    "Wer hinter VylarisData steht: Untermarke von VylarisGroupEurope und Teil der VylarisGroup. Unsere eigene Infrastruktur ist im Aufbau, aktuell ohne eigene Hardware. Hardware und Unterstützung sind willkommen.",
   path: "/ueber-uns/",
 } as const;
 
 /** Seitenkopf: Einleitung. */
 export const heroLead =
-  "VylarisData ist die Technikmarke der VylarisGroup und betreibt eigene Hardware: 10 Server, aktuell 250 TB SSD im Betrieb (Ausbau auf knapp 1 PB im Aufbau), ein eigenes IP-Subnetz, ein PBS-Backup-System und ein Sicherheitssystem. Eine Marke von CircleUpWilms.";
+  "VylarisData ist eine Untermarke von VylarisGroupEurope und Teil der VylarisGroup, im Geschäftsbereich Software Development & Technology. Wir fangen gerade an: Unsere eigene Infrastruktur in Europa ist im Aufbau, und aktuell haben wir noch keine eigene Hardware. Wir freuen uns über Hardware (auch ältere oder gebrauchte), Know-how, Sponsoring und Empfehlungen.";
 
 /** Statushinweise im Seitenkopf und in den FAQ. */
 export const heroStatus: readonly UuStatusItem[] = [
-  { tone: "ok", label: "Infrastruktur im Betrieb" },
-  { tone: "info", label: "Speicher im Aufbau" },
-  { tone: "info", label: "DNS-Server aktuell in Wartung" },
+  { tone: "info", label: "Infrastruktur im Aufbau" },
+  { tone: "info", label: "Aktuell keine eigene Hardware" },
+  { tone: "ok", label: "Hardware willkommen" },
 ];
 
 /** Offizielle Seite von Lucas Wilms auf vylaris.eu. */
@@ -37,18 +37,20 @@ const euAboutUrl = `${site.links.eu}/about`;
 export const missionHead: UuHeadData = {
   id: "mission-h",
   eyebrow: "Unsere Mission",
-  title: "Die Technik hinter der Marke VylarisData. Heute schon in Betrieb.",
+  title: "Die Technik hinter der Marke VylarisData. Gerade im Aufbau.",
 };
 
 export const missionCopy = (
   <>
     <p>
-      Unser Leitsatz lautet „Powering the Vylaris Ecosystem“. Als Technikmarke der VylarisGroup betreiben wir{" "}
-      <strong className="strong">bestehende Hardware</strong>: <strong className="strong">10 Server</strong>, aktuell{" "}
-      <strong className="strong">250 TB SSD</strong> im Betrieb, ein eigenes Netz und ein PBS-Backup-System. Der Rest des Speichers ist im Aufbau.
+      Unser Leitsatz lautet „Powering the Vylaris Ecosystem“. Als Untermarke von VylarisGroupEurope wollen wir die
+      technische Grundlage für das Vylaris-Ökosystem schaffen: eine{" "}
+      <strong className="strong">eigene Infrastruktur in Europa</strong>.
     </p>
     <p>
-      Die Infrastruktur ist in Betrieb, der Speicher wird ausgebaut. Geplant ist, das Vylaris-Ökosystem weiter auszubauen.
+      Ehrlich gesagt: Wir fangen gerade an. Aktuell haben wir{" "}
+      <strong className="strong">noch keine eigene Hardware</strong>. Die Infrastruktur ist im Aufbau, und wir suchen
+      Unterstützung dafür.
     </p>
     <p>
       Unser Bereich ist Software Development & Technology. Wie wir dabei denken und arbeiten, halten wir auf dieser
@@ -65,90 +67,97 @@ export const missionVisual = (
     </p>
     <p className="mt-6">
       Drei Leitbegriffe: Technology, Infrastructure, Innovation. Für uns heißt das: Technik, die wir verstehen,
-      Infrastruktur, die wir selbst betreiben, und Ideen, die wir weiterentwickeln.
+      Infrastruktur, die wir aufbauen wollen, und Ideen, die wir weiterentwickeln.
     </p>
   </>
 );
 
 export const missionChips: readonly UuChip[] = [
   { label: "Software Development & Technology", blue: true },
-  { label: "Marke von CircleUpWilms" },
+  { label: "Untermarke von VylarisGroupEurope" },
   { label: "Teil der VylarisGroup" },
 ];
 
-/* ------------------------------------------------------------- Zahlen */
+/* ------------------------------------------------------------- Stand heute */
 
 export const numbersHead: UuHeadData = {
   id: "zahlen-h",
-  eyebrow: "Heute im Betrieb",
-  title: "Hardware, die läuft.",
-  lead: "Unsere Infrastruktur ist in Betrieb. Das sind ihre Eckdaten, den aktuellen Stand zeigt der Live-Status.",
+  eyebrow: "Stand heute",
+  title: "Wir fangen gerade an.",
+  lead: "Wir nennen hier keine Zahlen für Dinge, die es noch nicht gibt. So sieht es heute aus.",
 };
 
 export const numbers: readonly FactItem[] = [
-  { value: "10", label: "Server insgesamt, intern und extern", icon: "server" },
-  { value: "250 TB", label: "SSD-Speicher aktuell im Betrieb", icon: "zap" },
-  { value: "Im Aufbau", label: "Der Rest des Speichers: weitere SSD und ein Storage-Server mit knapp 500 TB HDD", icon: "hdd" },
-  { value: "knapp 1 PB", label: "Ausbauziel: Rohkapazität insgesamt, vor Redundanz gerechnet", icon: "layers" },
+  { value: "Aufbau", label: "Unsere eigene Infrastruktur in Europa entsteht gerade.", icon: "layers" },
+  { value: "Keine Hardware", label: "Aktuell haben wir noch keine eigene Hardware.", icon: "server" },
+  { value: "Gesucht: Hardware", label: "Auch ältere oder gebrauchte Geräte sind willkommen.", icon: "hdd" },
+  { value: "Gemeinsam", label: "Hardware, Know-how, Sponsoring und Empfehlungen helfen uns weiter.", icon: "heart" },
 ];
 
-export const numbersNote =
-  "Das Ausbauziel ergibt sich aus 4 × 120 TB SSD und knapp 500 TB HDD, gerechnet vor jeder Redundanz. Heute laufen 250 TB SSD.";
+export const numbersNote = (
+  <>
+    Wir nennen bewusst keine Kapazitäten und keine Termine. Wie du uns helfen kannst, steht auf der Seite{" "}
+    <A className="link" href="/unterstuetzen/">
+      Unterstützen
+    </A>
+    .
+  </>
+);
 
-/* ----------------------------------------------------------------- Bestand */
+/* ----------------------------------------------------------------- Ziel */
 
 export const assetsHead: UuHeadData = {
   id: "bestand-h",
-  eyebrow: "Was wir betreiben",
-  title: "Rechnen, Speichern, Sichern, Vernetzen: unsere Systeme.",
-  lead: "Vom Server bis zum Sicherheitssystem: Wir betreiben bestehende Hardware und haben ein eigenes Netz.",
+  eyebrow: "Unser Ziel",
+  title: "Rechnen, Speichern, Sichern, Vernetzen: die geplanten Bausteine.",
+  lead: "Das ist unser Zielbild und nicht der heutige Bestand: Diese Bausteine wollen wir nach und nach aufbauen.",
 };
 
 export const assets: readonly AssetItem[] = [
   {
     icon: "server",
-    title: "10 Server",
-    text: "Intern setzen wir auf eigene Server, extern auf ganz normale Server. Mehr verraten wir dazu nicht.",
-    status: { tone: "ok", label: "Im Betrieb" },
-  },
-  {
-    icon: "zap",
-    iconTone: "indigo",
-    title: "250 TB SSD",
-    text: "Unser SSD-Speicher mit 250 TB ist aktuell im Betrieb.",
-    status: { tone: "ok", label: "Im Betrieb" },
+    title: "Eigene Server",
+    text: "Geplant: eigene Server in Europa als Grundlage für unsere Dienste.",
+    status: { tone: "info", label: "Geplant" },
   },
   {
     icon: "hdd",
-    title: "Speicherausbau",
-    text: "Im Aufbau: weitere SSD-Kapazität und ein Storage-Server mit knapp 500 TB HDD. Ziel sind knapp 1 PB Rohkapazität.",
-    status: { tone: "info", label: "Im Aufbau" },
+    iconTone: "indigo",
+    title: "Eigener Speicher",
+    text: "Geplant: eigener Speicher für unsere Daten und die Daten des Ökosystems.",
+    status: { tone: "info", label: "Geplant" },
   },
   {
     icon: "refresh",
-    iconTone: "indigo",
-    title: "PBS-Backup-System",
-    text: "Ein PBS-System kümmert sich bei uns um die Datensicherung.",
-    status: { tone: "ok", label: "Im Betrieb" },
+    title: "Datensicherung",
+    text: "Geplant: ein eigenes System, das unsere Daten regelmäßig sichert.",
+    status: { tone: "info", label: "Geplant" },
   },
   {
     icon: "network",
-    title: "Eigenes Netz",
-    text: "Wir haben ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
-    status: { tone: "ok", label: "Im Betrieb" },
+    iconTone: "indigo",
+    title: "Eigenes Netzwerk",
+    text: "Geplant: ein eigenes Netzwerk mit eigener Anbindung ans Internet.",
+    status: { tone: "info", label: "Geplant" },
   },
   {
     icon: "shield",
-    iconTone: "indigo",
-    title: "Sicherheitssystem",
-    text: "Ein Sicherheitssystem mit internem Netzwerk-Setup gehört fest zur Infrastruktur.",
-    status: { tone: "ok", label: "Im Betrieb" },
+    title: "Sicherheit",
+    text: "Geplant: ein Sicherheitskonzept, das alle Schichten schützt.",
+    status: { tone: "info", label: "Geplant" },
   },
   {
-    icon: "globe",
-    title: "DNS-Server",
-    text: "Unser DNS-Server ist aktuell in Wartung. Das sagen wir offen, statt es zu verstecken.",
-    status: { tone: "info", label: "In Wartung" },
+    icon: "cpu",
+    iconTone: "indigo",
+    title: "Hardware",
+    text: "Dafür suchen wir Geräte. Auch ältere und gebrauchte Hardware hilft uns beim Start.",
+    status: { tone: "info", label: "Gesucht" },
+  },
+  {
+    icon: "layers",
+    title: "Infrastruktur in Europa",
+    text: "Der Aufbau hat begonnen. Wir fangen klein an und sagen offen, wo wir stehen.",
+    status: { tone: "info", label: "Im Aufbau" },
   },
   {
     icon: "rocket",
@@ -161,7 +170,7 @@ export const assets: readonly AssetItem[] = [
 
 export const assetsNote = (
   <>
-    Den aktuellen Stand der einzelnen Systeme zeigt unser Live-Status auf der{" "}
+    Den aktuellen Stand der einzelnen Bausteine zeigt unser Live-Status auf der{" "}
     <A className="link" href="/infrastruktur/">
       Infrastruktur-Seite
     </A>
@@ -174,20 +183,20 @@ export const assetsNote = (
 export const transparencyHead: UuHeadData = {
   id: "transparenz-h",
   eyebrow: "Transparenz",
-  title: "Du siehst, was läuft. Und was gerade entsteht oder gewartet wird.",
+  title: "Du siehst, was es gibt. Und was erst entsteht.",
 };
 
 export const transparencyCopy = (
   <p>
-    Transparenz gehört für uns zum Angebot: Auf unserer Website steht nicht nur, was in Betrieb ist, sondern auch, was
-    gerade aufgebaut oder gewartet wird und was geplant ist. Den Stand zeigen wir live auf der Infrastruktur-Seite.
+    Transparenz gehört für uns zum Angebot: Auf unserer Website steht nicht nur, was läuft, sondern auch, was
+    gerade aufgebaut wird, was wir suchen und was geplant ist. Den Stand zeigen wir im Live-Status auf der Infrastruktur-Seite.
   </p>
 );
 
 export const statusLayers: readonly UuLayer[] = [
-  { icon: "check", name: "Im Betrieb", description: "10 Server, 250 TB SSD, PBS-Backup, eigenes Netz und Sicherheitssystem." },
-  { icon: "hdd", iconTone: "indigo", name: "Im Aufbau", description: "Der Rest des Speichers, Ziel knapp 1 PB." },
-  { icon: "wrench", iconTone: "indigo", name: "In Wartung", description: "Der DNS-Server." },
+  { icon: "check", name: "Im Betrieb", description: "Diese Website, ohne Tracking und ohne offene Ports am Server." },
+  { icon: "layers", iconTone: "indigo", name: "Im Aufbau", description: "Unsere eigene Infrastruktur in Europa." },
+  { icon: "cpu", name: "Gesucht", description: "Hardware, auch ältere oder gebrauchte, dazu Know-how, Sponsoring und Empfehlungen." },
   { icon: "rocket", name: "Geplant", description: "Das Vylaris-Ökosystem weiter ausbauen.", highlight: true },
 ];
 
@@ -197,26 +206,26 @@ export const valuesHead: UuHeadData = {
   id: "werte-h",
   eyebrow: "Wofür wir stehen",
   title: "Sechs Grundsätze, an denen du uns messen kannst.",
-  lead: "Jeder Grundsatz lässt sich an unserer Infrastruktur nachvollziehen.",
+  lead: "Sie gelten schon jetzt, auch mitten im Aufbau.",
 };
 
 /** Icon-Töne wechseln sich ab: ohne, indigo, ohne, indigo, ohne, indigo. */
 export const principles: readonly PrincipleItem[] = [
   {
     icon: "server",
-    title: "Eigene Hardware",
-    text: "Server, Storage, Backup und Netz betreiben wir selbst, auf bestehender Hardware.",
+    title: "Aufbauen statt behaupten",
+    text: "Wir sagen, was es gibt und was nicht. Aktuell haben wir keine eigene Hardware, und das steht auch so auf dieser Seite.",
   },
   {
     icon: "eye",
     iconTone: "indigo",
     title: "Transparenz vor Marketing",
-    text: "Wir sagen, was läuft, was im Aufbau ist, was in Wartung ist und was geplant ist.",
+    text: "Wir sagen, was im Aufbau ist, was geplant ist und was wir noch suchen.",
   },
   {
     icon: "shield",
-    title: "Sicherheit im Netz",
-    text: "Ein Sicherheitssystem mit internem Netzwerk-Setup ist Teil der Infrastruktur, kein Nachgedanke.",
+    title: "Sicherheit von Anfang an",
+    text: "Sicherheit ist ein geplanter Baustein unserer Infrastruktur, kein Nachgedanke.",
   },
   {
     icon: "lock",
@@ -226,8 +235,8 @@ export const principles: readonly PrincipleItem[] = [
   },
   {
     icon: "refresh",
-    title: "Datensicherung im Alltag",
-    text: "Ein eigenes PBS-Backup-System und ein eigenes Netz mit eigenem Server gehören zu unserem Betrieb.",
+    title: "Datensicherung mitgedacht",
+    text: "Ein eigenes System für Datensicherung gehört zu unserem Zielbild.",
   },
   {
     icon: "code",
@@ -243,18 +252,18 @@ export const partiesHead: UuHeadData = {
   id: "dahinter-h",
   eyebrow: "Die Beteiligten",
   title: "Wer hinter VylarisData steht.",
-  lead: "VylarisData ist eine Marke von CircleUpWilms und Teil der VylarisGroup. Das sind die Beteiligten.",
+  lead: "VylarisData ist eine Untermarke von VylarisGroupEurope und Teil der VylarisGroup. Das sind die Beteiligten.",
 };
 
 export const parties: readonly PartyItem[] = [
   {
     icon: "building",
-    tag: "Markeninhaber",
-    name: "CircleUpWilms",
-    sub: "Hinter der Marke VylarisData",
-    text: "VylarisData ist eine Marke von CircleUpWilms. Die rechtlichen Angaben stehen im Impressum.",
+    tag: "Träger",
+    name: "VylarisGroupEurope",
+    sub: "Übergeordnete Marke",
+    text: "VylarisData ist eine Untermarke von VylarisGroupEurope, der offiziellen europäischen Seite der Gruppe. Kontakt und Tickets laufen ebenfalls dort.",
     current: true,
-    action: { href: "/impressum/", label: "Zum Impressum" },
+    action: { href: site.links.eu, label: "vylaris.eu besuchen", icon: "ext" },
   },
   {
     icon: "globe",
@@ -280,8 +289,15 @@ export const parties: readonly PartyItem[] = [
   },
 ];
 
-export const partiesNote =
-  "Wir nennen hier nur, was wir belegen können. Wenn du die Menschen hinter der Gruppe erreichen willst, nutze den offiziellen Kontaktweg von VylarisGroupEurope.";
+export const partiesNote = (
+  <>
+    Wir nennen hier nur, was wir belegen können. Die rechtlichen Angaben stehen im{" "}
+    <A className="link" href="/impressum/">
+      Impressum
+    </A>
+    . Wenn du die Menschen hinter der Gruppe erreichen willst, nutze den offiziellen Kontaktweg von VylarisGroupEurope.
+  </>
+);
 
 /* ------------------------------------------------------------------ Allianz */
 
@@ -289,7 +305,7 @@ export const allianceHead = {
   id: "allianz-h",
   eyebrow: "Allianz CH & EU",
   title: "Zwei Seiten, eine Gruppe.",
-  lead: "Der Schweizer Verein trägt die Idee, die europäische Seite stellt die rechtliche Struktur sowie Hosting und Serverinfrastruktur für ihre Dienste bereit. VylarisData ist die Technikmarke der Gruppe im Bereich Software Development & Technology.",
+  lead: "Der Schweizer Verein trägt die Idee, die europäische Seite stellt die rechtliche Struktur bereit. VylarisData ist als Untermarke von VylarisGroupEurope für Software Development & Technology zuständig.",
 } as const;
 
 export const allianceCh: AlliancePanelData = {
@@ -312,7 +328,7 @@ export const allianceEu: AlliancePanelData = {
   rows: [
     {
       term: "Rolle",
-      text: "Offizielle zweite Seite der Gruppe für Europa. Zuständig für die europäische rechtliche Struktur sowie Hosting und Serverinfrastruktur für ihre Dienste.",
+      text: "Offizielle zweite Seite der Gruppe für Europa. Zuständig für die europäische rechtliche Struktur. VylarisData ist ihre Untermarke.",
     },
     { term: "Leitung", text: "Lucas Wilms, CircleUpWilms." },
     {
@@ -333,11 +349,11 @@ export const historyHead: UuHeadData = {
 
 export const overviewLayers: readonly UuLayer[] = [
   { icon: "heart", iconTone: "indigo", name: "Schweiz", description: "VylarisGroup Schweiz, der Ursprungsverein." },
-  { icon: "pin", name: "Europa", description: "VylarisGroupEurope, die offizielle europäische Seite." },
+  { icon: "pin", name: "Europa", description: "VylarisGroupEurope, die offizielle europäische Seite und Träger von VylarisData." },
   {
     icon: "server",
     name: "Technik",
-    description: "VylarisData betreibt eigene Hardware und ein eigenes Netz. Im Betrieb.",
+    description: "VylarisData, die Untermarke für Software Development & Technology. Infrastruktur im Aufbau.",
     highlight: true,
   },
 ];
@@ -356,12 +372,12 @@ export const history: readonly TimelineItem[] = [
   {
     status: { tone: "info", label: "Europa" },
     title: "Eine zweite Seite in Europa",
-    text: "VylarisGroupEurope ist die offizielle europäische Seite. Sie stellt die rechtliche Struktur sowie Hosting und Serverinfrastruktur für ihre Dienste bereit.",
+    text: "VylarisGroupEurope ist die offizielle europäische Seite. Sie stellt die rechtliche Struktur bereit, und VylarisData ist ihre Untermarke.",
   },
   {
-    status: { tone: "ok", label: "Im Betrieb" },
+    status: { tone: "info", label: "Im Aufbau" },
     title: "Die Infrastruktur von VylarisData",
-    text: "Heute betreibt VylarisData 10 Server, 250 TB SSD-Speicher (der Ausbau auf knapp 1 PB ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Network-Server und ein Sicherheitssystem.",
+    text: "Wir fangen gerade an: VylarisData baut eine eigene Infrastruktur in Europa auf. Aktuell haben wir noch keine eigene Hardware und suchen Unterstützung.",
   },
   {
     status: { tone: "warn", label: "Geplant" },
@@ -375,8 +391,8 @@ export const history: readonly TimelineItem[] = [
 export const workHead: UuHeadData = {
   id: "arbeit-h",
   eyebrow: "Wie wir arbeiten",
-  title: "Fünf Grundsätze im Betrieb: sichern, schützen, offen sagen.",
-  lead: "Diese Grundsätze prägen, wie wir Hardware und Netz betreiben.",
+  title: "Fünf Grundsätze im Aufbau: sichern, schützen, offen sagen.",
+  lead: "Diese Grundsätze prägen, wie wir unsere Infrastruktur aufbauen wollen.",
 };
 
 export type WorkStyleItem = { lead: string; text: string };
@@ -384,23 +400,23 @@ export type WorkStyleItem = { lead: string; text: string };
 export const workStyle: readonly WorkStyleItem[] = [
   {
     lead: "Daten sichern.",
-    text: "Ein eigenes PBS-Backup-System gehört fest zu unserem Betrieb.",
+    text: "Geplant: ein eigenes System für Datensicherung.",
   },
   {
     lead: "Eigenes Netz.",
-    text: "Wir haben ein eigenes IP-Subnetz und einen Network-Server, der unsere Internetanbindung regelt.",
+    text: "Geplant: ein eigenes Netzwerk mit eigener Anbindung ans Internet.",
   },
   {
     lead: "Schutz im Netz.",
-    text: "Ein Sicherheitssystem mit internem Netzwerk-Setup gehört dazu. Diese Website ist ohne offene Ports am Server erreichbar.",
+    text: "Sicherheit ist als Baustein eingeplant. Diese Website ist schon heute ohne offene Ports am Server erreichbar.",
   },
   {
-    lead: "Selbst betreiben.",
-    text: "Server, Storage, Backup und Netz betreiben wir selbst.",
+    lead: "Selbst aufbauen.",
+    text: "Unser Ziel ist eine eigene Infrastruktur in Europa. Dafür fangen wir klein an und suchen Hardware, Know-how und Unterstützung.",
   },
   {
     lead: "Klare Statusangaben.",
-    text: "Was läuft, kennzeichnen wir als „Im Betrieb“, was wir gerade aufbauen, als „Im Aufbau“, was gewartet wird, als „In Wartung“ und was wir vorhaben, als „Geplant“.",
+    text: "Was wir gerade aufbauen, kennzeichnen wir als „Im Aufbau“, was wir noch suchen, als „Gesucht“, was wir vorhaben, als „Geplant“. „Im Betrieb“ steht erst dort, wo es wirklich läuft.",
   },
 ];
 
@@ -409,7 +425,7 @@ export const targetLayers: readonly UuLayer[] = [
   {
     icon: "server",
     name: "Infrastruktur",
-    description: "10 Server, 250 TB SSD, PBS-Backup, eigenes Netz und Sicherheitssystem im Betrieb. Weiterer Speicher im Aufbau.",
+    description: "Geplant: eigene Infrastruktur in Europa. Aktuell im Aufbau, Hardware gesucht.",
   },
   {
     icon: "layers",
@@ -473,27 +489,35 @@ export const faqHead: UuHeadData = {
 export const faq: readonly FaqItem[] = [
   {
     q: "Was ist VylarisData?",
-    a: "VylarisData ist eine Marke von CircleUpWilms und gehört zur VylarisGroup. Wir decken den Bereich Software Development & Technology ab und betreiben eigene Infrastruktur: 10 Server, Storage, ein PBS-Backup-System, ein eigenes Netz und ein Sicherheitssystem.",
+    a: "VylarisData ist eine Untermarke von VylarisGroupEurope und gehört zur VylarisGroup. Wir decken den Bereich Software Development & Technology ab und bauen gerade eine eigene Infrastruktur in Europa auf. Aktuell haben wir noch keine eigene Hardware.",
   },
   {
-    q: "Wie groß ist eure Infrastruktur?",
-    a: "Wir betreiben 10 Server, intern eigene Server und extern ganz normale Server. Für den Speicher haben wir aktuell 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind vier Storage-Server mit je 120 TB SSD und ein Storage-Server mit knapp 500 TB HDD, zusammen knapp 1 PB Rohkapazität, also vor Redundanz gerechnet.",
+    q: "Habt ihr schon eigene Hardware?",
+    a: "Nein, aktuell nicht. Wir fangen gerade an und sagen das offen. Als Bausteine unserer Infrastruktur sind Server, Speicher, Datensicherung, Netzwerk und Sicherheit geplant, ohne feste Zahlen und ohne Termine.",
   },
   {
-    q: "Wo sehe ich den aktuellen Stand der Systeme?",
+    q: "Nehmt ihr Hardware an?",
+    a: (
+      <p>
+        Ja, sehr gern, auch ältere oder gebrauchte Geräte. Was wir suchen und wie es abläuft, steht auf der Seite{" "}
+        <A className="link" href="/unterstuetzen/">
+          Unterstützen
+        </A>
+        .
+      </p>
+    ),
+  },
+  {
+    q: "Wo sehe ich den aktuellen Stand?",
     a: (
       <p>
         Im Live-Status auf der{" "}
         <A className="link" href="/infrastruktur/">
           Infrastruktur-Seite
         </A>
-        . Dort siehst du, was in Betrieb ist, was gewartet wird und was geplant ist.
+        . Dort siehst du, was im Aufbau ist, was wir suchen und was geplant ist.
       </p>
     ),
-  },
-  {
-    q: "Ist euer DNS-Server wirklich in Wartung?",
-    a: "Ja. Unser DNS-Server ist aktuell in Wartung. Wir sagen das offen, denn Transparenz über den Stand gehört für uns dazu.",
   },
   {
     q: "Was ist VylarisSpace?",
@@ -508,7 +532,8 @@ export const faq: readonly FaqItem[] = [
     q: "Wer ist für VylarisData verantwortlich?",
     a: (
       <p>
-        VylarisData ist eine Marke von CircleUpWilms. Die rechtlichen Angaben findest du im{" "}
+        VylarisData ist eine Untermarke von VylarisGroupEurope, die Leitung hat Lucas Wilms. Die rechtlichen Angaben
+        findest du im{" "}
         <A className="link" href="/impressum/">
           Impressum
         </A>
@@ -517,11 +542,11 @@ export const faq: readonly FaqItem[] = [
     ),
   },
   {
-    q: "Wie erreiche ich euch, auch bei Hosting-Anfragen?",
+    q: "Wie erreiche ich euch?",
     a: (
       <p>
-        Für alle Anfragen, auch zu Hosting, nutze bitte den offiziellen Kontaktweg über VylarisGroupEurope: Kontakt und
-        Tickets findest du unter{" "}
+        Für alle Anfragen nutze bitte den offiziellen Kontaktweg über VylarisGroupEurope: Kontakt und Tickets findest du
+        unter{" "}
         <A className="link" href={site.links.contact}>
           vylaris.eu/contact
         </A>
@@ -538,7 +563,7 @@ export const faq: readonly FaqItem[] = [
 /* --------------------------------------------------------------------- CTA */
 
 export const ctaCopy = {
-  text: "Der Live-Status zeigt den Stand unserer Systeme. Für Anfragen hilft dir unsere Kontaktseite.",
-  primary: { href: "/infrastruktur/", label: "Zur Infrastruktur" },
-  secondary: { href: "/kontakt/", label: "Zur Kontaktseite" },
+  text: "Wir freuen uns über Hardware, Know-how, Sponsoring und Empfehlungen. Den Stand unseres Aufbaus zeigt der Live-Status.",
+  primary: { href: "/unterstuetzen/", label: "Unterstützen" },
+  secondary: { href: "/infrastruktur/", label: "Zur Infrastruktur" },
 } as const;

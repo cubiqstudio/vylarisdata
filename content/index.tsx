@@ -23,33 +23,42 @@ export function leadItems(items: readonly CheckItem[]): ReactNode[] {
 }
 
 export const homeMeta = {
-  title: "VylarisData – eigene Server-Infrastruktur",
+  title: "VylarisData – Infrastruktur im Aufbau",
   description:
-    "10 Server, 250 TB SSD im Betrieb und ein Speicherausbau auf knapp 1 PB, eigenes Netzwerk und PBS-Backup: die eigene Infrastruktur von VylarisData, einer Marke von CircleUpWilms.",
+    "VylarisData, Untermarke von VylarisGroupEurope, baut eine eigene Infrastruktur in Europa auf. Wir fangen gerade an und suchen Hardware (gern auch gebrauchte), Know-how und Unterstützung.",
   path: "/",
 } as const;
 
 /* Hero */
 
 export const hero: HeroContent = {
-  title: "VylarisData – eigene Server-Infrastruktur",
+  title: "VylarisData – wir bauen unsere Infrastruktur auf",
   tagline: site.tagline,
   tri: site.tri,
-  sub: "10 Server, aktuell 250 TB SSD im Betrieb, ein eigenes IP-Subnetz mit eigenem Network-Server, ein PBS-Backup-System und ein Sicherheitssystem: Das ist die eigene Infrastruktur von VylarisData. Wir betreiben sie selbst. Der Speicher wird auf knapp 1 Petabyte ausgebaut.",
-  stats: ["10 Server", "250 TB SSD im Betrieb", "Eigenes Subnetz"],
+  sub: "Wir fangen gerade an: VylarisData ist eine Untermarke von VylarisGroupEurope und baut eine eigene Infrastruktur in Europa auf. Aktuell haben wir noch keine eigene Hardware. Dafür suchen wir Unterstützung: Hardware, gern auch ältere oder gebrauchte, Know-how und Sponsoring.",
+  stats: ["Im Aufbau", "Gesucht: Hardware", "Untermarke von VylarisGroupEurope"],
   actions: [
-    { href: "/infrastruktur/", label: "Die Infrastruktur ansehen", variant: "primary", icon: "arrow" },
-    { href: "/leistungen/", label: "Unsere Aufgabenfelder", variant: "secondary" },
+    { href: "/unterstuetzen/", label: "VylarisData unterstützen", variant: "primary", icon: "arrow" },
+    { href: "/infrastruktur/", label: "Die Infrastruktur ansehen", variant: "secondary" },
   ],
 };
+
+/* Aufruf zur Unterstützung (Banner unter dem Hero) */
+
+export const supportBanner = {
+  eyebrow: "Mitmachen",
+  title: "Wir bauen auf – Hardware und Unterstützung gesucht.",
+  lead: "Wir nehmen sehr gerne auch ältere oder gebrauchte Hardware entgegen und freuen uns über jede Unterstützung: Hardware, Know-how, Sponsoring oder einfach Weitersagen.",
+  action: { href: "/unterstuetzen/", label: "So kannst du helfen" },
+} as const;
 
 /* Überschriften und Einleitungen der Abschnitte */
 
 export const sections = {
   eckdaten: {
     eyebrow: "Auf einen Blick",
-    title: "Unsere Infrastruktur auf einen Blick.",
-    lead: "Hardware im Betrieb, der Speicher wächst: Der Ausbau läuft.",
+    title: "VylarisData auf einen Blick.",
+    lead: "Wir fangen gerade an: Die Infrastruktur ist im Aufbau, aktuell haben wir noch keine eigene Hardware.",
   },
   fokus: {
     eyebrow: "Unser Fokus",
@@ -57,18 +66,18 @@ export const sections = {
     lead: "Technology, Infrastructure und Innovation beschreiben unsere Rolle in der VylarisGroup.",
   },
   infrastruktur: {
-    eyebrow: "Was wir betreiben",
-    title: "Eigene Hardware. Eigenes Netzwerk. Im Aufbau.",
-    lead: "Server, Speicher, Netzwerk, Datensicherung und Sicherheit: Diese Bausteine gehören zu unserer Infrastruktur.",
+    eyebrow: "Was wir aufbauen",
+    title: "Eigene Infrastruktur in Europa. Geplant und im Aufbau.",
+    lead: "Server, Speicher, Netzwerk, Datensicherung und Sicherheit: Diese Bausteine planen wir. Aktuell ist noch keiner davon im Betrieb.",
   },
-  speicher: {
-    eyebrow: "Speicher",
-    title: "250 TB SSD im Betrieb, Ausbau auf knapp 1 PB.",
+  gesucht: {
+    eyebrow: "Was wir suchen",
+    title: "Hardware, Know-how und Unterstützung.",
   },
   leistungen: {
     eyebrow: "Software Development & Technology",
-    title: "Von der Software bis zum Server.",
-    lead: "Entwickeln und Betreiben der eigenen Hardware: Das ist unser Bereich in der VylarisGroup.",
+    title: "Von der Software bis zur eigenen Infrastruktur.",
+    lead: "Software entwickeln und eine eigene Infrastruktur aufbauen: Das ist unser Bereich in der VylarisGroup.",
   },
   zugang: {
     eyebrow: "Sicherheit",
@@ -76,26 +85,26 @@ export const sections = {
   },
   prinzipien: {
     eyebrow: "Wie wir arbeiten",
-    title: "Eigene Hardware, klare Regeln.",
+    title: "Klare Regeln von Anfang an.",
     lead: "Bevor wir eine Technik wählen, stehen Grundsätze fest. Sie entscheiden, wenn es mehrere Wege gibt.",
   },
   oekosystem: {
     eyebrow: "Das Vylaris-Ökosystem",
     title: "VylarisData im Verbund der VylarisGroup.",
-    lead: "VylarisData gehört zur VylarisGroup und ist eine Marke von CircleUpWilms. Die Gruppe arbeitet in der Schweiz und in Europa zusammen.",
+    lead: "VylarisData ist eine Untermarke von VylarisGroupEurope und gehört zur VylarisGroup. Die Gruppe arbeitet in der Schweiz und in Europa zusammen.",
   },
   roadmap: {
     eyebrow: "Stand und Ausblick",
-    title: "Was läuft, was entsteht, was gewartet wird, was kommt.",
-    lead: "Vier Punkte im Überblick. Termine nennen wir bewusst nicht.",
+    title: "Was entsteht, was wir suchen, was kommt.",
+    lead: "Drei Punkte im Überblick. Termine nennen wir bewusst nicht.",
   },
   technologie: {
     eyebrow: "Technologie",
-    title: "Technik, die wir selbst betreiben.",
+    title: "Technik mit klaren Grundsätzen.",
   },
   faq: {
     eyebrow: "Häufige Fragen",
-    title: "Was du über unsere Infrastruktur wissen willst.",
+    title: "Was du über VylarisData wissen willst.",
   },
 } satisfies Record<string, SectionIntro>;
 
@@ -104,21 +113,29 @@ export const sections = {
 export const facts: readonly FactItem[] = [
   {
     icon: "server",
-    value: "10 Server",
-    label: "Insgesamt zehn Server: intern eigene Server, extern ganz normale Server.",
+    value: "Im Aufbau",
+    label: "Wir fangen gerade an. Aktuell betreiben wir noch keine eigene Hardware.",
   },
   {
     icon: "db",
-    value: "250 TB SSD",
-    label: "Aktuell im Betrieb. Der Rest des Speichers (knapp 1 PB als Ziel) ist im Aufbau.",
+    value: "Gesucht: Hardware",
+    label: "Server, Speicher und Netzwerktechnik – gern auch ältere oder gebrauchte Geräte.",
   },
   {
     icon: "network",
-    value: "Eigenes Subnetz",
-    label: "Ein eigener IP-Subnetzbereich und ein Network-Server, der unsere Internetanbindung regelt.",
+    value: "Ziel: Infrastruktur in Europa",
+    label: "Eigene Infrastruktur, Datensicherung, Netzwerk und Sicherheit sind als Bausteine geplant.",
   },
-  { icon: "refresh", value: "PBS-Backup", label: "Ein PBS-Backup-System für die Datensicherung." },
-  { icon: "shield", value: "Sicherheitssystem", label: "Ein Sicherheitssystem gehört zur Infrastruktur." },
+  {
+    icon: "heart",
+    value: "Unterstützung willkommen",
+    label: "Hardware, Know-how, Sponsoring oder Weitersagen: Wir freuen uns über jede Hilfe.",
+  },
+  {
+    icon: "building",
+    value: "Untermarke",
+    label: "VylarisData ist eine Untermarke von VylarisGroupEurope und gehört zur VylarisGroup.",
+  },
   {
     icon: "eye",
     value: "Keine offenen Ports",
@@ -137,7 +154,7 @@ export const focus: readonly IconCardItem[] = [
   {
     icon: "server",
     title: "Infrastructure",
-    text: "Wir betreiben eigene Hardware. Die Eckdaten findest du auf der Infrastruktur-Seite.",
+    text: "Geplant: eine eigene Infrastruktur in Europa. Sie ist im Aufbau; den Stand findest du auf der Infrastruktur-Seite.",
   },
   {
     icon: "bulb",
@@ -146,50 +163,52 @@ export const focus: readonly IconCardItem[] = [
   },
 ];
 
-/* Bausteine der Infrastruktur */
+/* Bausteine der Infrastruktur (alle geplant bzw. im Aufbau) */
 
 export const buildingBlocks: readonly IconCardItem[] = [
   {
     icon: "server",
-    title: "10 Server",
-    text: "Intern laufen unsere eigenen Server. Bei den externen Servern geben wir den Typ nicht an.",
+    title: "Server",
+    text: "Geplant: eigene Server in Europa. Aktuell haben wir noch keine.",
   },
   {
     icon: "db",
     title: "Speicher",
-    text: "Aktuell sind 250 TB SSD in Betrieb. Der Ausbau um vier Storage-Server mit je 120 TB SSD und einen Storage-Server mit knapp 500 TB HDD ist im Aufbau.",
+    text: "Geplant: eigener Speicher für Daten und Dienste. Dafür suchen wir Hardware.",
   },
   {
     icon: "network",
-    title: "Eigenes Netzwerk",
-    text: "Ein eigener IP-Subnetzbereich und ein Network-Server, der unsere Internetanbindung regelt.",
+    title: "Netzwerk",
+    text: "Geplant: ein eigenes Netzwerk mit eigener Internetanbindung.",
   },
   {
     icon: "refresh",
-    title: "PBS-Backup-System",
-    text: "Unser System für die Datensicherung.",
+    title: "Datensicherung",
+    text: "Geplant: ein eigenes Backup-System für zuverlässige Datensicherung.",
   },
   {
     icon: "shield",
-    title: "Sicherheitssystem",
-    text: "Ein Sicherheitssystem mit internem Netzwerk-Setup gehört zu unserer Infrastruktur.",
+    title: "Sicherheit",
+    text: "Geplant: ein Sicherheitssystem, das von Anfang an zur Infrastruktur gehört.",
   },
   {
     icon: "globe",
-    title: "DNS-Server",
-    text: "Derzeit in Wartung.",
+    title: "Namensauflösung (DNS)",
+    text: "Geplant: eigene DNS-Server. Auch sie sind noch nicht im Betrieb.",
   },
 ];
 
-/* Speicher */
+/* Was wir suchen */
 
-export const storageChips: readonly string[] = ["250 TB SSD im Betrieb", "Rest im Aufbau", "Ziel: knapp 1 PB"];
+export const wantedChips: readonly string[] = ["Hardware gesucht", "Auch gebraucht willkommen", "Know-how", "Sponsoring"];
 
-export const storageRows: readonly (readonly [string, string])[] = [
-  ["SSD-Storage im Betrieb", "250 TB SSD"],
-  ["Im Aufbau", "SSD-Ausbau auf 4 × 120 TB (480 TB) und 1 Storage-Server mit knapp 500 TB HDD"],
-  ["Ausbauziel", "Knapp 1 PB Rohkapazität"],
-  ["Datensicherung", "PBS-Backup-System"],
+export const wantedRows: readonly (readonly [string, string])[] = [
+  ["Server", "Gern auch ältere oder gebrauchte Geräte"],
+  ["Speicher", "Festplatten, SSDs und Speichersysteme, auch gebraucht"],
+  ["Netzwerktechnik", "Switches, Router und Zubehör, auch gebraucht"],
+  ["Know-how", "Erfahrung beim Aufbau und Betrieb von Infrastruktur"],
+  ["Sponsoring", "Unterstützung, damit wir Schritt für Schritt aufbauen können"],
+  ["Weitersagen", "Empfiehl uns an Unternehmen und Menschen mit passender Hardware"],
 ];
 
 /* Aufgabenfelder */
@@ -203,17 +222,17 @@ export const areas: readonly IconCardItem[] = [
   {
     icon: "server",
     title: "Server & Speicher",
-    text: "Betrieb der eigenen Server. Zahlen und Details stehen auf der Infrastruktur-Seite.",
+    text: "Geplant: eigene Server und eigener Speicher. Der Aufbau hat gerade erst begonnen.",
   },
   {
     icon: "network",
     title: "Netzwerk & Sicherheit",
-    text: "Eigenes IP-Subnetz, ein Network-Server und ein Sicherheitssystem.",
+    text: "Geplant: ein eigenes Netzwerk und ein Sicherheitssystem.",
   },
   {
     icon: "refresh",
     title: "Datensicherung",
-    text: "Ein PBS-Backup-System dient der Datensicherung.",
+    text: "Geplant: ein eigenes Backup-System für die Datensicherung.",
   },
 ];
 
@@ -243,13 +262,13 @@ export const transparencyPoints: readonly ReactNode[] = [
 export const principles: readonly IconCardItem[] = [
   {
     icon: "server",
-    title: "Eigene Hardware",
-    text: "Wir betreiben unsere Server selbst. So wissen wir, was läuft, und haben die Technik in der eigenen Hand.",
+    title: "Eigene Infrastruktur als Ziel",
+    text: "Wir wollen unsere Technik selbst in der Hand haben. Dafür bauen wir auf: ehrlich und Schritt für Schritt.",
   },
   {
     icon: "lock",
     title: "Schutz im Design",
-    text: "Ein Sicherheitssystem gehört zu unserer Infrastruktur. Bei der eigenen Website setzen wir von Anfang an auf einen Tunnel statt offener Ports.",
+    text: "Sicherheit planen wir von Anfang an mit ein. Bei der eigenen Website setzen wir bereits auf einen Tunnel statt offener Ports.",
   },
   {
     icon: "eye",
@@ -258,18 +277,18 @@ export const principles: readonly IconCardItem[] = [
   },
   {
     icon: "refresh",
-    title: "Eigene Datensicherung",
-    text: "Ein PBS-Backup-System gehört zu unserer Infrastruktur.",
+    title: "Datensicherung von Anfang an",
+    text: "Eine eigene Datensicherung gehört zu den geplanten Bausteinen unserer Infrastruktur.",
   },
   {
     icon: "network",
-    title: "Eigenes Netzwerk",
-    text: "Mit eigenem IP-Subnetz und eigenem Network-Server haben wir unsere Internetanbindung selbst in der Hand.",
+    title: "Netzwerk in eigener Hand",
+    text: "Geplant: ein eigenes Netzwerk, damit wir unsere Internetanbindung selbst steuern können.",
   },
   {
     icon: "activity",
-    title: "Transparent im Betrieb",
-    text: "Ein Live-Statusboard auf der Infrastruktur-Seite zeigt den aktuellen Stand der Infrastruktur.",
+    title: "Offen über den Stand",
+    text: "Ein Live-Statusboard auf der Infrastruktur-Seite zeigt, wie weit der Aufbau ist.",
   },
 ];
 
@@ -281,14 +300,14 @@ export const brands: readonly EcoBrand[] = [
     sub: "vylarisdata.com",
     icon: "server",
     current: { statusLabel: "Du bist hier" },
-    text: "Software Development & Technology. Wir betreiben eigene Hardware; die Eckdaten findest du auf der Infrastruktur-Seite.",
+    text: "Untermarke von VylarisGroupEurope für Software Development & Technology. Unsere Infrastruktur ist im Aufbau; den Stand findest du auf der Infrastruktur-Seite.",
     action: { href: "/ueber-uns/", label: "Über VylarisData", icon: "arrow" },
   },
   {
     name: "VylarisGroupEurope",
     sub: "vylaris.eu",
     icon: "globe",
-    text: "Der offizielle europäische Zweig der Gruppe. Er bringt die europäische Rechts- und Unternehmensstruktur mit und bietet kostenlose Open-Source-SaaS-Dienste an.",
+    text: "Der offizielle europäische Zweig der Gruppe unter der Leitung von Lucas Wilms. Er bringt die europäische Rechts- und Unternehmensstruktur mit und bietet kostenlose Open-Source-SaaS-Dienste an. VylarisData ist seine Untermarke.",
     action: { href: site.links.eu, label: "vylaris.eu besuchen", icon: "ext" },
   },
   {
@@ -299,11 +318,11 @@ export const brands: readonly EcoBrand[] = [
     action: { href: site.links.ch, label: "vylaris.ch besuchen", icon: "ext" },
   },
   {
-    name: "CircleUpWilms",
-    sub: "Markeninhaber",
-    icon: "building",
-    text: "CircleUpWilms ist Inhaber der Marke VylarisData. Lucas Wilms leitet den europäischen Zweig VylarisGroupEurope.",
-    action: { href: "/impressum/", label: "Impressum", icon: "arrow" },
+    name: "Mitmachen",
+    sub: "Hardware und Unterstützung",
+    icon: "heart",
+    text: "Wir bauen gerade auf und suchen Hardware (gern auch ältere oder gebrauchte), Know-how und Sponsoring.",
+    action: { href: "/unterstuetzen/", label: "So kannst du helfen", icon: "arrow" },
   },
 ];
 
@@ -311,19 +330,14 @@ export const brands: readonly EcoBrand[] = [
 
 export const roadmap: readonly StepItem[] = [
   {
-    title: "Eigene Infrastruktur",
-    text: "Server, 250 TB SSD-Speicher, Netzwerk, PBS-Backup-System und Sicherheitssystem sind in Betrieb.",
-    status: { tone: "ok", label: "Im Betrieb" },
-  },
-  {
-    title: "Speicherausbau",
-    text: "Der Rest des Speichers (weitere SSD-Kapazität und ein Storage-Server mit HDD, Ziel knapp 1 PB) ist im Aufbau.",
+    title: "Eigene Infrastruktur in Europa",
+    text: "Server, Speicher, Netzwerk, Datensicherung und Sicherheit sind als Bausteine geplant. Wir fangen gerade an; noch ist keiner davon im Betrieb.",
     status: { tone: "info", label: "Im Aufbau" },
   },
   {
-    title: "DNS-Server",
-    text: "DNS-Server: derzeit in Wartung.",
-    status: { tone: "info", label: "In Wartung" },
+    title: "Hardware und Unterstützung",
+    text: "Wir suchen Hardware, gern auch ältere oder gebrauchte, sowie Know-how und Sponsoring für den Aufbau.",
+    status: { tone: "info", label: "Gesucht" },
   },
   {
     title: "Ökosystem weiter ausbauen",
@@ -335,8 +349,8 @@ export const roadmap: readonly StepItem[] = [
 /* Technologie */
 
 export const workPrinciples: readonly string[] = [
-  "Wir betreiben unsere Hardware selbst",
-  "Der Stand der Infrastruktur ist im Live-Statusboard sichtbar",
+  "Wir wollen unsere Infrastruktur selbst betreiben und bauen sie dafür auf",
+  "Der Stand des Aufbaus ist im Live-Statusboard sichtbar",
   "Besucher werden nicht getrackt und bekommen keine Cookies",
 ];
 
@@ -349,24 +363,48 @@ export const chipGroups: readonly ChipGroupData[] = [
 
 export const faq: readonly FaqItem[] = [
   {
-    q: "Was betreibt VylarisData an Infrastruktur?",
-    a: "10 Server (intern eigene Server, extern ganz normale Server), aktuell 250 TB SSD im Betrieb (der Ausbau um weitere SSD-Kapazität und einen Storage-Server mit knapp 500 TB HDD ist im Aufbau), ein PBS-Backup-System, ein eigenes IP-Subnetz mit einem Network-Server und ein Sicherheitssystem mit internem Netzwerk-Setup.",
+    q: "Betreibt VylarisData schon eigene Hardware?",
+    a: "Nein, aktuell haben wir keine eigene Hardware. Wir fangen gerade an und bauen unsere Infrastruktur auf. Server, Speicher, Datensicherung, Netzwerk und Sicherheit sind als Bausteine geplant, aber noch nicht im Betrieb.",
   },
   {
-    q: "Wie viel Speicher habt ihr?",
-    a: "Aktuell haben wir 250 TB SSD im Betrieb. Der Rest ist im Aufbau: Ziel sind knapp 1 Petabyte Rohkapazität aus 4 × 120 TB SSD (480 TB) plus knapp 500 TB HDD.",
+    q: "Was plant VylarisData an Infrastruktur?",
+    a: "Das Ziel ist eine eigene Infrastruktur in Europa mit Servern, Speicher, Datensicherung, einem eigenen Netzwerk und einem Sicherheitssystem. Das ist ein Plan, kein Bestand. Den Stand des Aufbaus zeigt das Live-Statusboard auf der Infrastruktur-Seite. Zahlen und Termine nennen wir bewusst nicht.",
+  },
+  {
+    q: "Welche Hardware sucht ihr?",
+    a: (
+      <p>
+        Wir suchen Hardware und nehmen sehr gerne auch ältere oder gebrauchte Geräte entgegen, als Spende oder zur Weitergabe. Was wir im Einzelfall brauchen können, klären wir gern im Gespräch. Angebote richtest du bitte über die{" "}
+        <A className="link" href="/kontakt/">
+          Kontaktseite
+        </A>{" "}
+        an uns.
+      </p>
+    ),
+  },
+  {
+    q: "Wie kann ich VylarisData unterstützen?",
+    a: (
+      <p>
+        Mit Hardware, Know-how, Sponsoring oder indem du uns weiterempfiehlst. Alle Möglichkeiten stehen auf der Seite{" "}
+        <A className="link" href="/unterstuetzen/">
+          Unterstützen
+        </A>
+        .
+      </p>
+    ),
   },
   {
     q: "Wo stehen die Server?",
-    a: "Zu Standorten machen wir hier keine Angaben.",
+    a: "Wir haben noch keine eigenen Server. Geplant ist eine eigene Infrastruktur in Europa; zu Standorten machen wir keine Angaben.",
   },
   {
     q: "Wer steckt hinter VylarisData?",
-    a: "VylarisData ist eine Marke von CircleUpWilms und gehört zur VylarisGroup. Unser Geschäftsbereich ist Software Development & Technology.",
+    a: "VylarisData ist eine Untermarke von VylarisGroupEurope (Leitung: Lucas Wilms) und gehört zur VylarisGroup. Unser Geschäftsbereich ist Software Development & Technology.",
   },
   {
     q: "Was ist der Unterschied zu VylarisGroupEurope?",
-    a: "VylarisGroupEurope (vylaris.eu) ist der offizielle europäische Zweig der Gruppe. Er bringt die europäische Rechts- und Unternehmensstruktur mit und bietet kostenlose Open-Source-SaaS-Dienste an. VylarisData ist die Marke für Software Development & Technology und betreibt eigene Hardware.",
+    a: "VylarisGroupEurope (vylaris.eu) ist der offizielle europäische Zweig der Gruppe. Er bringt die europäische Rechts- und Unternehmensstruktur mit und bietet kostenlose Open-Source-SaaS-Dienste an. VylarisData ist seine Untermarke für Software Development & Technology und baut gerade eine eigene Infrastruktur auf.",
   },
   {
     q: "Setzt diese Website Cookies oder Tracker ein?",
@@ -380,7 +418,7 @@ export const faq: readonly FaqItem[] = [
         <A className="link" href={site.links.contact}>
           vylaris.eu/contact
         </A>
-        . Dort kannst du Anfragen stellen oder Tickets eröffnen, auch zum Thema Hosting. Eine eigene Kontaktadresse für VylarisData gibt es nicht.
+        . Dort kannst du Anfragen stellen, Tickets eröffnen oder uns Hardware und Unterstützung anbieten. Eine eigene Kontaktadresse für VylarisData gibt es nicht. Wie es genau geht, steht auf unserer Seite „Kontakt“.
       </p>
     ),
   },
@@ -389,7 +427,7 @@ export const faq: readonly FaqItem[] = [
 /* Abschluss-CTA */
 
 export const contactCta: ContactCtaContent = {
-  text: "Fragen zu unserer Infrastruktur oder zu VylarisData? Du erreichst uns über die Kontaktseite der VylarisGroup, wie genau, steht auf unserer Seite „Kontakt“.",
+  text: "Fragen zu VylarisData oder ein Angebot für Hardware und Unterstützung? Du erreichst uns über die Kontaktseite der VylarisGroup, wie genau, steht auf unserer Seite „Kontakt“.",
   primary: { href: "/kontakt/", label: "So erreichst du uns", icon: "mail" },
-  secondary: { href: "/infrastruktur/", label: "Zur Infrastruktur" },
+  secondary: { href: "/unterstuetzen/", label: "Wie du helfen kannst" },
 };

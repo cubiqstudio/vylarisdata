@@ -16,7 +16,7 @@ export function Footer() {
             </span>
           </Link>
           <p>
-            {site.tagline} {site.tri} VylarisData ist eine Marke von {site.owner} und gehört zur {site.group}.
+            {site.tagline} {site.tri} VylarisData ist eine Untermarke von {site.owner} und gehört zur {site.group}.
           </p>
         </div>
         {footerColumns.map((col) => (
@@ -35,7 +35,7 @@ export function Footer() {
       <div className="legal">
         <div className="wrap">
           <p>
-            Copyright © {new Date().getFullYear()} {site.name} · eine Marke von {site.owner}
+            Copyright © {new Date().getFullYear()} {site.name} · Untermarke von {site.owner}
           </p>
           <p>Kein Tracking · Keine Cookies</p>
           <ThemeSwitch />

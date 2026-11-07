@@ -22,7 +22,7 @@ const contactLink = (
 export const meta = {
   title: "Kontakt",
   description:
-    "Kontakt zu VylarisData: zehn Server, eigene Hardware, Ticketsystem. Fragen, Infrastruktur, Sicherheitsmeldungen und Partnerschaften über VylarisGroupEurope.",
+    "Kontakt zu VylarisData, Untermarke von VylarisGroupEurope: allgemeine Fragen, Hardware spenden oder Unterstützung anbieten, Sicherheitsmeldungen und Partnerschaften über das Ticketsystem.",
   path: "/kontakt/",
 } as const;
 
@@ -32,8 +32,8 @@ export const crumbs: readonly Crumb[] = [{ label: "Start", href: "/" }, { label:
 
 export const hero = {
   eyebrow: "Offizieller Kontaktweg",
-  title: "Sprich mit der Infrastruktur hinter dem Vylaris-Ökosystem",
-  lead: "Zehn Server, 250 TB SSD im Betrieb, eigenes Netz und eigenes Backup: VylarisData läuft auf eigener Hardware, der Speicherausbau auf knapp 1 PB ist im Aufbau. Du erreichst uns über das Kontakt- und Ticketsystem der VylarisGroupEurope.",
+  title: "Sprich mit uns. Wir bauen gerade auf.",
+  lead: "VylarisData ist eine Untermarke von VylarisGroupEurope. Unsere eigene Infrastruktur ist im Aufbau, und aktuell haben wir noch keine eigene Hardware. Du erreichst uns über das Kontakt- und Ticketsystem der VylarisGroupEurope, auch wenn du Hardware abgeben oder uns unterstützen möchtest.",
 } as const;
 
 export const heroActions: { primary: LinkAction; secondary: LinkAction } = {
@@ -46,33 +46,33 @@ export const heroActions: { primary: LinkAction; secondary: LinkAction } = {
 export const behindHead = {
   id: "dahinter-h",
   eyebrow: "Hinter dem Ticket",
-  title: "Zehn Server, 250 TB SSD, ein eigenes Netz",
-  lead: "Wer uns schreibt, erreicht Hardware im Betrieb: eigene Server, ein eigenes Backup-System, ein eigenes IP-Subnetz und 250 TB SSD im Betrieb, der Speicherausbau auf knapp ein Petabyte ist im Aufbau.",
+  title: "Eine Untermarke am Anfang",
+  lead: "Wer uns schreibt, erreicht ein Team, das gerade aufbaut: Unsere Infrastruktur ist im Aufbau, wir haben aktuell keine eigene Hardware und freuen uns über Unterstützung.",
 } as const;
 
-/** Erste Reihe: die Eckdaten. Zahlen wie auf der Seite Infrastruktur. */
+/** Erste Reihe: wo wir stehen. Bewusst ohne Zahlen. */
 export const behindFacts: readonly FactItem[] = [
-  { value: "10 Server", label: "insgesamt: intern eigene Server, extern normale Server.", icon: "server" },
-  { value: "250 TB SSD", label: "Aktuell im Betrieb. Der Rest des Speichers (Ziel knapp 1 PB) ist im Aufbau.", icon: "hdd" },
-  { value: "Eigenes Netz", label: "Eigenes IP-Subnetz und ein Network-Server, der unsere Internetanbindung regelt.", icon: "network" },
-  { value: "PBS-System", label: "Eigenes PBS-Backup-System für die Datensicherung.", icon: "refresh" },
+  { value: "Im Aufbau", label: "Unsere eigene Infrastruktur in Europa entsteht gerade.", icon: "layers" },
+  { value: "Keine Hardware", label: "Aktuell haben wir noch keine eigene Hardware.", icon: "server" },
+  { value: "Hardware gesucht", label: "Auch ältere oder gebrauchte Geräte sind willkommen.", icon: "hdd" },
+  { value: "Untermarke", label: "VylarisData ist eine Untermarke von VylarisGroupEurope.", icon: "building" },
 ];
 
-/** Zweite Reihe: Speicher, Sicherheit, DNS und Ausblick. Den Live-Zustand zeigt nur das Status-Board. */
+/** Zweite Reihe: geplante Bausteine und Wege zu helfen. Den Live-Zustand zeigt nur das Status-Board. */
 export const behindMoreFacts: readonly FactItem[] = [
-  { value: "Speicherausbau", label: "Im Aufbau: vier Storage-Server mit je 120 TB SSD und einer mit knapp 500 TB HDD, Ziel knapp 1 PB.", icon: "db" },
-  { value: "Sicherheitssystem", label: "Mit internem Netzwerk-Setup.", icon: "shield" },
-  { value: "DNS-Server", label: "Aktuell in Wartung. Den Stand zeigt das Status-Board.", icon: "globe" },
-  { value: "Ausbau geplant", label: "Wir planen, das Vylaris-Ökosystem weiter auszubauen.", icon: "layers" },
+  { value: "Geplante Bausteine", label: "Server, Speicher, Datensicherung, Netzwerk und Sicherheit sind als Ziel vorgesehen.", icon: "db" },
+  { value: "Know-how", label: "Wir freuen uns über Wissen und Mitarbeit.", icon: "users" },
+  { value: "Sponsoring", label: "Förderung hilft uns beim Aufbau.", icon: "heart" },
+  { value: "Weitersagen", label: "Empfehlungen helfen uns, bekannter zu werden.", icon: "globe" },
 ];
 
 export const behindCallout = (
   <>
-    <strong>Offen gezeigt:</strong> Den aktuellen Zustand unserer Systeme zeigt das Live-Status-Board auf der Seite{" "}
+    <strong>Offen gezeigt:</strong> Den Stand unseres Aufbaus zeigt das Live-Status-Board auf der Seite{" "}
     <A className="link" href="/infrastruktur/">
       Infrastruktur
     </A>{" "}
-    – auch dann, wenn etwas gerade gewartet wird.
+    – auch dann, wenn er noch klein ist.
   </>
 );
 
@@ -80,21 +80,29 @@ export const behindCallout = (
 
 export const topicsHead = {
   id: "anliegen-h",
-  eyebrow: "Vier Themen",
+  eyebrow: "Fünf Themen",
   title: "Worum geht es dir?",
-  lead: "Alle vier Themen laufen über dasselbe Ticketsystem. Schreibe im Ticket, worum es geht.",
+  lead: "Alle fünf Themen laufen über dasselbe Ticketsystem. Schreibe im Ticket, worum es geht.",
 } as const;
 
 export const topics: readonly KontaktTileData[] = [
   {
     icon: "info",
     title: "Allgemeine Fragen",
-    text: "Du willst wissen, was VylarisData ist, wie wir zur VylarisGroup gehören oder was hinter unserer Infrastruktur steckt? Stelle deine Frage im Ticket.",
+    text: "Du willst wissen, was VylarisData ist, wie wir zu VylarisGroupEurope und zur VylarisGroup gehören oder wie weit unser Aufbau ist? Stelle deine Frage im Ticket.",
+  },
+  {
+    icon: "heart",
+    iconTone: "indigo",
+    title: "Hardware spenden / Unterstützung anbieten",
+    text: "Du möchtest Hardware abgeben (auch ältere oder gebrauchte), Know-how einbringen, uns sponsern oder uns weiterempfehlen? Beschreibe dein Angebot im Ticket. Was wir suchen und wie es abläuft, steht auf der Seite Unterstützen.",
+    href: "/unterstuetzen/",
+    more: "Zur Seite Unterstützen",
   },
   {
     icon: "server",
-    title: "Anfragen zur Infrastruktur",
-    text: "Du hast ein Vorhaben und möchtest wissen, ob es zu unserer Infrastruktur passt? Beschreibe es im Ticket, wir schauen gemeinsam darauf. Konkrete Aussagen dazu klären wir erst dort.",
+    title: "Fragen zum Aufbau",
+    text: "Du hast ein Vorhaben und fragst dich, ob es später zu unserer Infrastruktur passen könnte? Sie ist noch im Aufbau, deshalb können wir aktuell nichts zusagen. Beschreibe dein Vorhaben im Ticket, wir schauen gemeinsam darauf.",
   },
   {
     icon: "shield",
@@ -131,7 +139,7 @@ export const flowHead = {
 export const flowSteps: readonly StepItem[] = [
   {
     title: "Anliegen wählen",
-    text: "Überlege, ob es um eine allgemeine Frage, eine Anfrage zur Infrastruktur, eine Sicherheitsmeldung oder eine Partnerschaft geht.",
+    text: "Überlege, ob es um eine allgemeine Frage, ein Angebot (Hardware oder Unterstützung), den Aufbau, eine Sicherheitsmeldung oder eine Partnerschaft geht.",
   },
   {
     title: "Ticket eröffnen",
@@ -153,11 +161,12 @@ export const requestHead = {
 } as const;
 
 export const requestPoints: readonly RequestPoint[] = [
-  { label: "Thema:", text: "ein Satz, der das Anliegen zusammenfasst, zum Beispiel „Anfrage zur Infrastruktur für ein Open-Source-Projekt“." },
+  { label: "Thema:", text: "ein Satz, der das Anliegen zusammenfasst, zum Beispiel „Angebot: gebrauchte Server“ oder „Frage zum Aufbau“." },
   { label: "Ziel:", text: "was du erreichen willst, nicht nur die Lösung, die du dir vorstellst." },
   { label: "Kontext:", text: "welche Dienste, Seiten oder Technologien betroffen oder gewünscht sind." },
   { label: "Stand:", text: "Idee, laufendes Projekt oder konkreter Umzug." },
   { label: "Bisherige Schritte:", text: "was du schon versucht hast – das spart uns beiden Rückfragen." },
+  { label: "Bei Hardware:", text: "Art der Geräte, ungefährer Zustand und grob, wo sie sich befinden (Land oder Region). Das hilft bei der Abstimmung zur Übergabe." },
   { label: "Erreichbarkeit:", text: "die Angaben, die das Ticketsystem dafür vorsieht." },
 ];
 
@@ -179,7 +188,7 @@ export const securityHead = {
   id: "sicherheit-h",
   eyebrow: "Sicherheitshinweise",
   title: "Sicherheitslücken verantwortungsvoll melden",
-  lead: "Wer eigene Infrastruktur betreibt, ist auf Hinweise von außen angewiesen. Wenn du etwas findest, melde es uns bitte, bevor du es öffentlich machst. So können wir es in Ruhe prüfen und gegebenenfalls beheben.",
+  lead: "Wir bauen unsere Infrastruktur gerade erst auf und sind auf Hinweise von außen angewiesen. Wenn du etwas findest, melde es uns bitte, bevor du es öffentlich machst. So können wir es in Ruhe prüfen und gegebenenfalls beheben.",
 } as const;
 
 export const securityRules: readonly RuleTileData[] = [
@@ -229,7 +238,7 @@ export const partnerHead = {
   id: "partner-h",
   eyebrow: "Die Gruppe dahinter",
   title: "Zwei Länder, eine Gruppe",
-  lead: "VylarisData gehört zur VylarisGroup. Der Schweizer Verein trägt die Idee, der europäische Zweig stellt Rechtsstruktur und Infrastruktur bereit. Anfragen an VylarisData laufen über das Ticketsystem des europäischen Zweigs.",
+  lead: "VylarisData gehört zur VylarisGroup. Der Schweizer Verein trägt die Idee, der europäische Zweig stellt die Rechtsstruktur bereit. VylarisData ist eine Untermarke von VylarisGroupEurope, deshalb laufen Anfragen an uns über das Ticketsystem des europäischen Zweigs.",
 } as const;
 
 export const brands: readonly KontaktBrand[] = [
@@ -238,7 +247,7 @@ export const brands: readonly KontaktBrand[] = [
     sub: "vylaris.eu",
     icon: "globe",
     current: true,
-    text: "Der offizielle europäische Zweig der Gruppe, geleitet von Lucas Wilms.",
+    text: "Der offizielle europäische Zweig der Gruppe, geleitet von Lucas Wilms. VylarisData ist seine Untermarke.",
     points: [
       "Kontakt & Tickets für Anfragen an VylarisData",
       "Systemstatus von VylarisGroupEurope",
@@ -266,14 +275,14 @@ export const statusHead = {
   id: "status-h",
   eyebrow: "Status, Blog & Rechtliches",
   title: "Vielleicht ist deine Antwort schon da",
-  lead: "Manche Fragen klären sich vorab. Den aktuellen Zustand unserer Systeme zeigt das Live-Status-Board auf der Infrastruktur-Seite, Systemstatus und Blog findest du bei VylarisGroupEurope, Impressum und Datenschutz direkt hier.",
+  lead: "Manche Fragen klären sich vorab. Den Stand unseres Aufbaus zeigt das Live-Status-Board auf der Infrastruktur-Seite, Systemstatus und Blog findest du bei VylarisGroupEurope, Impressum und Datenschutz direkt hier.",
 } as const;
 
 export const resources: readonly KontaktTileData[] = [
   {
     icon: "server",
     title: "Live-Status der Infrastruktur",
-    text: "Ob ein System im Betrieb ist oder gewartet wird, zeigt unser Status-Board, öffentlich einsehbar.",
+    text: "Ob ein Baustein im Aufbau, gesucht, geplant oder im Betrieb ist, zeigt unser Status-Board, öffentlich einsehbar.",
     href: "/infrastruktur/",
     more: "Zur Infrastruktur",
   },
@@ -343,20 +352,32 @@ export const faq: readonly FaqItem[] = [
     q: "Kann ich Hosting bei VylarisData anfragen?",
     a: (
       <p>
-        Anfragen zu unserer Infrastruktur, auch zu Hosting, laufen über {contactLink}. Beschreibe dein Vorhaben im
-        Ticket. Ob es zu unserer Infrastruktur passt, klären wir dort gemeinsam.
+        Hosting auf eigener Infrastruktur gibt es bei uns aktuell nicht, weil sie noch im Aufbau ist. Wenn du ein Vorhaben
+        für später hast, beschreibe es gern im Ticket über {contactLink}. Zusagen können wir dazu heute noch nicht machen.
       </p>
     ),
   },
   {
-    q: "Was betreibt VylarisData an Infrastruktur?",
-    a: "Wir betreiben zehn Server insgesamt: intern eigene Server, außerhalb normale Server. Für den Speicher laufen aktuell 250 TB SSD. Der Rest ist im Aufbau: vier Storage-Server mit je 120 TB SSD und einer mit knapp 500 TB HDD, Ziel ist knapp ein Petabyte Rohkapazität vor Redundanz. Außerdem gehören ein PBS-Backup-System, ein eigenes IP-Subnetz mit eigenem Network-Server, ein DNS-Server (aktuell in Wartung) und ein Sicherheitssystem mit internem Netzwerk-Setup zu unserer Infrastruktur.",
+    q: "Wie weit ist euer Aufbau?",
+    a: "Wir fangen gerade an. Aktuell haben wir noch keine eigene Hardware. Als geplante Bausteine sehen wir eigene Server, Speicher, Datensicherung, Netzwerk und Sicherheit in Europa vor, ohne feste Zahlen und ohne Termine.",
   },
   {
-    q: "Ist der DNS-Server verfügbar, und wo sehe ich den Status?",
+    q: "Kann ich Hardware spenden oder weitergeben?",
     a: (
       <p>
-        Unser DNS-Server ist aktuell in Wartung. Den aktuellen Zustand aller Systeme zeigt das Status-Board auf der Seite{" "}
+        Ja, sehr gern, auch ältere oder gebrauchte Geräte. Was wir suchen und wie es abläuft, steht auf der Seite{" "}
+        <A className="link" href="/unterstuetzen/">
+          Unterstützen
+        </A>
+        . Melde dich dafür über {contactLink} und beschreibe kurz, was du abgeben möchtest.
+      </p>
+    ),
+  },
+  {
+    q: "Wo sehe ich den aktuellen Stand?",
+    a: (
+      <p>
+        Den Stand unseres Aufbaus zeigt das Status-Board auf der Seite{" "}
         <A className="link" href="/infrastruktur/">
           Infrastruktur
         </A>
@@ -366,7 +387,7 @@ export const faq: readonly FaqItem[] = [
   },
   {
     q: "Was ist als Nächstes geplant?",
-    a: "Wir planen, das Vylaris-Ökosystem weiter auszubauen. Alles andere auf dieser Seite beschreibt den heutigen Stand unserer bestehenden Hardware.",
+    a: "Wir wollen unsere eigene Infrastruktur in Europa aufbauen und das Vylaris-Ökosystem weiter ausbauen. Das sind Pläne, keine Zusagen mit Terminen.",
   },
   {
     q: "Wie melde ich eine Sicherheitslücke?",
@@ -412,10 +433,10 @@ export const faqAside: FaqAside = {
 export const cta = {
   title: (
     <>
-      Fragen zu unserer <Gradient>Hardware</Gradient>?
+      Du willst beim <Gradient>Aufbau</Gradient> helfen?
     </>
   ),
-  text: "Beschreibe dein Anliegen im Ticketsystem der VylarisGroupEurope – wir melden uns im Ticket.",
+  text: "Beschreibe dein Anliegen oder dein Angebot im Ticketsystem der VylarisGroupEurope – wir melden uns im Ticket.",
   primary: { href: site.links.contact, label: "Kontakt & Tickets öffnen", icon: "ext" } satisfies LinkAction,
-  secondary: { href: "/infrastruktur/", label: "Zur Infrastruktur" } satisfies LinkAction,
+  secondary: { href: "/unterstuetzen/", label: "Zur Seite Unterstützen" } satisfies LinkAction,
 };

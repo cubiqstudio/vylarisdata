@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = pageMetadata({
   title: "Impressum",
-  description: "Impressum von VylarisData, einer Marke von CircleUpWilms.",
+  description: "Impressum von VylarisData, einer Untermarke von VylarisGroupEurope.",
   path: "/impressum/",
   noindex: true,
 });

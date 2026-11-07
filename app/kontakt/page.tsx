@@ -70,7 +70,7 @@ export default function KontaktPage() {
 
       <Section id="anliegen" labelledBy={topicsHead.id} band>
         <SectionHead {...topicsHead} />
-        <Cards cols={2}>
+        <Cards cols={3}>
           {topics.map((t) => (
             <KontaktTile key={t.title} tile={t} />
           ))}
